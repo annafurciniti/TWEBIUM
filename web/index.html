@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./web/style.css">
+    <title>Homepage</title>
+</head>
+<body>
+<div id="app">
+    <!--barra di navigazione-->
+    <header>
+        <nav>
+            <ul>
+                <li v-if="isLogged()" >
+                    <a class="nav-link" href="corso.html">Corsi</a>
+                    <link rel="import" href="corso.html">
+                </li>
+                <li v-if="isLogged()" class="nav-item">
+                    <a class="nav-link" href="#">Le tue prenotazioni</a>
+                </li>
+            </ul>
+
+            <div class="container-fluid" v-if="!isLogged()">
+                <div class="row">
+                    <div class="col-md-5">
+
+                        <!--login-->
+                        <h1>Login</h1>
+                        <div class="input-group" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                            <p> Login: <input class="form-control" v-model="utente.username" name="username" type="text" required> </p> <!-- controllo inserimento input con required-->
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                            <p> Password: <input class="form-control" v-model="utente.password" name="password" type="password" required> </p>
+                        </div>
+                        <button @click="login" type="button">Login</button>
+                        <p class="text-center">Not a member yet?<a href="#">Sign up</a></p>
+                        <p v-if="!logged" >{{err}}</p>
+                        <!-- sign in-->
+                        <div class="col-md-5">
+                            <h2>Sign in</h2>
+                            <div class="input-group" >
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                <input type="text" class="form-control" v-model="utente.username" name="username" placeholder="username" required /><br>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                <input type="password" class="form-control" v-model="utente.password" name="password" placeholder="Password" required /><br>
+                            </div>
+                            <input v-model="utente.amministratore" type="radio" id="radiout" name="isAdmin" value="false">
+                            <label for="radiout">Utente</label><br>
+                            <input v-model="utente.amministratore" type="radio" id="radioamm" name="isAdmin" value="true">
+                            <label for="radioamm">Amministratore</label><br>
+                            <button @click="signin" type="button">Sign in</button>
+                            <p v-if="!logged" >{{err}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="isLogged()">
+                <p> Ciao {{utente.username}}</p>
+                <a v-if="isLogged()" v-on:click="logout" href="#" >Logout</a>
+            </div>
+        </nav>
+    </header>
+
+
+    <article>
+
+
+        <!-- tabella dopo login e sign in Ripetizioni-->
+        <section>
+            <p>sessione -> {{ sessione }}</p>
+            <p>Username -> {{utente.username}}</p>
+            <table class="table table-bordered" v-if="isLogged()">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Corso</th>
+                    <th scope="col">Docente</th>
+                    <th scope="col">Ripetizione</th>
+                    <th scope="col">Stato</th>
+                </tr>
+                <tr v-for="(rip,i) in ripetizioni">
+                    <th scope="row">{{incrementIndex(i)}}</th>
+                    <td>{{rip.id_corso}}</td>
+                    <td>{{rip.id_rip}}</td>
+                    <td>{{rip.id_docente}}</td>
+                    <td>{{rip.stato}}</td>
+                </tr>
+            </table>
+        </section>
+
+
+        <!-- utente non loggato-->
+        <section v-if="!isLogged()">
+            <table class="table table-bordered" >
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Corso</th>
+                    <th scope="col">Docente</th>
+                    <th scope="col">Ripetizione</th>
+                    <th scope="col">Stato</th>
+                </tr>
+                <tr v-for="(rip,i) in ripetizioni">
+                    <th scope="row">{{incrementIndex(i)}}</th>
+                    <td>{{rip.id_corso}}</td>
+                    <td>{{rip.id_rip}}</td>
+                    <td>{{rip.id_docente}}</td>
+                    <td>{{rip.stato}}</td>
+                </tr>
+            </table>
+        </section>
+
+
+    </article>
+</div>
+<script src="scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <title>corsi</title>
+</head>
+<body>
+<div id="corsi">
+    <header>
+        <nav>
+            <a class="nav-link" href="index.html">Home</a>
+            <link rel="import" href="index.html">
+        </nav>
+    </header>
+    <div class="container-fluid" >
+        <div class="row">
+            <div class="col-md-5" align="center">
+                <h1>Corsi</h1>
+                <table class="table" >
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID corso</th>
+                        <th scope="col">Titolo corso</th>
+                    </tr>
+                    </thead>
+                    <tbody v-for="(c,i) in corsi">
+                    <tr>
+                        <td>{{corsi.id_corso}}</td>
+                        <th> {{corsi.Titolo}}</th>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div id="collapseOne" class="collapse show">
+            <div class="card-body">
+                <label for="formGroupExampleInput">Titolo corso</label>
+                <input v-model="name" type="text" class="form-control" id="formGroupExampleInput"
+                       placeholder="Inserisci nome del corso">
+                <button class="btn btn-block text-center collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Aggiungi corso
+                </button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-block text-center " type="button" data-toggle="collapse"
+                            data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Rimuovi Corso
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                 data-parent="#accordionExample">
+                <div class="card-body">
+                    <h3 style="align-content: center">Scegli il corso da rimuovere </h3>
+                    <div>
+                        <div class="list-group" id="lista-professori" role="tablist">
+                            <a v-for="course in courses" v-on:click="saveCourse(course.name)"
+                               class="list-group-item list-group-item-action " id="corso" data-toggle="list"
+                               href="#list-home" role="tab" aria-controls="home">{{course.name}}</a>
+                        </div>
+                        <button v-on:click="removeCourse()" type="button"
+                                class="btn btn-primary btn-lg btn-block"
+                                style="margin-top: 20px">Rimuovi Corso
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-block text-center collapsed" type="button"
+                            data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+                            aria-controls="collapseThree">
+                        Modifica Corso
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                 data-parent="#accordionExample">
+                <div class="card-body">
+                    <h3 style="align-content: center">Scegli il corso da moficare </h3>
+                    <div class="list-group" id="lista-professori-damodificare" role="tablist">
+                        <a v-for="course in courses" v-on:click="saveCourse(course.name)"
+                           class="list-group-item list-group-item-action " id="corso-damodificare"
+                           data-toggle="list"
+                           href="#list-home" role="tab" aria-controls="home">{{course.name}}</a>
+                    </div>
+                    <label for="formGroupExampleInput2">Nuovo titolo del corso</label>
+                    <input v-model="newname" type="text" class="form-control" id="formGroupExampleInput2"
+                           placeholder="Inserisci il nuovo nome del corso">
+                    <button v-on:click="modifyCourse(newname)" type="button"
+                            class="btn btn-primary btn-lg btn-block"
+                            style="margin-top: 20px">Modifica Corso
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal"  id="myModal" tabindex="-1" role="dialog" style="background: rgba(255,0,0, 0.94)">
+    <div class="modal-dialog" >
+        <div class="modal-content" >
+            <div class="modal-header" style="justify-content: center">
+                <h5 class="modal-title" style="align-self: center; font-weight: bold">Accesso Negato</h5>
+            </div>
+            <div class="modal-body" >
+                <p>Non hai i permessi per visitare questa pagina</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="window.location.href='/TWEBProgettoPrenotazioni/index.html'" >Vai alla home</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+<script src="corso.js"></script>
+</body>
+</html>
