@@ -16,16 +16,18 @@ var corsi = new Vue ({
         loading: false
     },
     methods:{
-        getCorsi():function(){
+        incrementIndex: function (index) {//commit
+            return index + 1;
+        },
+        getCorsi :function(){
             var self =this;
             $.post(this.link, function(data){
                 self.corsi =data[3];
             })
         },
-        inserisciCorso(): function(){
+        inserisciCorso: function(){
             var self=this;
-            $.post(this.link, {action: 'CORSI',
-                    titolo: titolo},
+            $.post(this.link, {action: 'NUOVOCORSO'},
                 function(data){
                     self.corsi= data[3]
                     if(self.corsi.titolo!=""){

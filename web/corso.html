@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -16,34 +16,28 @@
             <link rel="import" href="index.html">
         </nav>
     </header>
-    <div class="container-fluid" >
-        <div class="row">
-            <div class="col-md-5" align="center">
+
                 <h1>Corsi</h1>
-                <table class="table" >
-                    <thead class="thead-dark">
+                <section v-if="isAdmin==1">
+                <table class="table table-bordered" >
                     <tr>
                         <th scope="col">ID corso</th>
                         <th scope="col">Titolo corso</th>
                     </tr>
-                    </thead>
-                    <tbody v-for="(c,i) in corsi">
-                    <tr>
-                        <td>{{corsi.id_corso}}</td>
-                        <th> {{corsi.Titolo}}</th>
-                    </tr>
-                    </tbody>
-                </table>
+                    <tr v-for="corso in corsi">
 
-            </div>
-        </div>
+                        <td>{{corso.id_corso}}</td>
+                        <td> {{corso.Titolo}}</td>
+                    </tr>
+                </table>
+                </section>
+
         <div id="collapseOne" class="collapse show">
             <div class="card-body">
                 <label for="formGroupExampleInput">Titolo corso</label>
-                <input v-model="name" type="text" class="form-control" id="formGroupExampleInput"
-                       placeholder="Inserisci nome del corso">
+                <input v-model="name" type="text" class="form-control" id="formGroupExampleInput">
                 <button class="btn btn-block text-center collapsed" type="button" data-toggle="collapse"
-                        data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        data-target="#collapseOne">
                     Aggiungi corso
                 </button>
             </div>
@@ -109,22 +103,7 @@
     </div>
 </div>
 </div>
-<div class="modal"  id="myModal" tabindex="-1" role="dialog" style="background: rgba(255,0,0, 0.94)">
-    <div class="modal-dialog" >
-        <div class="modal-content" >
-            <div class="modal-header" style="justify-content: center">
-                <h5 class="modal-title" style="align-self: center; font-weight: bold">Accesso Negato</h5>
-            </div>
-            <div class="modal-body" >
-                <p>Non hai i permessi per visitare questa pagina</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="window.location.href='/TWEBProgettoPrenotazioni/index.html'" >Vai alla home</button>
-            </div>
-        </div>
-    </div>
 
-</div>
 </div>
 <script src="corso.js"></script>
 </body>

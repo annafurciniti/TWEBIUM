@@ -128,9 +128,23 @@ public class MyServlet extends HttpServlet {
         System.out.println("Invalidata la sessione");
     }
 
+    private void getCorsi(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        String titolo = request.getParameter("titolo");
+        String id_corso = request.getParameter("id_corso");
+        Gson gson = new Gson();
+        String jsonCorso;
+        ArrayList<Corso> add = Model.getCorsi();
+        try (PrintWriter out = response.getWriter()) {
+            out.print(add);
+        }
+    }
+
     private void inserisciCorso(HttpServletRequest request, HttpServletResponse response) throws IOException { //lo vedi il mio commit
         HttpSession session = request.getSession();
         String titolo = request.getParameter("titolo");
+        Gson gson = new Gson();
+        String jsonCorso;
         Boolean add = Model.InserisciCorso(new Corso(titolo));
         try (PrintWriter out = response.getWriter()) {
             out.print(add);
