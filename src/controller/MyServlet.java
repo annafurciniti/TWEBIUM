@@ -128,7 +128,7 @@ public class MyServlet extends HttpServlet {
     private void getCorsi(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String titolo = request.getParameter("titolo");
-        String id_corso = request.getParameter("id_corso");
+        int id_corso = Integer.parseInt(request.getParameter("id_corso"));
         Gson gson = new Gson();
         String jsonCorso;
         ArrayList<Corso> add = Model.getCorsi();
@@ -147,15 +147,39 @@ public class MyServlet extends HttpServlet {
             out.print(add);
         }
     }
+
+    private void getInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        int id_corso = Integer.parseInt(request.getParameter("id_corso"));
+        int id_docente = Integer.parseInt(request.getParameter("id_docente"));
+        Gson gson = new Gson();
+        String jsonInsegnamenti;
+        ArrayList<Insegnamenti> add = Model.getInsegnamenti();
+        try (PrintWriter out = response.getWriter()) {
+            out.print(add);
+        }
+    }
     private void inserisciInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int id_corso = Integer.getInteger("id_corso");
-        int id_docente = Integer.getInteger("id_docente");
+        int id_corso = Integer.parseInt(request.getParameter("id_corso"));
+        int id_docente = Integer.parseInt(request.getParameter("id_docente"));
         Gson gson = new Gson();
         String jsonInsegnamenti;
         Boolean add = Model.InserisciInsegnamenti(new Insegnamenti(id_corso,id_docente));
         try (PrintWriter out = response.getWriter()) {
             out.print(add);
+        }
+    }
+
+    private void rimuoviInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        int id_corso = Integer.parseInt(request.getParameter("id_corso"));
+        int id_docente = Integer.parseInt(request.getParameter("id_docente"));
+        Gson gson = new Gson();
+        String jsonInsegnamenti;
+        Boolean rem = Model.RimuoviInsegnamenti(new Insegnamenti(id_corso,id_docente));
+        try (PrintWriter out = response.getWriter()) {
+            out.print(rem);
         }
     }
 }
