@@ -1,10 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
-import dao.Corso;
-import dao.Model;
-import dao.Ripetizioni;
-import dao.Utenti;
+import dao.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -29,7 +26,7 @@ public class MyServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
+        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -146,6 +143,17 @@ public class MyServlet extends HttpServlet {
         Gson gson = new Gson();
         String jsonCorso;
         Boolean add = Model.InserisciCorso(new Corso(titolo));
+        try (PrintWriter out = response.getWriter()) {
+            out.print(add);
+        }
+    }
+    private void inserisciInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        int id_corso = Integer.getInteger("id_corso");
+        int id_docente = Integer.getInteger("id_docente");
+        Gson gson = new Gson();
+        String jsonInsegnamenti;
+        Boolean add = Model.InserisciInsegnamenti(new Insegnamenti(id_corso,id_docente));
         try (PrintWriter out = response.getWriter()) {
             out.print(add);
         }
