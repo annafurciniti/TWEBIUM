@@ -252,18 +252,19 @@ public class Model {
         Connection conn1 = null;
         try {
             conn1 = openConnection();
-
-            String Titolo = "\"" + corso.getTitolo() + "\"";
+            String titolo = "\"" + corso.getTitolo()+ "\"";
+            String Id_corso = "\"" + corso.getId_corso()+ "\"";
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT Corso.Titolo " +
+            ResultSet rs = st.executeQuery("SELECT corsi.Titolo " +
                     "FROM `corsi` " +
-                    "WHERE corso.Titolo = " + Titolo + "");
+                    "WHERE corsi.Titolo = " + titolo + "");
             if (rs.isBeforeFirst()) {
                 System.out.println("Già presente nel DB");
                 return false;
             }
-            st.executeUpdate("INSERT INTO Corsi (Titolo) VALUE (" + Titolo + ")");
-            System.out.println("Corso: " + corso.getTitolo() + "é stato aggiunto nel DB.");
+            st.executeUpdate("INSERT INTO Corsi (titolo,Id_corso) VALUE ('" + titolo + "', '"+ Id_corso+"')");
+            System.out.println("Corso: " + titolo + "é stato aggiunto nel DB.");
+            System.out.println("Corso:" + corso.getId_corso()+ "è stato aggiunto nel DB.");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -276,16 +277,16 @@ public class Model {
     }
 
     //Rimuovi corso
-    public static boolean RimuoviCorso(Corso corso) {
+    public static boolean RimuoviCorso(String titolo) {
         Connection conn1 = null;
         try {
             conn1 = openConnection();
 
-            String Titolo = "'" + corso.getTitolo() + "'";
-            System.out.println("Il corso da rimuovere é: " + Titolo);
+            //String Titolo = "\"" + corso.getTitolo() + "\"";
+            //System.out.println("Il corso da rimuovere é: " + Titolo);
             Statement st = conn1.createStatement();
-            st.executeUpdate("DELETE FROM corsi WHERE corsi.Titolo=" + Titolo + "");
-            System.out.println("Corso: " + Titolo + "rimosso.");
+            st.executeUpdate("DELETE FROM corsi WHERE corsi.Titolo=" + titolo + "");
+            System.out.println("Corso: " + titolo + "rimosso.");
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
         } finally {

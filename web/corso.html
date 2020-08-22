@@ -8,103 +8,91 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <title>corsi</title>
 </head>
-<body>
-<div id="corsi">
+<div id="corsi" class="col s12 center">
     <header>
         <nav>
             <a class="nav-link" href="index.html">Home</a>
             <link rel="import" href="index.html">
         </nav>
     </header>
-
-                <h1>Corsi</h1>
-                <section v-if="isAdmin==1">
-                <table class="table table-bordered" >
+    <article>
+               <h1>Admin</h1>
+                <section>
+                    <table class="table">
+                <th class="table table-bordered" >
                     <tr>
                         <th scope="col">ID corso</th>
                         <th scope="col">Titolo corso</th>
                     </tr>
-                    <tr v-for="corso in corsi">
-
-                        <td>{{corso.id_corso}}</td>
-                        <td> {{corso.Titolo}}</td>
+                    <tr v-for="(c,i) in corsi">
+                       <th scope="row">{{incrementIndex(i)}}</th>
+                        <td>{{c.id_corso}}</td>
+                        <td>{{c.titolo}}</td>
                     </tr>
+
+                </th>
                 </table>
                 </section>
+    </article>
+        <!--aggiungi corso-->
 
-        <div id="collapseOne" class="collapse show">
-            <div class="card-body">
-                <label for="formGroupExampleInput">Titolo corso</label>
-                <input v-model="name" type="text" class="form-control" id="formGroupExampleInput">
-                <button class="btn btn-block text-center collapsed" type="button" data-toggle="collapse"
-                        data-target="#collapseOne">
-                    Aggiungi corso
-                </button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headingTwo">
-                <h2 class="mb-0">
-                    <button class="btn btn-block text-center " type="button" data-toggle="collapse"
-                            data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Rimuovi Corso
-                    </button>
-                </h2>
-            </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                 data-parent="#accordionExample">
-                <div class="card-body">
-                    <h3 style="align-content: center">Scegli il corso da rimuovere </h3>
-                    <div>
-                        <div class="list-group" id="lista-professori" role="tablist">
-                            <a v-for="course in courses" v-on:click="saveCourse(course.name)"
-                               class="list-group-item list-group-item-action " id="corso" data-toggle="list"
-                               href="#list-home" role="tab" aria-controls="home">{{course.name}}</a>
-                        </div>
-                        <button v-on:click="removeCourse()" type="button"
-                                class="btn btn-primary btn-lg btn-block"
-                                style="margin-top: 20px">Rimuovi Corso
-                        </button>
-                    </div>
-
+                <div class="modal-footer">
+                    <input v-model="titoloAggiunto" id="titoloAggiunto">
+                    <label for="titoloAggiunto">Titolo</label>
+                    <button @click="InserisciCorso" type="button">Inserisci corso</button>
                 </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headingThree">
-                <h2 class="mb-0">
-                    <button class="btn btn-block text-center collapsed" type="button"
-                            data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-                            aria-controls="collapseThree">
-                        Modifica Corso
-                    </button>
-                </h2>
-            </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                 data-parent="#accordionExample">
-                <div class="card-body">
+
+        <!--elimina corso
+                <div id="EliminaCorso" class="modal">
+                    <div v-for="corso in corsi">
+                        <a v-on:click="dataModalEliminaCorso(corso.nomeCompleto,corso.nomeCorso)"
+                           class="collection-item pointer modal-trigger" href="#modalEliminaCorso">
+                            {{c.titolo}} <i class="material-icons right">delete</i>
+                        </a>
+                    </div>
+                     <div id="modalEliminaCorso">
+                        <h3 style="align-content: center">Scegli il corso da rimuovere<a id="titolo" class="black-text"></a> </h3>
+                        <button v-on:click="rimuoviCorso" type="button">Rimuovi Corso</button>
+                     </div>
+                </div>
+                -->
+        <!--modifica
+                <li>
+                    <button v-on:click="modificaCorso"  type="button">Modifica Corso</button>
                     <h3 style="align-content: center">Scegli il corso da moficare </h3>
-                    <div class="list-group" id="lista-professori-damodificare" role="tablist">
-                        <a v-for="course in courses" v-on:click="saveCourse(course.name)"
-                           class="list-group-item list-group-item-action " id="corso-damodificare"
-                           data-toggle="list"
-                           href="#list-home" role="tab" aria-controls="home">{{course.name}}</a>
-                    </div>
                     <label for="formGroupExampleInput2">Nuovo titolo del corso</label>
-                    <input v-model="newname" type="text" class="form-control" id="formGroupExampleInput2"
+                    <input v-model="nuovoTitolo" type="text" class="form-control" id="formGroupExampleInput2"
                            placeholder="Inserisci il nuovo nome del corso">
-                    <button v-on:click="modifyCourse(newname)" type="button"
-                            class="btn btn-primary btn-lg btn-block"
-                            style="margin-top: 20px">Modifica Corso
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
 
-</div>
+                 </li>
+           -->
+    </div>
+    <!-- aggiungi docenti
+<section>
+<table class="table table-bordered">
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Id_docente</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Cognome</th>
+    </tr>
+    <tr v-for="(doc,i) in docenti">
+        <th scope="row">{{incrementIndex(i)}}</th>
+        <td>{{doc.id_docente}}</td>
+        <td>{{doc.nome}}</td>
+        <td>{{doc.cognome}}</td>
+
+    </tr>
+</table>
+</section>
+-->
+    <!-- elimina docenti-->
+    <!-- modifica docenti -->
+    <!-- aggiungi insegnamenti-->
+    <!-- elimina insegnamenti -->
+    <!-- modifica insegnamenti -->
+
+
 <script src="corso.js"></script>
 </body>
 </html>

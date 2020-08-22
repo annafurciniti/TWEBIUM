@@ -43,7 +43,7 @@ public class MyServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         String action = request.getParameter("action");
-
+        String add;
         switch (action) {
             case "LOGIN":
                 this.login(request, response);
@@ -54,10 +54,14 @@ public class MyServlet extends HttpServlet {
             case "LOGOUT":
                 this.logout(request, response);
                 break;
+            case "NEWCORSO":
+                this.InserisciCorso(request,response);
+            case "RIMUOVICORSO":
+                this.rimuoviCorso(request,response);
         }
     }
 
-
+    /*LOGIN*/
     private void login(HttpServletRequest request, HttpServletResponse response) throws IOException { //commit
         try (PrintWriter out = response.getWriter()) {
             String username = request.getParameter("username");
@@ -87,7 +91,7 @@ public class MyServlet extends HttpServlet {
             }
         }
     }
-
+    /*SIGNIN*/
     private void signin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         String username = request.getParameter("username");
@@ -121,33 +125,37 @@ public class MyServlet extends HttpServlet {
             out.print("[" + gson.toJson(new Utenti("", "", false)) + "," + gson.toJson(jsessionID) + "]");
         }
     }
-
+    /*LOGOUT*/
     private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         session.invalidate();
         System.out.println("Invalidata la sessione");
     }
-
+    /*CORSI*/
     private void getCorsi(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        String titolo = request.getParameter("titolo");
-        String id_corso = request.getParameter("id_corso");
         Gson gson = new Gson();
-        String jsonCorso;
-        ArrayList<Corso> add = Model.getCorsi();
-        try (PrintWriter out = response.getWriter()) {
-            out.print(add);
-        }
-    }
+        String add="[";
+        ArrayList<Corso> corsi = Model.getCorsi();
+        add += "," + gson.toJson(corsi);
 
-    private void inserisciCorso(HttpServletRequest request, HttpServletResponse response) throws IOException { //lo vedi il mio commit
-        HttpSession session = request.getSession();
-        String titolo = request.getParameter("titolo");
+    }
+    /*AGGIUNGI CORSO*/
+    private String InserisciCorso(HttpServletRequest request, HttpServletResponse response) throws IOException { //lo vedi il mio commit
         Gson gson = new Gson();
-        String jsonCorso;
-        Boolean add = Model.InserisciCorso(new Corso(titolo));
-        try (PrintWriter out = response.getWriter()) {
-            out.print(add);
-        }
+        String titolo = request.getParameter("titolo");
+        Corso c = new Corso(titolo);
+        Boolean add = Model.InserisciCorso(c);
+        System.out.println("return:" + add);
+
+        return gson.toJson(add);
+    }
+    /* RIMUOVI CORSO*/
+    private String rimuoviCorso(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Gson gson =new Gson();
+        String titolo = request.getParameter("titolo");
+        Corso c = new Corso(titolo);
+        boolean add =Model.RimuoviCorso(titolo);
+        return gson.toJson(add);
     }
 }
