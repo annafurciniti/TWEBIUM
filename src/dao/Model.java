@@ -233,8 +233,7 @@ public class Model {
             Statement st2 = conn1.createStatement();
             ResultSet rs2 = st2.executeQuery("SELECT * FROM corsi");
             while (rs2.next()) {
-                Corso c = new Corso(rs2.getString("titolo"),
-                        rs2.getInt("id_corso"));
+                Corso c = new Corso(rs2.getString("titolo"));
                 out2.add(c);
             }
         } catch (SQLException e) {
@@ -253,7 +252,6 @@ public class Model {
         try {
             conn1 = openConnection();
             String titolo = "\"" + corso.getTitolo()+ "\"";
-            String Id_corso = "\"" + corso.getId_corso()+ "\"";
             Statement st = conn1.createStatement();
             ResultSet rs = st.executeQuery("SELECT corsi.Titolo " +
                     "FROM `corsi` " +
@@ -262,9 +260,8 @@ public class Model {
                 System.out.println("Già presente nel DB");
                 return false;
             }
-            st.executeUpdate("INSERT INTO Corsi (titolo,Id_corso) VALUE ('" + titolo + "', '"+ Id_corso+"')");
+            st.executeUpdate("INSERT INTO Corsi (titolo) VALUE ('" + titolo + "')");
             System.out.println("Corso: " + titolo + "é stato aggiunto nel DB.");
-            System.out.println("Corso:" + corso.getId_corso()+ "è stato aggiunto nel DB.");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());

@@ -15,30 +15,29 @@
             <link rel="import" href="index.html">
         </nav>
     </header>
-    <article>/////
+
                <h1>Admin</h1>
                 <section>
                     <table class="table">
                 <th class="table table-bordered" >
                     <tr>
-                        <th scope="col">ID corso</th>
+                        <th scope="col"></th>
                         <th scope="col">Titolo corso</th>
                     </tr>
                     <tr v-for="(c,i) in corsi">
                        <th scope="row">{{incrementIndex(i)}}</th>
-                        <td>{{c.id_corso}}</td>
                         <td>{{c.titolo}}</td>
                     </tr>
 
                 </th>
                 </table>
                 </section>
-    </article>
+
         <!--aggiungi corso-->
 
                 <div class="modal-footer">
-                    <input v-model="titoloAggiunto" id="titoloAggiunto">
-                    <label for="titoloAggiunto">Titolo</label>
+                    <input type="titolo" class="form-control"  v-model="corsi.titolo" id="titolo">
+                    <label for="titolo">Titolo</label>
                     <button @click="InserisciCorso" type="button">Inserisci corso</button>
                 </div>
 

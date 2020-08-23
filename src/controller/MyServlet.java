@@ -56,8 +56,10 @@ public class MyServlet extends HttpServlet {
                 break;
             case "NEWCORSO":
                 this.InserisciCorso(request,response);
+                break;
             case "RIMUOVICORSO":
                 this.rimuoviCorso(request,response);
+                break;
         }
     }
 

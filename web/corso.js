@@ -5,7 +5,6 @@ var corsi = new Vue ({
         sessione: '',
         ripetizioni: [],
         corsi: {
-            id_corso:'',
             titolo:''},
         corso: '',
         titoloAggiunto: '',
@@ -19,31 +18,34 @@ var corsi = new Vue ({
         err: null,
         loading: false
     },
+    mounted(){
+        this.getCorsi();
+        this.InserisciCorso();
+    },
     methods: {
         incrementIndex: function (index) {//commit
             return index + 1;
         },
-   /*        getCorsi: function () {
+        getCorsi: function () {
             var self = this;
             $.post(this.link, {
-                id_corso: this.id_corso,
-                titolo: this.titolo},
+                action: 'SHOWCORSO',
+                titolo: this.corsi.titolo},
                 function (data) {
-                self.data[3];
+                self.corsi[3];
             })
-            var i;
+           /* var i;
             for(i = 0; i < self.corsi.length; i++){
                 self.c[i] = self.corsi[i].titolo;
-            }
+            }*/
         },
-    /*    InserisciCorso: function () {
+        InserisciCorso: function () {
             var self = this;
-            $.post(this.link, {action: 'NEWCORSO', id_corso: this.id_corso,
-                    titolo: this.titolo,
-                    titoloAggiunto: this.titoloAggiunto},
+            $.post(this.link, {action: 'NEWCORSO',
+                    titolo: this.corsi.titolo},
                 function (data) {
-                    self.corso = data[4]
-                    if (self.corsi.titoloAggiunto != "") {
+                       self.corsi = data[3]
+                    if (self.corsi.titolo !== "") {
                         self.corsi = data[3]
                     } else {
                         self.err = "nome gia presente nel db"
@@ -51,7 +53,7 @@ var corsi = new Vue ({
                 })
         }
     }
-});
+})
        /* rimuoviCorso: function(){
             var self=this;
             $.post(this.link, {action: 'RIMUOVICORSO', titoloAggiunto: this.titoloAggiunto},
