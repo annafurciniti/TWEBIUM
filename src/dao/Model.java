@@ -138,7 +138,8 @@ public class Model {
             Statement st1 = conn1.createStatement();
             ResultSet rs1 = st1.executeQuery("SELECT * FROM docenti");
             while (rs1.next()) {
-                Docenti d = new Docenti(rs1.getString("Nome"), rs1.getString("Cognome"), rs1.getInt("id_docente"));
+                Docenti d = new Docenti(rs1.getString("Nome"), rs1.getString("Cognome"));
+                //, rs1.getInt("id_docente")
                 doc.add(d);
             }
         } catch (SQLException e) {
@@ -160,7 +161,14 @@ public class Model {
             String Nome = "\"" + docente.getNome() + "\"";
             String Cognome = "\"" + docente.getCognome() + "\"";
             Statement st = conn1.createStatement();
-            st.executeQuery("INSERT INTO Docenti (Nome,Cognome) VALUE (" + Nome + "," + Cognome + ")");
+            ResultSet rs = st.executeQuery("SELECT docenti.nome, docenti.cognome " +
+                    "FROM `docenti` " +
+                    "WHERE docenti.Nome=" + Nome +" AND docenti.Cognome= "+ Cognome +"");
+            if (rs.isBeforeFirst()) {
+                System.out.println("Già presente nel DB");
+                return false;
+            }
+            st.executeUpdate("INSERT INTO Docenti (Nome,Cognome) VALUE (" + Nome + "," + Cognome + ")");
             System.out.println("Docente: " + Nome + " " + Cognome + " aggiunto nel DB");
             return true;
         } catch (SQLException e) {
@@ -183,7 +191,7 @@ public class Model {
             String Cognome = "'" + docente.getCognome() + "'";
             System.out.println("Il docente da rimuovere é: " + Nome + " " + Cognome);
             Statement st = conn1.createStatement();
-            st.executeUpdate("DELETE FROM docenti WHERE docenti.Nome=" + Nome + "AND docenti.Cognome= " + Cognome + "");
+            st.executeUpdate("DELETE FROM docenti WHERE docenti.Nome AND docenti.Cognome " + Cognome + "");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());

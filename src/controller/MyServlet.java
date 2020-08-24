@@ -1,10 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
-import dao.Corso;
-import dao.Model;
-import dao.Ripetizioni;
-import dao.Utenti;
+import dao.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -59,6 +56,12 @@ public class MyServlet extends HttpServlet {
                 break;
             case "RIMUOVICORSO":
                 this.rimuoviCorso(request,response);
+                break;
+            case "SHOWDOCENTE":
+                this.getCorsi(request,response);
+                break;
+            case "NEWDOCENTE":
+                this.InserisciDocenti(request,response);
                 break;
         }
     }
@@ -143,7 +146,7 @@ public class MyServlet extends HttpServlet {
 
     }
     /*AGGIUNGI CORSO*/
-    private String InserisciCorso(HttpServletRequest request, HttpServletResponse response) throws IOException { //lo vedi il mio commit
+    private String InserisciCorso(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         String titolo = request.getParameter("titolo");
         Corso c = new Corso(titolo);
@@ -158,6 +161,26 @@ public class MyServlet extends HttpServlet {
         String titolo = request.getParameter("titolo");
         Corso c = new Corso(titolo);
         boolean add =Model.RimuoviCorso(titolo);
+        return gson.toJson(add);
+    }
+    /*DOCENTI*/
+    private void getDocenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        Gson gson = new Gson();
+        String add="[";
+        ArrayList<Docenti> docenti = Model.getDocenti();
+        add += "," + gson.toJson(docenti);
+
+    }
+    /*AGGIUNGI DOCENTE*/
+    private String InserisciDocenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Gson gson = new Gson();
+        String Nome = request.getParameter("nome");
+        String Cognome =request.getParameter("cognome");
+        Docenti d = new Docenti(Nome,Cognome);
+        Boolean add = Model.InserisciDocenti(d);
+        System.out.println("return:" + add);
+
         return gson.toJson(add);
     }
 }

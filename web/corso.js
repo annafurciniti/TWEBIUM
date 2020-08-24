@@ -8,7 +8,9 @@ var corsi = new Vue ({
             titolo:''},
         corso: '',
         titoloAggiunto: '',
-        docenti: [],
+        docenti: {
+            nome:'',
+            cognome:''},
         utente: {
             username: '',
             password: '',
@@ -21,6 +23,8 @@ var corsi = new Vue ({
     mounted(){
         this.getCorsi();
         this.InserisciCorso();
+        this.getDocenti();
+        this.InserisciDocenti();
     },
     methods: {
         incrementIndex: function (index) {//commit
@@ -39,6 +43,7 @@ var corsi = new Vue ({
                 self.c[i] = self.corsi[i].titolo;
             }*/
         },
+        /*aggiungi corso*/
         InserisciCorso: function () {
             var self = this;
             $.post(this.link, {action: 'NEWCORSO',
@@ -51,9 +56,36 @@ var corsi = new Vue ({
                         self.err = "nome gia presente nel db"
                     }
                 })
+        },
+        getDocenti: function () {
+            var self = this;
+            $.post(this.link, {
+                    action: 'SHOWDOCENTE',
+                    nome: this.docenti.nome,
+                    cognome: this.docenti.cognome
+                },
+                function (data) {
+                    self.docenti[6];
+                })
+        },
+        /*aggiungi docenti*/
+        InserisciDocenti: function () {
+            var self=this;
+            $.post(this.link, {action: 'NEWDOCENTE',
+                    nome: this.docenti.nome,
+                    cognome:this.docenti.cognome},
+                    function(data){
+                        self.docenti=data[6]
+                        if(self.docenti.nome!=="" && self.docenti.cognome!==""){
+                            self.docenti =data[6]
+                        }else{
+                            self.err ="nome gia presente nel db"
+                        }
+                    })
+
         }
     }
-})
+});
        /* rimuoviCorso: function(){
             var self=this;
             $.post(this.link, {action: 'RIMUOVICORSO', titoloAggiunto: this.titoloAggiunto},

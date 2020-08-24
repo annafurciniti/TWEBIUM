@@ -15,8 +15,8 @@
             <link rel="import" href="index.html">
         </nav>
     </header>
-
-               <h1>Admin</h1>
+    <!--aggiungi corso-->
+               <h1>Corsi</h1>
                 <section>
                     <table class="table">
                 <th class="table table-bordered" >
@@ -32,8 +32,6 @@
                 </th>
                 </table>
                 </section>
-
-        <!--aggiungi corso-->
 
                 <div class="modal-footer">
                     <input type="titolo" class="form-control"  v-model="corsi.titolo" id="titolo">
@@ -65,33 +63,40 @@
 
                  </li>
            -->
-    </div>
-    <!-- aggiungi docenti
+
+    <!-- aggiungi docenti-->
+<h2>Docenti</h2>
 <section>
 <table class="table table-bordered">
     <tr>
         <th scope="col"></th>
-        <th scope="col">Id_docente</th>
         <th scope="col">Nome</th>
         <th scope="col">Cognome</th>
     </tr>
     <tr v-for="(doc,i) in docenti">
         <th scope="row">{{incrementIndex(i)}}</th>
-        <td>{{doc.id_docente}}</td>
         <td>{{doc.nome}}</td>
         <td>{{doc.cognome}}</td>
 
     </tr>
 </table>
 </section>
--->
+
+<div class="modal-footer">
+    <input type="nome" class="form-control"  v-model="docenti.nome" id="nome">
+    <label for="nome">Nome</label>
+    <input type="cognome" class="form-control"  v-model="docenti.cognome" id="cognome">
+    <label for="cognome">Cognome</label>
+    <button @click="InserisciDocenti" type="button">Inserisci docenti</button>
+</div>
+
     <!-- elimina docenti-->
     <!-- modifica docenti -->
     <!-- aggiungi insegnamenti-->
     <!-- elimina insegnamenti -->
     <!-- modifica insegnamenti -->
 
-
+</div>
 <script src="corso.js"></script>
 </body>
 </html>
