@@ -26,7 +26,7 @@ public class MyServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
+        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,6 +62,12 @@ public class MyServlet extends HttpServlet {
                 break;
             case "NEWDOCENTE":
                 this.InserisciDocenti(request,response);
+                break;
+            case "SHOWINSEGNAMENTI":
+                this.getInsegnamenti(request,response);
+                break;
+            case "NEWINSEGNAMENTI":
+                this.InserisciInsegnamenti(request,response);
                 break;
         }
     }
@@ -183,4 +189,26 @@ public class MyServlet extends HttpServlet {
 
         return gson.toJson(add);
     }
+
+    /*INSEGNAMENTI*/
+    private void getInsegnamenti(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        Gson gson = new Gson();
+        String add="[";
+        ArrayList<Insegnamenti> insegnamenti = Model.getInsegnamenti();
+        add += "," + gson.toJson(insegnamenti);
+    }
+
+    /*AGGIUNGI INSEGNAMENTI*/
+    private String InserisciInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Gson gson = new Gson();
+        int id_corso = Integer.parseInt(request.getParameter("id_corso"));
+        int id_docente =Integer.parseInt(request.getParameter("id_docente"));
+        Insegnamenti i = new Insegnamenti(id_corso,id_docente);
+        Boolean add = Model.InserisciInsegnamenti(i);
+        System.out.println("return:" + add);
+
+        return gson.toJson(add);
+    }
+
 }

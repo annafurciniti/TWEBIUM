@@ -448,11 +448,11 @@ public class Model {
             String id_corso = "\"" + insegnamenti.getId_corso() + "\"";
             String id_docente = "\"" + insegnamenti.getId_docente() + "\"";
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT Insegnamenti(ID_corso, ID_docenti) " + "FROM `insegnamenti` " + "WHERE insegnamenti.ID_corso AND insegnamenti.ID_docente  = " + id_corso + ", "+id_docente+"");
+            ResultSet rs = st.executeQuery("SELECT insegnamenti.id_corso, insegnamenti.id_docente" + " FROM insegnamenti " + "WHERE insegnamenti.id_corso =" + id_corso + " AND insegnamenti.id_docente="+id_docente+"");
             if (rs.isBeforeFirst()) { System.out.println("Già presente nel DB");
                 return false;
             }
-            st.executeQuery("INSERT INTO Insegnamenti (id_corso,id_docente) VALUE (" + id_corso + "," + id_docente + ")"); System.out.println("Insegnamento: " + id_corso + " " + id_docente + " aggiunto nel DB");
+            st.executeUpdate("INSERT INTO insegnamenti (id_corso,id_docente) VALUE (" + id_corso + "," + id_docente + ")"); System.out.println("Insegnamento: " + id_corso + " " + id_docente + " aggiunto nel DB");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage()); }

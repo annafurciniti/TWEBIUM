@@ -93,6 +93,30 @@
     <!-- elimina docenti-->
     <!-- modifica docenti -->
     <!-- aggiungi insegnamenti-->
+    <h2>Insegnamenti</h2>
+    <section>
+        <table class="table table-bordered">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">id_corso</th>
+                <th scope="col">id_docente</th>
+            </tr>
+            <tr v-for="(insegn,i) in insegnamenti">
+                <th scope="row">{{incrementIndex(i)}}</th>
+                <td>{{insegn.id_corso}}</td>
+                <td>{{insegn.id_docente}}</td>
+
+            </tr>
+        </table>
+    </section>
+
+    <div class="modal-footer">
+        <input type="id_corso" class="form-control"  v-model="insegnamenti.id_corso" id="id_corso">
+        <label for="id_corso">id corso</label>
+        <input type="id_docente" class="form-control"  v-model="insegnamenti.id_docente" id="id_docente">
+        <label for="id_docente">id docente</label>
+        <button @click="InserisciInsegnamenti" type="button">Inserisci insegnamenti</button>
+    </div>
     <!-- elimina insegnamenti -->
     <!-- modifica insegnamenti -->
 
