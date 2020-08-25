@@ -5,16 +5,19 @@ var corsi = new Vue ({
         sessione: '',
         ripetizioni: [],
         corsi: {
-            titolo:''},
-        corso: '',
+            titolo: ''
+        },
+        corso: {
+            titolo: ''
+        },
         titoloAggiunto: '',
         docenti: {
-            nome:'',
-            cognome:''
+            nome: '',
+            cognome: ''
         },
-        insegnamenti:{
-            id_docente:'',
-            id_corso:'',
+        insegnamenti: {
+            id_docente: '',
+            id_corso: '',
         },
         utente: {
             username: '',
@@ -25,13 +28,16 @@ var corsi = new Vue ({
         err: null,
         loading: false
     },
-    mounted(){
+    mounted() {
         this.getCorsi();
         this.InserisciCorso();
         this.getDocenti();
         this.InserisciDocenti();
         this.getInsegnamenti();
         this.InserisciInsegnamenti();
+        this.rimuoviCorso();
+        this.rimuoviDocenti();
+        this.rimuoviInsegnamenti();
     },
     methods: {
         incrementIndex: function (index) {//commit
@@ -39,17 +45,14 @@ var corsi = new Vue ({
         },
         getCorsi: function () {
             var self = this;
-            $.post(this.link, {
+            $.get(this.link, {
                     action: 'SHOWCORSO',
                     titolo: this.corsi.titolo
                 },
                 function (data) {
-                    self.corsi[3];
+                    self.corsi=data;
+
                 })
-            /* var i;
-             for(i = 0; i < self.corsi.length; i++){
-                 self.c[i] = self.corsi[i].titolo;
-             }*/
         },
         /*aggiungi corso*/
         InserisciCorso: function () {
@@ -69,7 +72,7 @@ var corsi = new Vue ({
         },
         getDocenti: function () {
             var self = this;
-            $.post(this.link, {
+            $.get(this.link, {
                     action: 'SHOWDOCENTE',
                     nome: this.docenti.nome,
                     cognome: this.docenti.cognome
@@ -99,7 +102,7 @@ var corsi = new Vue ({
 
         getInsegnamenti: function () {
             var self = this;
-            $.post(this.link, {
+            $.get(this.link, {
                     action: 'SHOWINSEGNAMENTI',
                     id_corso: this.insegnamenti.id_corso,
                     id_docente: this.insegnamenti.id_docente,
@@ -107,18 +110,14 @@ var corsi = new Vue ({
                 function (data) {
                     self.insegnamenti[7];
                 })
-            /* var i;
-             for(i = 0; i < self.corsi.length; i++){
-                 self.c[i] = self.corsi[i].titolo;
-             }*/
         },
         /*aggiungi insegnamenti*/
         InserisciInsegnamenti: function () {
             var self = this;
             $.post(this.link, {
                     action: 'NEWINSEGNAMENTI',
-                id_corso: this.insegnamenti.id_corso,
-                id_docente: this.insegnamenti.id_docente,
+                    id_corso: this.insegnamenti.id_corso,
+                    id_docente: this.insegnamenti.id_docente,
                 },
                 function (data) {
                     self.insegnamenti = data[7]
@@ -129,29 +128,56 @@ var corsi = new Vue ({
                     }
                 })
         },
-    },
 
-});
-       /* rimuoviCorso: function(){
-            var self=this;
-            $.post(this.link, {action: 'RIMUOVICORSO', titoloAggiunto: this.titoloAggiunto},
-                function(data){
-                if(data== "true"){
-                    alert("rimosso")
-                    window.location.reload(); /*aggiorno la pagina*/
-              /*  }else{
-                    self.err="errore"
-                }
+        rimuoviCorso: function () {
+            var self = this;
+            $.post(this.link, {action: 'RIMUOVICORSO',
+                    titolo: this.corsi.titolo},
+                function (data) {
+                    if (data == "true") {
+                        alert("rimosso")
+                        window.location.reload(); /*aggiorno la pagina*/
+                    } else {
+                        self.err = "errore"
+                    }
                 });
 
 
         },
-        salvaCorso: function(){
-            this.corso= corso;
+        rimuoviDocenti: function () {
+            var self = this;
+            $.post(this.link, {action: 'RIMUOVIDOC',
+                    nome: this.docenti.nome,
+                    cognome:this.docenti.cognome},
+                function (data) {
+                    if (data == "true") {
+                        alert("rimosso")
+                        window.location.reload(); /*aggiorno la pagina*/
+                    } else {
+                        self.err = "errore"
+                    }
+                });
+
+
         },
-        modificaCorso: function(){
+        rimuoviInsegnamenti: function () {
+            var self = this;
+            $.post(this.link, {action: 'RIMUOVIINSE',
+                   id_corso : this.insegnamenti.id_corso,
+                    id_docente:this.insegnamenti.id_docente},
+                function (data) {
+                    if (data == "true") {
+                        alert("rimosso")
+                        window.location.reload(); /*aggiorno la pagina*/
+                    } else {
+                        self.err = "errore"
+                    }
+                });
 
-        }
 
+        },
+        isLogged:function(){
+            return this.logged;
+        },
     }
-});*/
+});

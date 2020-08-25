@@ -26,7 +26,7 @@ public class MyServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "");
+        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,11 +63,17 @@ public class MyServlet extends HttpServlet {
             case "NEWDOCENTE":
                 this.InserisciDocenti(request,response);
                 break;
+            case "RIMUOVIDOC":
+                this.rimuoviDocenti(request,response);
+                break;
             case "SHOWINSEGNAMENTI":
                 this.getInsegnamenti(request,response);
                 break;
             case "NEWINSEGNAMENTI":
                 this.InserisciInsegnamenti(request,response);
+                break;
+            case "RIMUOVIINSE":
+                this.rimuoviInsegnamenti(request,response);
                 break;
         }
     }
@@ -148,6 +154,7 @@ public class MyServlet extends HttpServlet {
         Gson gson = new Gson();
         String add="[";
         ArrayList<Corso> corsi = Model.getCorsi();
+
         add += "," + gson.toJson(corsi);
 
     }
@@ -164,9 +171,9 @@ public class MyServlet extends HttpServlet {
     /* RIMUOVI CORSO*/
     private String rimuoviCorso(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson =new Gson();
-        String titolo = request.getParameter("titolo");
-        Corso c = new Corso(titolo);
-        boolean add =Model.RimuoviCorso(titolo);
+        String Titolo = request.getParameter("titolo");
+        Corso c = new Corso(Titolo);
+        boolean add =Model.RimuoviCorso(c);
         return gson.toJson(add);
     }
     /*DOCENTI*/
@@ -189,7 +196,15 @@ public class MyServlet extends HttpServlet {
 
         return gson.toJson(add);
     }
-
+    /* RIMUOVI DOCENTE*/
+    private String rimuoviDocenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Gson gson =new Gson();
+        String Nome = request.getParameter("nome");
+        String Cognome =request.getParameter("cognome");
+        Docenti d = new Docenti(Nome,Cognome);
+        boolean add =Model.RimuoviDoc(d);
+        return gson.toJson(add);
+    }
     /*INSEGNAMENTI*/
     private void getInsegnamenti(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
@@ -210,5 +225,15 @@ public class MyServlet extends HttpServlet {
 
         return gson.toJson(add);
     }
+    /* RIMUOVI INSEGNAMENTI*/
+    private String rimuoviInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Gson gson =new Gson();
+        int id_corso = Integer.parseInt(request.getParameter("id_corso"));
+        int id_docente =Integer.parseInt(request.getParameter("id_docente"));
+        Insegnamenti i = new Insegnamenti(id_corso,id_docente);
+        boolean add =Model.RimuoviInsegnamenti(i);
+        return gson.toJson(add);
+    }
+
 
 }

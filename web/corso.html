@@ -15,23 +15,26 @@
             <link rel="import" href="index.html">
         </nav>
     </header>
-    <!--aggiungi corso-->
+            <!-- corso-->
+    <article>
+
                <h1>Corsi</h1>
-                <section>
-                    <table class="table">
-                <th class="table table-bordered" >
+                <section >
+                <table class="table">
+                <thead class="table table-bordered" >
                     <tr>
                         <th scope="col"></th>
                         <th scope="col">Titolo corso</th>
                     </tr>
+                </thead>
                     <tr v-for="(c,i) in corsi">
                        <th scope="row">{{incrementIndex(i)}}</th>
                         <td>{{c.titolo}}</td>
+                        <td>  <button v-on:click="rimuoviCorso(c.titolo)" value="Delete" type="button">Elimina</button></td>
                     </tr>
-
-                </th>
-                </table>
+                    </table>
                 </section>
+    </article>
 
                 <div class="modal-footer">
                     <input type="titolo" class="form-control"  v-model="corsi.titolo" id="titolo">
@@ -39,87 +42,61 @@
                     <button @click="InserisciCorso" type="button">Inserisci corso</button>
                 </div>
 
-        <!--elimina corso
-                <div id="EliminaCorso" class="modal">
-                    <div v-for="corso in corsi">
-                        <a v-on:click="dataModalEliminaCorso(corso.nomeCompleto,corso.nomeCorso)"
-                           class="collection-item pointer modal-trigger" href="#modalEliminaCorso">
-                            {{c.titolo}} <i class="material-icons right">delete</i>
-                        </a>
-                    </div>
-                     <div id="modalEliminaCorso">
-                        <h3 style="align-content: center">Scegli il corso da rimuovere<a id="titolo" class="black-text"></a> </h3>
-                        <button v-on:click="rimuoviCorso" type="button">Rimuovi Corso</button>
-                     </div>
+
+
+            <!-- docenti-->
+                <h2>Docenti</h2>
+                <section>
+                <table class="table table-bordered">
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cognome</th>
+                    </tr>
+                <tr v-for="(doc,i) in docenti">
+                    <th scope="row">{{incrementIndex(i)}}</th>
+                        <td>{{doc.nome}}</td>
+                        <td>{{doc.cognome}}</td>
+                        <td>  <button v-on:click="rimuoviDocenti(doc.nome, doc.cognome)" value="Delete" type="button">Elimina</button></td>
+
+                </tr>
+                </table>
+                </section>
+
+                <div class="modal-footer">
+                     <input type="nome" class="form-control"  v-model="docenti.nome" id="nome">
+                     <label for="nome">Nome</label>
+                     <input type="cognome" class="form-control"  v-model="docenti.cognome" id="cognome">
+                     <label for="cognome">Cognome</label>
+                     <button @click="InserisciDocenti" type="button">Inserisci docenti</button>
                 </div>
-                -->
-        <!--modifica
-                <li>
-                    <button v-on:click="modificaCorso"  type="button">Modifica Corso</button>
-                    <h3 style="align-content: center">Scegli il corso da moficare </h3>
-                    <label for="formGroupExampleInput2">Nuovo titolo del corso</label>
-                    <input v-model="nuovoTitolo" type="text" class="form-control" id="formGroupExampleInput2"
-                           placeholder="Inserisci il nuovo nome del corso">
 
-                 </li>
-           -->
+    <!--  insegnamenti
+                <h2>Insegnamenti</h2>
+                <section>
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">id_corso</th>
+                        <th scope="col">id_docente</th>
+                    </tr>
+                    <tr v-for="(insegn,i) in insegnamenti">
+                        <th scope="row">{{incrementIndex(i)}}</th>
+                        <td>{{insegn.id_corso}}</td>
+                        <td>{{insegn.id_docente}}</td>
+                        <td>  <button v-on:click="rimuoviInsegnamenti(insegn.id_corso, insegn.id_docente)" value="Delete" type="button">Elimina</button></td>
+                    </tr>
+                </table>
+                </section>
 
-    <!-- aggiungi docenti-->
-<h2>Docenti</h2>
-<section>
-<table class="table table-bordered">
-    <tr>
-        <th scope="col"></th>
-        <th scope="col">Nome</th>
-        <th scope="col">Cognome</th>
-    </tr>
-    <tr v-for="(doc,i) in docenti">
-        <th scope="row">{{incrementIndex(i)}}</th>
-        <td>{{doc.nome}}</td>
-        <td>{{doc.cognome}}</td>
-
-    </tr>
-</table>
-</section>
-
-<div class="modal-footer">
-    <input type="nome" class="form-control"  v-model="docenti.nome" id="nome">
-    <label for="nome">Nome</label>
-    <input type="cognome" class="form-control"  v-model="docenti.cognome" id="cognome">
-    <label for="cognome">Cognome</label>
-    <button @click="InserisciDocenti" type="button">Inserisci docenti</button>
-</div>
-
-    <!-- elimina docenti-->
-    <!-- modifica docenti -->
-    <!-- aggiungi insegnamenti-->
-    <h2>Insegnamenti</h2>
-    <section>
-        <table class="table table-bordered">
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">id_corso</th>
-                <th scope="col">id_docente</th>
-            </tr>
-            <tr v-for="(insegn,i) in insegnamenti">
-                <th scope="row">{{incrementIndex(i)}}</th>
-                <td>{{insegn.id_corso}}</td>
-                <td>{{insegn.id_docente}}</td>
-
-            </tr>
-        </table>
-    </section>
-
-    <div class="modal-footer">
-        <input type="id_corso" class="form-control"  v-model="insegnamenti.id_corso" id="id_corso">
-        <label for="id_corso">id corso</label>
-        <input type="id_docente" class="form-control"  v-model="insegnamenti.id_docente" id="id_docente">
-        <label for="id_docente">id docente</label>
-        <button @click="InserisciInsegnamenti" type="button">Inserisci insegnamenti</button>
-    </div>
-    <!-- elimina insegnamenti -->
-    <!-- modifica insegnamenti -->
-
+                <div class="modal-footer">
+                    <input type="id_corso" class="form-control"  v-model="insegnamenti.id_corso" id="id_corso">
+                    <label for="id_corso">id corso</label>
+                    <input type="id_docente" class="form-control"  v-model="insegnamenti.id_docente" id="id_docente">
+                    <label for="id_docente">id docente</label>
+                    <button @click="InserisciInsegnamenti" type="button">Inserisci insegnamenti</button>
+                </div>
+-->
 </div>
 <script src="corso.js"></script>
 </body>
