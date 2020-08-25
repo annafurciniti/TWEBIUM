@@ -473,11 +473,12 @@ public class Model {
             String id_docente = "'" + insegnamenti.getId_docente() + "'";
             System.out.println("L'insegnamento da rimuovere é: " + id_corso +"con docente" +id_docente);
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT Insegnamenti(ID_corso, ID_docenti) " + "FROM `insegnamenti` " + "WHERE insegnamenti.ID_corso AND insegnamenti.ID_docente  = " + id_corso + ", "+id_docente+"");
+            ResultSet rs = st.executeQuery("SELECT insegnamenti.id_corso, insegnamenti.id_docente" + " FROM insegnamenti " + "WHERE insegnamenti.id_corso =" + id_corso + " AND insegnamenti.id_docente="+id_docente+"");
             if (!rs.isBeforeFirst()) {
                 System.out.println("Non é presente nel DB.");
                 return false;
-            } st.executeUpdate("DELETE FROM insegnamenti WHERE insegnamenti.id_corso AND insegnamenti.id_docente =" + id_corso + ","+id_docente+"");
+            }
+            st.executeUpdate("DELETE FROM insegnamenti WHERE insegnamenti.id_corso=" + id_corso +" AND insegnamenti.id_docente= "+id_docente+"");
             System.out.println("L'insegnamento: " + id_corso + "con docente"+id_docente+"rimosso.");
             return true;
         } catch (SQLException e) {

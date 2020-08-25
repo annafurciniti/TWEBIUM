@@ -71,7 +71,7 @@
                      <button @click="InserisciDocenti" type="button">Inserisci docenti</button>
                 </div>
 
-    <!--  insegnamenti
+     <!--insegnamenti-->
                 <h2>Insegnamenti</h2>
                 <section>
                 <table class="table table-bordered">
@@ -84,7 +84,7 @@
                         <th scope="row">{{incrementIndex(i)}}</th>
                         <td>{{insegn.id_corso}}</td>
                         <td>{{insegn.id_docente}}</td>
-                        <td>  <button v-on:click="rimuoviInsegnamenti(insegn.id_corso, insegn.id_docente)" value="Delete" type="button">Elimina</button></td>
+                        <td>  <button @click="rimuoviInsegnamenti" type="button">Elimina</button></td>
                     </tr>
                 </table>
                 </section>
@@ -96,7 +96,7 @@
                     <label for="id_docente">id docente</label>
                     <button @click="InserisciInsegnamenti" type="button">Inserisci insegnamenti</button>
                 </div>
--->
+
 </div>
 <script src="corso.js"></script>
 </body>

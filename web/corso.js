@@ -162,7 +162,7 @@ var corsi = new Vue ({
         },
         rimuoviInsegnamenti: function () {
             var self = this;
-            $.post(this.link, {action: 'RIMUOVIINSE',
+            $.post(this.link, {action: 'RIMUOVIINSEGNAMENTI',
                    id_corso : this.insegnamenti.id_corso,
                     id_docente:this.insegnamenti.id_docente},
                 function (data) {

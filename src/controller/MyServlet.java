@@ -26,7 +26,7 @@ public class MyServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
+        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -72,7 +72,7 @@ public class MyServlet extends HttpServlet {
             case "NEWINSEGNAMENTI":
                 this.InserisciInsegnamenti(request,response);
                 break;
-            case "RIMUOVIINSE":
+            case "RIMUOVIINSEGNAMENTI":
                 this.rimuoviInsegnamenti(request,response);
                 break;
         }
@@ -231,8 +231,8 @@ public class MyServlet extends HttpServlet {
         int id_corso = Integer.parseInt(request.getParameter("id_corso"));
         int id_docente =Integer.parseInt(request.getParameter("id_docente"));
         Insegnamenti i = new Insegnamenti(id_corso,id_docente);
-        boolean add =Model.RimuoviInsegnamenti(i);
-        return gson.toJson(add);
+        boolean delete =Model.RimuoviInsegnamenti(i);
+        return gson.toJson(delete);
     }
 
 
