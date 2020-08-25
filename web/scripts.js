@@ -20,7 +20,7 @@ var app = new Vue ({
         this.init();
     },
     methods: {
-        init:function(){//commit
+        init:function(){//commitff
             var self = this;
             $.post(this.link2, {action:'INIT'}, function(data) {
                 data = JSON.parse(data);
