@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="TWEBIUM:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/TWEBIUM_war_exploded</output-path>
+  <artifact type="exploded-war" name="TWEBIUM">
+    <output-path>$PROJECT_DIR$/out/artifacts/TWEBIUM</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">

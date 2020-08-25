@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<article id="log">
+    <h1>Login</h1>
+    <p> Username: <input v-model="username" name="username" type="text" required> </p>
+    <p> Password: <input class="form-control" v-model="password" name="password" type="password" required> </p>
+
+    <!--login-->
+    <section v-if="flag">
+        <button v-on:click="loginfun" type="button">Accedi</button>
+        <p>Non sei ancora registrato? <a v-on:click="cambio" href="#">Clicca qui per farlo!</a></p>
+    </section>
+    <!--sign in-->
+    <section v-else>
+        <button v-on:click="signinfun" type="button">Registrati</button>
+        <p>Sei già registrato?<a v-on:click="cambio" href="#">clicca qui per accedere!</a></p>
+    </section>
+
+</article>
+
+
+<script>
+    var login = new Vue ({
+        el:'#log',
+        data:{
+            ruolo:'',
+
+            username:'',
+            password:'',
+            flag: true,
+            link:'/TWEBIUM/LoginServlet',
+        },
+        methods:{
+            loginfun:function(){
+                var self = this;
+                if(self.username.length > 3 && self.password.length > 3) {
+                    $.post(this.link, {action: 'login', username: this.username, password: this.password}, function (data) {
+                        data = JSON.parse(data);
+                        if (data[0] !== "errore") {
+                            //document.getElementById("wrongText").innerText = "";
+                            window.location.replace("index.html");
+                        }else {
+                            alert("errore!");
+                            document.getElementById("wrongText").innerText = "Nome utente o password errati";
+                            self.username = '';
+                            self.password = '';
+                        }
+                    });
+                }else{
+                    alert("Nome utente e password devono avere almeno 4 caratteri");
+                }
+            },
+            signinfun:function(){
+                var self = this;
+                if(self.username.length > 3 && self.password.length > 3) {
+                    $.post(this.link, {action: 'sing', username: this.username, password: this.password}, function (data) {
+                        data = JSON.parse(data);
+                        if (data[0] !== "esiste") {
+                            //document.getElementById("wrongText").innerText = "";
+                            window.location.replace("index.html");
+                        }else {
+                            alert("nome già preso");
+                            document.getElementById("wrongText").innerText = "Nome utente già occupato";
+                            self.username = '';
+                            self.password = '';
+                        }
+                    });
+                }else{
+                    alert("Nome utente e password devono avere almeno 4 caratteri");
+                }
+            },
+            cambio: function(){
+                this.flag = !this.flag;
+            }
+        }
+    });
+</script>
+</body>
+</html>

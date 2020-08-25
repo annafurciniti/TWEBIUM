@@ -12,10 +12,31 @@ var app = new Vue ({
             amministratore: false
         },
         link: '/TWEBIUM/MyServlet',
+        link2: '/TWEBIUM/HomeServlet',
         err: null,
         loading: false
     },
+    mounted(){
+        this.init();
+    },
     methods: {
+        init:function(){
+            var self = this;
+            $.post(this.link2, {action:'INIT'}, function(data) {
+                data = JSON.parse(data);
+                console.log(data[0]);
+                if(data[0]===true){//sessione attiva login effettuato
+                    self.utente = data[1];
+                    //self.corsi = data[2];
+                    self.ripetizioni = data[2];
+                    self.logged =true;
+                }
+                else{
+                    self.logged=false;
+                    self.loading=true;
+                }
+            });
+        },
         incrementIndex: function (index) {//commit
             return index + 1;
         },
@@ -116,7 +137,7 @@ var app = new Vue ({
                 }
             );
             this.logged=false;
-            this.sessione="";
+            window.location.reload();
         },
         isLogged:function(){
             return this.logged;
