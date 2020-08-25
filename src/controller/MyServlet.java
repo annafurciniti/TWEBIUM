@@ -222,7 +222,6 @@ public class MyServlet extends HttpServlet {
         Insegnamenti i = new Insegnamenti(id_corso,id_docente);
         Boolean add = Model.InserisciInsegnamenti(i);
         System.out.println("return:" + add);
-
         return gson.toJson(add);
     }
     /* RIMUOVI INSEGNAMENTI*/

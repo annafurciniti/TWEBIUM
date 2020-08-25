@@ -57,18 +57,18 @@ var corsi = new Vue ({
         /*aggiungi corso*/
         InserisciCorso: function () {
             var self = this;
+            if (self.corsi.titolo !== "") {
             $.post(this.link, {
                     action: 'NEWCORSO',
                     titolo: this.corsi.titolo
                 },
                 function (data) {
                     self.corsi = data[3]
-                    if (self.corsi.titolo !== "") {
-                        self.corsi = data[3]
-                    } else {
-                        self.err = "nome gia presente nel db"
-                    }
-                })
+                });
+            } else {
+                self.err = "nome gia presente nel db"
+            }
+
         },
         getDocenti: function () {
             var self = this;
@@ -84,19 +84,18 @@ var corsi = new Vue ({
         /*aggiungi docenti*/
         InserisciDocenti: function () {
             var self = this;
-            $.post(this.link, {
-                    action: 'NEWDOCENTE',
-                    nome: this.docenti.nome,
-                    cognome: this.docenti.cognome
-                },
-                function (data) {
-                    self.docenti = data[6]
-                    if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
+            if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
+                $.post(this.link, {
+                        action: 'NEWDOCENTE',
+                        nome: this.docenti.nome,
+                        cognome: this.docenti.cognome
+                    },
+                    function (data) {
                         self.docenti = data[6]
-                    } else {
+                    })
+            }else {
                         self.err = "nome gia presente nel db"
                     }
-                })
 
         },
 
@@ -131,32 +130,44 @@ var corsi = new Vue ({
 
         rimuoviCorso: function () {
             var self = this;
-            $.post(this.link, {action: 'RIMUOVICORSO',
-                    titolo: this.corsi.titolo},
-                function (data) {
-                    if (data == "true") {
-                        alert("rimosso")
-                        window.location.reload(); /*aggiorno la pagina*/
-                    } else {
-                        self.err = "errore"
-                    }
-                });
+            if (self.corsi.titolo !== "") {
+                $.post(this.link, {
+                        action: 'RIMUOVICORSO',
+                        titolo: this.corsi.titolo
+                    },
+                    function (data) {
+                        if (data == "true") {
+                            alert("rimosso")
+                            window.location.reload(); /*aggiorno la pagina*/
+                        } else {
+                            self.err = "errore"
+                        }
+                    });
+            }else{
+                self.err= "non é stato inserito nessun corso"
+            }
 
 
         },
         rimuoviDocenti: function () {
             var self = this;
-            $.post(this.link, {action: 'RIMUOVIDOC',
-                    nome: this.docenti.nome,
-                    cognome:this.docenti.cognome},
-                function (data) {
-                    if (data == "true") {
-                        alert("rimosso")
-                        window.location.reload(); /*aggiorno la pagina*/
-                    } else {
-                        self.err = "errore"
-                    }
-                });
+            if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
+                $.post(this.link, {
+                        action: 'RIMUOVIDOC',
+                        nome: this.docenti.nome,
+                        cognome: this.docenti.cognome
+                    },
+                    function (data) {
+                        if (data == "true") {
+                            alert("rimosso")
+                            window.location.reload(); /*aggiorno la pagina*/
+                        } else {
+                            self.err = "errore"
+                        }
+                    });
+            }else{
+                self.err="non é stato inserito alcun docente"
+            }
 
 
         },
