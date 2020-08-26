@@ -45,28 +45,25 @@ public class AdminServlet extends HttpServlet {
                 case "INIT":
                    out.print(mioInit(request, response));
                     break;
-          /*      case "NEWCORSO":
+                case "NEWCORSO":
                     out.print(InserisciCorso(request, response));
                     break;
-                case "RIMUOVICORSO":
+               /*  case "RIMUOVICORSO":
                     out.print(rimuoviCorso(request, response));
-                    break;
-                case "SHOWDOCENTE":
-                    out.print(getDocenti(request, response));
-                    break;
+                    break;*/
                 case "NEWDOCENTE":
                     out.print(InserisciDocenti(request, response));
                     break;
-                case "RIMUOVIDOC":
+             /*   case "RIMUOVIDOC":
                     out.print(rimuoviDocenti(request, response));
                     break;
                 case "SHOWINSEGNAMENTI":
                     out.print(getInsegnamenti(request, response));
-                    break;
+                    break;*/
                 case "NEWINSEGNAMENTI":
                     out.print(InserisciInsegnamenti(request, response));
                     break;
-                case "RIMUOVIINSEGNAMENTI":
+            /*    case "RIMUOVIINSEGNAMENTI":
                     out.print(rimuoviInsegnamenti(request, response));
                     break;*/
             }
@@ -87,7 +84,7 @@ public class AdminServlet extends HttpServlet {
         return add;
 
     }
-    /*AGGIUNGI CORSO
+    /*AGGIUNGI CORSO*/
     private String InserisciCorso(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         String titolo = request.getParameter("titolo");
@@ -105,17 +102,7 @@ public class AdminServlet extends HttpServlet {
         boolean add =Model.RimuoviCorso(c);
         return gson.toJson(add);
     }*/
-    /*DOCENTI
-    private String getDocenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        Gson gson = new Gson();
-        String add="[";
-        ArrayList<Docenti> docenti = Model.getDocenti();
-        add += "," + gson.toJson(docenti);
-        return add;
-
-    }*/
-    /*AGGIUNGI DOCENTE
+    /*AGGIUNGI DOCENTE*/
     private String InserisciDocenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         String Nome = request.getParameter("nome");
@@ -125,7 +112,7 @@ public class AdminServlet extends HttpServlet {
         System.out.println("return:" + add);
 
         return gson.toJson(add);
-    }*/
+    }
     /* RIMUOVI DOCENTE
     private String rimuoviDocenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson =new Gson();
@@ -135,17 +122,8 @@ public class AdminServlet extends HttpServlet {
         boolean add =Model.RimuoviDoc(d);
         return gson.toJson(add);
     }*/
-    /*INSEGNAMENTI
-    private String getInsegnamenti(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
-        Gson gson = new Gson();
-        String add="[";
-        ArrayList<Insegnamenti> insegnamenti = Model.getInsegnamenti();
-        add += "," + gson.toJson(insegnamenti);
-        return add;
-    }*/
 
-    /*AGGIUNGI INSEGNAMENTI
+    /*AGGIUNGI INSEGNAMENTI*/
     private String InserisciInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         int id_corso = Integer.parseInt(request.getParameter("id_corso"));
@@ -154,7 +132,7 @@ public class AdminServlet extends HttpServlet {
         Boolean add = Model.InserisciInsegnamenti(i);
         System.out.println("return:" + add);
         return gson.toJson(add);
-    }*/
+    }
     /* RIMUOVI INSEGNAMENTI
     private String rimuoviInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson =new Gson();
