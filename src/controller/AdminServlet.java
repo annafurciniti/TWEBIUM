@@ -83,7 +83,7 @@ public class AdminServlet extends HttpServlet {
         //HttpSession session = request.getSession();
         Gson gson = new Gson();
         String add="[";
-        add += gson.toJson(corsi);
+        add += gson.toJson(corsi) + "]";
         return add;
 
     }
