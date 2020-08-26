@@ -101,28 +101,14 @@
         el: '#admin',
         data: {
             logged: false,
-            sessione: '',
             ripetizioni: [],
             corsi:[],
-            docenti: {
-                nome: '',
-                cognome: ''
-            },
-            insegnamenti: {
-                id_docente: '',
-                id_corso: '',
-            },
-            utente: {
-                username: '',
-                password: '',
-                amministratore: false
-            },
+            docenti:[],
+            insegnamenti:[],
             link: '/TWEBIUM/AdminServlet',
-            err: null,
-            loading: false
         },
         mounted() {
-            this.getCorsi();
+            this.init();
         /*    this.InserisciCorso();
             this.getDocenti();
             this.InserisciDocenti();
@@ -133,16 +119,17 @@
             this.rimuoviInsegnamenti();*/
         },
         methods: {
-            getCorsi: function () {
-                var self = this;
+            init: function(){
+                var self=this;
                 $.get(this.link, {
-                        action: 'SHOWCORSO'
-                    },
-                    function (data) {
-                        console.log(data[0]);
-                        self.corsi=data[0];
-                    })
-            },
+                    action: 'INIT'
+                },function(data){
+                    self.ripetizioni=data[0];
+                    self.corsi = data[1];
+                    self.docenti = data[2];
+                    self.insegnamenti = data[3];
+                })
+            }
             /*aggiungi corso
             InserisciCorso: function () {
                 var self = this;

@@ -42,8 +42,8 @@ public class AdminServlet extends HttpServlet {
         String add;
         try(PrintWriter out = response.getWriter()) {
             switch (action) {
-                case "SHOWCORSO":
-                   out.print(getCorsi(request, response));
+                case "INIT":
+                   out.print(mioInit(request, response));
                     break;
           /*      case "NEWCORSO":
                     out.print(InserisciCorso(request, response));
@@ -77,13 +77,13 @@ public class AdminServlet extends HttpServlet {
     }
 
     /*CORSI*/
-    private String getCorsi(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ArrayList<Corso> corsi=Model.getCorsi();
-        System.out.print(corsi.get(0));
-        //HttpSession session = request.getSession();
+    private String mioInit(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ArrayList<Corso> cor = Model.getCorsi();
+        ArrayList<Insegnamenti> ins = Model.getInsegnamenti();
+        ArrayList<Docenti> doc = Model.getDocenti();
+        ArrayList<Ripetizioni> rip = Model.getRipetizioni();
         Gson gson = new Gson();
-        String add="[";
-        add += gson.toJson(corsi) + "]";
+        String add = "[" + gson.toJson(rip) + "," + gson.toJson(cor) + "," + gson.toJson(doc) + "," + gson.toJson(ins) + "]";
         return add;
 
     }

@@ -128,7 +128,7 @@
             this.init();
         },
         methods: {
-            init:function(){//commitff
+            init:function(){
                 var self = this;
                 $.post(this.link2, {action:'INIT'}, function(data) {
                     data = JSON.parse(data);
