@@ -268,7 +268,7 @@ public class Model {
                 System.out.println("Già presente nel DB");
                 return false;
             }
-            st.executeUpdate("INSERT INTO Corsi (titolo) VALUE ('" + titolo + "')");
+            st.executeUpdate("INSERT INTO Corsi (titolo) VALUE (" + titolo + ")");
             System.out.println("Corso: " + titolo + "é stato aggiunto nel DB.");
             return true;
         } catch (SQLException e) {

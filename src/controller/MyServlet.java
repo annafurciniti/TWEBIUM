@@ -26,7 +26,7 @@ public class MyServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
+        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,28 +52,28 @@ public class MyServlet extends HttpServlet {
                 this.logout(request, response);
                 break;
             case "NEWCORSO":
-                this.InserisciCorso(request,response);
+                this.InserisciCorso(request, response);
                 break;
             case "RIMUOVICORSO":
-                this.rimuoviCorso(request,response);
+                this.rimuoviCorso(request, response);
                 break;
             case "SHOWDOCENTE":
-                this.getCorsi(request,response);
+                this.getCorsi(request, response);
                 break;
             case "NEWDOCENTE":
-                this.InserisciDocenti(request,response);
+                this.InserisciDocenti(request, response);
                 break;
             case "RIMUOVIDOC":
-                this.rimuoviDocenti(request,response);
+                this.rimuoviDocenti(request, response);
                 break;
             case "SHOWINSEGNAMENTI":
-                this.getInsegnamenti(request,response);
+                this.getInsegnamenti(request, response);
                 break;
             case "NEWINSEGNAMENTI":
-                this.InserisciInsegnamenti(request,response);
+                this.InserisciInsegnamenti(request, response);
                 break;
             case "RIMUOVIINSEGNAMENTI":
-                this.rimuoviInsegnamenti(request,response);
+                this.rimuoviInsegnamenti(request, response);
                 break;
         }
     }
@@ -149,15 +149,15 @@ public class MyServlet extends HttpServlet {
         System.out.println("Invalidata la sessione");
     }
     /*CORSI*/
-    private void getCorsi(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private String getCorsi(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         Gson gson = new Gson();
         String add="[";
         ArrayList<Corso> corsi = Model.getCorsi();
-
-        add += "," + gson.toJson(corsi);
-
+        add += "," + gson.toJson(corsi)+"]";
+        return add;
     }
+
     /*AGGIUNGI CORSO*/
     private String InserisciCorso(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();

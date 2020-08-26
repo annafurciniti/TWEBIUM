@@ -26,7 +26,7 @@ public class AdminServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
+        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,24 +48,21 @@ public class AdminServlet extends HttpServlet {
                 case "NEWCORSO":
                     out.print(InserisciCorso(request, response));
                     break;
-               /*  case "RIMUOVICORSO":
+                case "DELETECORSO":
                     out.print(rimuoviCorso(request, response));
-                    break;*/
+                    break;
                 case "NEWDOCENTE":
                     out.print(InserisciDocenti(request, response));
                     break;
-             /*   case "RIMUOVIDOC":
+                case "DELETEDOCENTE":
                     out.print(rimuoviDocenti(request, response));
                     break;
-                case "SHOWINSEGNAMENTI":
-                    out.print(getInsegnamenti(request, response));
-                    break;*/
                 case "NEWINSEGNAMENTI":
                     out.print(InserisciInsegnamenti(request, response));
                     break;
-            /*    case "RIMUOVIINSEGNAMENTI":
+                 case "DELETEINSEGNAMENTI":
                     out.print(rimuoviInsegnamenti(request, response));
-                    break;*/
+                    break;
             }
         }catch (IOException e) {
             System.out.println(e);
@@ -94,14 +91,14 @@ public class AdminServlet extends HttpServlet {
 
         return gson.toJson(add);
     }
-    /* RIMUOVI CORSO
+    /* RIMUOVI CORSO*/
     private String rimuoviCorso(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson =new Gson();
-        String Titolo = request.getParameter("titolo");
-        Corso c = new Corso(Titolo);
+        String titolo = request.getParameter("titolo");
+        Corso c = new Corso(titolo);
         boolean add =Model.RimuoviCorso(c);
         return gson.toJson(add);
-    }*/
+    }
     /*AGGIUNGI DOCENTE*/
     private String InserisciDocenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
@@ -113,15 +110,15 @@ public class AdminServlet extends HttpServlet {
 
         return gson.toJson(add);
     }
-    /* RIMUOVI DOCENTE
+    /* RIMUOVI DOCENTE*/
     private String rimuoviDocenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson =new Gson();
         String Nome = request.getParameter("nome");
         String Cognome =request.getParameter("cognome");
         Docenti d = new Docenti(Nome,Cognome);
-        boolean add =Model.RimuoviDoc(d);
-        return gson.toJson(add);
-    }*/
+        boolean delete =Model.RimuoviDoc(d);
+        return gson.toJson(delete);
+    }
 
     /*AGGIUNGI INSEGNAMENTI*/
     private String InserisciInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -133,7 +130,7 @@ public class AdminServlet extends HttpServlet {
         System.out.println("return:" + add);
         return gson.toJson(add);
     }
-    /* RIMUOVI INSEGNAMENTI
+    /* RIMUOVI INSEGNAMENTI*/
     private String rimuoviInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson =new Gson();
         int id_corso = Integer.parseInt(request.getParameter("id_corso"));
@@ -141,7 +138,7 @@ public class AdminServlet extends HttpServlet {
         Insegnamenti i = new Insegnamenti(id_corso,id_docente);
         boolean delete =Model.RimuoviInsegnamenti(i);
         return gson.toJson(delete);
-    }*/
+    }
 
 
 }
