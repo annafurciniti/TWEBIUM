@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <title>corsi</title>
+</head>
+<div id="corsi" class="col s12 center">
+    <header>
+        <nav>
+            <a class="nav-link" href="index.html">Home</a>
+        </nav>
+    </header>
+            <!-- corso-->
+    <article>
+
+               <h1>Corsi</h1>
+                <section>
+                <table class="table">
+                <thead class="table table-bordered" >
+                    <tr>
+                        <th scope="col">Titolo corso</th>
+                    </tr>
+                </thead>
+                    <tr v-for="corso in corsi">
+                        <td>{{corso.titolo}}</td>
+                  <!--      <td>  <button v-on:click="rimuoviCorso(corso.titolo)" value="Delete" type="button">Elimina</button></td>-->
+                    </tr>
+                    </table>
+                </section>
+    </article>
+<!--
+                <div class="modal-footer">
+                    <input type="titolo" class="form-control"  v-model="corsi.titolo" id="titolo">
+                    <label for="titolo">Titolo</label>
+                    <button @click="InserisciCorso" type="button">Inserisci corso</button>
+                </div>
+
+-->
+
+            <!-- docenti
+                <h2>Docenti</h2>
+                <section>
+                <table class="table table-bordered">
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cognome</th>
+                    </tr>
+                <tr v-for="(doc,i) in docenti">
+                    <th scope="row">{{incrementIndex(i)}}</th>
+                        <td>{{doc.nome}}</td>
+                        <td>{{doc.cognome}}</td>
+                        <td>  <button v-on:click="rimuoviDocenti(doc.nome, doc.cognome)" value="Delete" type="button">Elimina</button></td>
+
+                </tr>
+                </table>
+                </section>
+
+                <div class="modal-footer">
+                     <input type="nome" class="form-control"  v-model="docenti.nome" id="nome">
+                     <label for="nome">Nome</label>
+                     <input type="cognome" class="form-control"  v-model="docenti.cognome" id="cognome">
+                     <label for="cognome">Cognome</label>
+                     <button @click="InserisciDocenti" type="button">Inserisci docenti</button>
+                </div>
+-->
+     <!--insegnamenti
+                <h2>Insegnamenti</h2>
+                <section>
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">id_corso</th>
+                        <th scope="col">id_docente</th>
+                    </tr>
+                    <tr v-for="(insegn,i) in insegnamenti">
+                        <th scope="row">{{incrementIndex(i)}}</th>
+                        <td>{{insegn.id_corso}}</td>
+                        <td>{{insegn.id_docente}}</td>
+                        <td>  <button @click="rimuoviInsegnamenti" type="button">Elimina</button></td>
+                    </tr>
+                </table>
+                </section>
+
+                <div class="modal-footer">
+                    <input type="id_corso" class="form-control"  v-model="insegnamenti.id_corso" id="id_corso">
+                    <label for="id_corso">id corso</label>
+                    <input type="id_docente" class="form-control"  v-model="insegnamenti.id_docente" id="id_docente">
+                    <label for="id_docente">id docente</label>
+                    <button @click="InserisciInsegnamenti" type="button">Inserisci insegnamenti</button>
+                </div>
+                -->
+
+</div>
+</body>
+</html>
+<script>
+    var admin = new Vue ({
+        el: '#admin',
+        data: {
+            logged: false,
+            sessione: '',
+            ripetizioni: [],
+            corsi:[],
+            docenti: {
+                nome: '',
+                cognome: ''
+            },
+            insegnamenti: {
+                id_docente: '',
+                id_corso: '',
+            },
+            utente: {
+                username: '',
+                password: '',
+                amministratore: false
+            },
+            link: '/TWEBIUM/AdminServlet',
+            err: null,
+            loading: false
+        },
+        mounted() {
+            this.getCorsi();
+        /*    this.InserisciCorso();
+            this.getDocenti();
+            this.InserisciDocenti();
+            this.getInsegnamenti();
+            this.InserisciInsegnamenti();
+            this.rimuoviCorso();
+            this.rimuoviDocenti();
+            this.rimuoviInsegnamenti();*/
+        },
+        methods: {
+            incrementIndex: function (index) {//commit
+                return index + 1;
+            },
+            getCorsi: function () {
+                var self = this;
+                $.get(this.link, {
+                        action: 'SHOWCORSO',
+
+                    },
+                    function (data) {
+                        data = JSON.parse(data);
+                        console.log(data[0]);
+                        self.corsi=data[0];
+
+                    })
+            },
+            /*aggiungi corso
+            InserisciCorso: function () {
+                var self = this;
+                if (self.corsi.titolo !== "") {
+                    $.post(this.link, {
+                            action: 'NEWCORSO',
+                            titolo: this.corsi.titolo
+                        },
+                        function (data) {
+                            self.corsi = data[3]
+                        });
+                } else {
+                    self.err = "nome gia presente nel db"
+                }
+
+            },*/
+           /* getDocenti: function () {
+                var self = this;
+                $.get(this.link, {
+                        action: 'SHOWDOCENTE',
+                        nome: this.docenti.nome,
+                        cognome: this.docenti.cognome
+                    },
+                    function (data) {
+                        self.docenti[6];
+                    })
+            },*/
+            /*aggiungi docenti
+            InserisciDocenti: function () {
+                var self = this;
+                if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
+                    $.post(this.link, {
+                            action: 'NEWDOCENTE',
+                            nome: this.docenti.nome,
+                            cognome: this.docenti.cognome
+                        },
+                        function (data) {
+                            self.docenti = data[6]
+                        })
+                }else {
+                    self.err = "nome gia presente nel db"
+                }
+
+            },*/
+
+         /*   getInsegnamenti: function () {
+                var self = this;
+                $.get(this.link, {
+                        action: 'SHOWINSEGNAMENTI',
+                        id_corso: this.insegnamenti.id_corso,
+                        id_docente: this.insegnamenti.id_docente,
+                    },
+                    function (data) {
+                        self.insegnamenti[7];
+                    })
+            },*/
+            /*aggiungi insegnamenti
+            InserisciInsegnamenti: function () {
+                var self = this;
+                $.post(this.link, {
+                        action: 'NEWINSEGNAMENTI',
+                        id_corso: this.insegnamenti.id_corso,
+                        id_docente: this.insegnamenti.id_docente,
+                    },
+                    function (data) {
+                        self.insegnamenti = data[7]
+                        if (self.insegnamenti.id_corso !== "" && self.insegnamenti.id_docente !== "") {
+                            self.insegnamenti = data[7]
+                        } else {
+                            self.err = "nome gia presente nel db"
+                        }
+                    })
+            },
+*/
+          /*  rimuoviCorso: function () {
+                var self = this;
+                if (self.corsi.titolo !== "") {
+                    $.post(this.link, {
+                            action: 'RIMUOVICORSO',
+                            titolo: this.corsi.titolo
+                        },
+                        function (data) {
+                            if (data == "true") {
+                                alert("rimosso")
+                                window.location.reload(); /*aggiorno la pagina*/
+                       /*     } else {
+                                self.err = "errore"
+                            }
+                        });
+                }else{
+                    self.err= "non é stato inserito nessun corso"
+                }
+
+
+            },*/
+         /*   rimuoviDocenti: function () {
+                var self = this;
+                if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
+                    $.post(this.link, {
+                            action: 'RIMUOVIDOC',
+                            nome: this.docenti.nome,
+                            cognome: this.docenti.cognome
+                        },
+                        function (data) {
+                            if (data == "true") {
+                                alert("rimosso")
+                                window.location.reload(); /*aggiorno la pagina*/
+                          /*  } else {
+                                self.err = "errore"
+                            }
+                        });
+                }else{
+                    self.err="non é stato inserito alcun docente"
+                }
+
+
+            },
+            rimuoviInsegnamenti: function () {
+                var self = this;
+                $.post(this.link, {action: 'RIMUOVIINSEGNAMENTI',
+                        id_corso : this.insegnamenti.id_corso,
+                        id_docente:this.insegnamenti.id_docente},
+                    function (data) {
+                        if (data == "true") {
+                            alert("rimosso")
+                            window.location.reload(); /*aggiorno la pagina*/
+                   /*     } else {
+                            self.err = "errore"
+                        }
+                    });
+
+
+            },
+            isLogged:function(){
+                return this.logged;
+            },*/
+        }
+    });
+
+</script>
