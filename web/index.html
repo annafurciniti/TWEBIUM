@@ -14,20 +14,6 @@
 <div id="app">
     <!--barra di navigazione-->
     <header>
-        <!--<nav>
-            <ul v-if="isLogged()">
-                <li>
-                    <a href="admin.html">Admin</a>
-                </li>
-                <li>
-                    <a href="#">Le tue prenotazioni</a>
-                </li>
-                <li>
-                    <a v-if="isLogged()" v-on:click="logout" href="#" >Logout</a>
-                </li>
-            </ul>
-            <h3 v-else><a href="login.html">Login</a></h3>
-        </nav>-->
 
         <nav class="navbar navbar-expand-lg navbar-mainbg">
             <a class="navbar-brand navbar-logo" href="#">Navbar</a>
@@ -62,8 +48,6 @@
         <h1 v-if="logged">Benvenuto {{utente.username}}!</h1>
         <h1 v-else>Benvenuto!</h1>
 
-
-        <h2 v-if="logged">Admin --> <a href="admin.html">CLICCA QUI</a></h2>
 
     </header>
 
@@ -143,12 +127,7 @@
                 );
                 this.logged=false;
                 window.location.reload();
-            },
-            isLogged:function(){
-                return this.logged;
-            },
-
-
+            }
         }
     });
 </script>
