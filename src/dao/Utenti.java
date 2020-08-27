@@ -9,7 +9,7 @@ public class Utenti {
 
         this.username = username;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.isAdmin = ruolo;
     }
 
     public String getUsername() {

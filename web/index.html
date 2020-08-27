@@ -5,14 +5,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="CSS/stylesheet.css"/>
+    <script type="text/javascript" src="navbar.js"></script>
     <title>Homepage</title>
 </head>
 <body>
 <div id="app">
     <!--barra di navigazione-->
     <header>
-        <nav>
+        <!--<nav>
             <ul v-if="isLogged()">
                 <li>
                     <a href="admin.html">Admin</a>
@@ -25,64 +27,52 @@
                 </li>
             </ul>
             <h3 v-else><a href="login.html">Login</a></h3>
+        </nav>-->
+
+        <nav class="navbar navbar-expand-lg navbar-mainbg">
+            <a class="navbar-brand navbar-logo" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+                    <li class="nav-item" v-if="logged">
+                        <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>I miei corsi</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Home</a>
+                    </li>
+                    <li class="nav-item" v-if="!logged">
+                        <a class="nav-link" href="login.html"><i class="far fa-clone"></i>Accedi</a>
+                    </li>
+                    <li class="nav-item" v-if="logged">
+                        <a class="nav-link" href="admin.html"><i class="far fa-calendar-alt"></i>Admin</a>
+                    </li>
+                    <li class="nav-item" v-if="logged">
+                        <a class="nav-link" v-on:click="logout" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Logout</a>
+                    </li>
+                    <!--<li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
+                    </li>-->
+                </ul>
+            </div>
         </nav>
 
-        <h1 v-if="logged">Benvenuto! {{utente.username}}</h1>
+        <h1 v-if="logged">Benvenuto {{utente.username}}!</h1>
         <h1 v-else>Benvenuto!</h1>
 
-            <!--
-            <div class="container-fluid" v-if="!isLogged()">
-                <div class="row">
-                    <div class="col-md-5">
 
-                        <!-login->
-                        <h1>Login</h1>
-                        <div class="input-group" >
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                            <p> Login: <input class="form-control" v-model="utente.username" name="username" type="text" required> </p> <!- controllo inserimento input con required->
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                            <p> Password: <input class="form-control" v-model="utente.password" name="password" type="password" required> </p>
-                        </div>
-                        <button @click="login" type="button">Login</button>
-                        <p class="text-center">Not a member yet?<a href="#">Sign up</a></p>
-                        <p v-if="!logged" >{{err}}</p>
-                        <!- sign in->
-                        <div class="col-md-5">
-                            <h2>Sign in</h2>
-                            <div class="input-group" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                <input type="text" class="form-control" v-model="utente.username" name="username" placeholder="username" required /><br>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                                <input type="password" class="form-control" v-model="utente.password" name="password" placeholder="Password" required /><br>
-                            </div>
-                            <input v-model="utente.amministratore" type="radio" id="radiout" name="isAdmin" value="false">
-                            <label for="radiout">Utente</label><br>
-                            <input v-model="utente.amministratore" type="radio" id="radioamm" name="isAdmin" value="true">
-                            <label for="radioamm">Amministratore</label><br>
-                            <button @click="signin" type="button">Sign in</button>
-                            <p v-if="!logged" >{{err}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div v-if="isLogged()">
-                <p> Ciao {{utente.username}}</p>
-                <a v-if="isLogged()" v-on:click="logout" href="#" >Logout</a>
-            </div>
-
-            -->
+        <h2 v-if="logged">Admin --> <a href="admin.html">CLICCA QUI</a></h2>
 
     </header>
 
     <article>
         <!-- tabella Ripetizioni-->
-        <p>prova prova</p>
         <section>
+            <p>nome: {{utente.username}}</p>
+            <p>password: {{utente.password}}</p>
+            <p>admin?: {{utente.amministratore}}</p>
             <!--<p>sessione -> {{ sessione }}</p>
             <p>Username -> {{utente.username}}</p>-->
             <table class="table table-bordered">
@@ -146,100 +136,6 @@
                     }
                 });
             },
-            incrementIndex: function (index) {//commit
-                return index + 1;
-            },
-            login: function () {
-                var self = this;
-                if (self.sessione === '') {
-                    $.post(this.link, {
-                            action: 'LOGIN',
-                            username: this.utente.username,
-                            password: this.utente.password
-                        },
-                        function (data) {
-                            self.err = null;
-                            self.utente = data[0];
-                            self.sessione = data[1];
-
-                            if (self.utente.username === "") {
-                                self.logged = false;
-                                self.err = "Nome utente o password errati."
-                            } else {
-                                self.logged = true;
-                                self.ripetizioni = data[2];
-                            }
-                        });
-                } else {
-                    $.post(this.link, {
-                            action: 'LOGIN',
-                            username: this.utente.username,
-                            password: this.utente.password,
-                            sessione: this.sessione
-                        }, function (data) {
-                            this.loading = true;
-                            self.err = null;
-                            self.utente = data[0];
-                            self.sessione = data[1];
-
-                            if (self.utente.username === "") {
-                                self.logged = false;
-                                self.err = "Nome utente o password errati."
-                            } else {
-                                self.ripetizioni = data[2];
-                                self.logged = true;
-
-                            }
-                        }
-                    );
-                }
-            },
-            signin: function () {
-                var self=this;
-
-                if (this.sessione === '') {
-                    $.post(this.link, {
-                            action: 'SIGNIN',
-                            username: this.utente.username,
-                            password: this.utente.password,
-                            amministratore: this.utente.amministratore
-                        },
-                        function (data) {
-                            self.utente = data[0];
-                            self.sessione = data[1];
-
-                            if (self.utente.username !== "") {
-                                self.logged = true;
-                                self.ripetizioni = data[2];
-
-                            }
-                            else{
-                                self.err="Nome Utente già utilizzato"
-                            }
-                        });
-                } else {
-                    $.post(this.link, {
-                            action: 'SIGNIN',
-                            username: this.utente.username,
-                            password: this.utente.password,
-                            amministratore: this.utente.amministratore,
-                            sessione: this.sessione
-                        },
-                        function (data) {
-                            self.utente = data[0];
-                            self.sessione = data[1];
-
-                            if (self.utente.username !== "") {
-                                self.logged = true;
-                                self.ripetizioni = data[2];
-
-                            }
-                            else{
-                                self.err="Nome Utente già utilizzato"
-                            }
-                        });
-                }
-            },
             logout:function(){
                 $.post(this.link,{
                         action: 'LOGOUT'
@@ -256,5 +152,6 @@
         }
     });
 </script>
+
 </body>
 </html>
