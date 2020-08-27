@@ -34,19 +34,19 @@
         </nav>
     </header>
 
-    <article>
+    <article class="container">
         <h1>Login</h1>
-        <p> Username: <input v-model="username" name="username" type="text" required> </p>
+        <p> Username: <input class="form-control" v-model="username" name="username" type="text" required> </p>
         <p> Password: <input class="form-control" v-model="password" name="password" type="password" required> </p>
 
         <!--login-->
         <section v-if="flag">
-            <button v-on:click="loginfun" type="button">Accedi</button>
+            <button v-on:click="loginfun" type="button" class="btn btn-primary">Accedi</button>
             <p>Non sei ancora registrato? <a v-on:click="cambio" href="#">Clicca qui per farlo!</a></p>
         </section>
         <!--sign in-->
         <section v-else>
-            <button v-on:click="signinfun" type="button">Registrati</button>
+            <button v-on:click="signinfun" type="button" class="btn btn-primary">Registrati</button>
             <p>Sei già registrato?<a v-on:click="cambio" href="#">clicca qui per accedere!</a></p>
         </section>
     </article>
