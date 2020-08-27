@@ -43,7 +43,7 @@ public class Model {
             if (rs.next()) {
                 u = new Utenti(rs.getString("Username"),
                         rs.getString("Password"),
-                        rs.getBoolean("Amministratore"));
+                        rs.getInt("Amministratore"));
             }
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -67,7 +67,7 @@ public class Model {
             while (rs.next()) {
                 Utenti u = new Utenti(rs.getString("username"),
                         rs.getString("password"),
-                        rs.getBoolean("amministratore"));
+                        rs.getInt("amministratore"));
                 out.add(u);
             }
         } catch (SQLException e) {
@@ -108,11 +108,10 @@ public class Model {
             conn1 = openConnection();
 
             String Username = "'" + utenti.getUsername() + "'";
-            String Password = "'" + utenti.getPassword() + "'";
-            System.out.println("L'utente da rimuovere é: " + Username + " " + Password);
+            System.out.println("L'utente da rimuovere é: " + Username);
 
             Statement st = conn1.createStatement();
-            st.executeQuery("DELETE FROM utenti WHERE utenti.username=" + Username + "AND utenti.password= " + Password + "");
+            st.executeQuery("DELETE FROM utenti WHERE utenti.username=" + Username + "");
             System.out.println("L'utente: " + Username + " é stato rimosso ");
             return true;
         } catch (SQLException e) {

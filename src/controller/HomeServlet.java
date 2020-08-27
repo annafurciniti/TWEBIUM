@@ -26,7 +26,7 @@ public class HomeServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        new Model("jdbc:mysql://localhost:3306/tweb", "root", "");
+        new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,19 +57,14 @@ public class HomeServlet extends HttpServlet {
 
         //ArrayList<Corso> corsi = Model.getCorsi();
         ArrayList<Ripetizioni> ripetizioni = Model.getRipetizioni();
-
         if (!s.isNew()) {
             //sessione utente attiva
             System.out.println("sessione era già esistente");
             if (s.getAttribute("username") != null) {
                 //System.out.println(s.getAttribute("username"));
-                int r =(int) s.getAttribute("role");
-                if(r==0)
-                    u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), false);
-                else{
-                    u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), true);
-                }
+                u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
                 json += gson.toJson(true) + "," + gson.toJson(u) + ",";
+                System.out.println(gson.toJson(u));
             }
         }
         else{

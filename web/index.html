@@ -27,7 +27,7 @@
                         <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>I miei corsi</a>
                     </li>
                     <li class="nav-item" v-if="logged">
-                        <a class="nav-link" href="admin.html"><i class="far fa-calendar-alt"></i>Admin</a>
+                        <a class="nav-link" href="admin.html" v-if="utente.isAdmin==1"><i class="far fa-calendar-alt"></i>Admin</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Home</a>
@@ -54,9 +54,10 @@
     <article>
         <!-- tabella Ripetizioni-->
         <section>
+            <p>DAIDAI</p>
             <p>nome: {{utente.username}}</p>
             <p>password: {{utente.password}}</p>
-            <p>admin?: {{utente.amministratore}}</p>
+            <p>admin?: {{utente.isAdmin}}</p>
             <!--<p>sessione -> {{ sessione }}</p>
             <p>Username -> {{utente.username}}</p>-->
             <table class="table table-bordered">
@@ -91,7 +92,7 @@
             utente: {
                 username: '',
                 password: '',
-                amministratore: false
+                isAdmin: ''
             },
             link: '/TWEBIUM/MyServlet',
             link2: '/TWEBIUM/HomeServlet',

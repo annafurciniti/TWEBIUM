@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        new Model("jdbc:mysql://localhost:3306/tweb", "root", "");
+        new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,7 +68,10 @@ public class LoginServlet extends HttpServlet {
             HttpSession s = request.getSession();
             s.setAttribute("username", u.getUsername());
             s.setAttribute("password", u.getPassword());
-            s.setAttribute("role", u.getIsAdmin());//0 = user, 1 = admin
+            s.setAttribute("role", u.getIsAdmin());
+            System.out.println("LoginServlet: Username-> " + s.getAttribute("username"));
+            System.out.println("LoginServlet: Password-> " + s.getAttribute("password"));
+            System.out.println("LoginServlet: ruoloUtente-> " + s.getAttribute("role"));
 
         }
         else{
@@ -86,7 +89,7 @@ public class LoginServlet extends HttpServlet {
         Gson gson = new Gson();
 
         System.out.println("signin");
-        Utenti u = new Utenti(user,password,false);
+        Utenti u = new Utenti(user,password,0);
         boolean flag = Model.InserisciUt(u);
         if(flag){
             System.out.println("flag true");
