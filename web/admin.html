@@ -40,81 +40,92 @@
     </div>
 </nav>
             <!-- corso-->
-    <article class="container">
+    <div class="container">
+        <div class="center">
             <h1>Corsi</h1>
-                <section>
-                <table class="table table-bordered">
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Titolo corso</th>
-                    </tr>
-                    <tr v-for="corso in corsi">
-                        <th scope="col"></th>
-                        <td>{{corso.titolo}}</td>
-                    </tr>
-                </table>
-                </section>
-    </article>
-                <div class="modal-footer">
-                    <input type="titolo" class="form-control"  v-model="corsi.titolo" id="titolo">
-                    <label for="titolo">Titolo</label>
-                    <button @click="rimuoviCorso" type="button">Elimina</button>
-                    <button @click="InserisciCorso" type="button">Inserisci corso</button>
+            <div class="modal-footer">
+                <label  for="titolo">Inserisci il corso:</label>
+                <input type="titolo" class="form-control"  v-model="corsi.titolo" id="titolo">
+            </div>
+                <div class="box-1">
+                    <div class="btn btn-one"  @click="rimuoviCorso">
+                         <span >ELIMINA</span>
+                    </div>
                 </div>
-
+                <div class="box-3">
+                    <div class="btn btn-three"   @click="InserisciCorso">
+                        <span >AGGIUNGI</span>
+                    </div>
+                </div>
+          <!--  </div>-->
+                <section>
+                    <ul class="lista-group">
+                        <template v-for="corso in corsi">
+                            <li class="list-group-item list-group-item-action">{{ corso.titolo }}</li>
+                        </template>
+                    </ul>
+                </section>
 
             <!-- docenti-->
         <h2>Docenti</h2>
-                <section>
-                <table class="table table-bordered">
-                  <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Cognome</th>
-                    </tr>
-                <tr v-for="doc in docenti">
-                        <th scope="col"></th>
-                        <td>{{doc.nome}}</td>
-                        <td>{{doc.cognome}}</td>
-
-                </tr>
-                </table>
-                </section>
-                <div class="modal-footer">
-                     <input type="nome" class="form-control"  v-model="docenti.nome" id="nome">
-                     <label for="nome">Nome</label>
-                     <input type="cognome" class="form-control"  v-model="docenti.cognome" id="cognome">
-                    <label for="cognome">Cognome</label>
-                    <button v-on:click="rimuoviDocenti(nome, cognome)" value="Delete" type="button">Elimina</button>
-                     <button @click="InserisciDocenti" type="button">Inserisci docenti</button>
+            <div class="modal-footer">
+                <label for="nome">Inserisci il nome:</label>
+                <input type="nome" class="form-control"  v-model="docenti.nome" id="nome">
+            </div>
+            <div class="modal-footer">
+                <label for="cognome">Inserisci il cognome:</label>
+                <input type="cognome" class="form-control"  v-model="docenti.cognome" id="cognome">
+            </div>
+                <div class="box-1">
+                    <div class="btn btn-one" @click="rimuoviDocenti(nome, cognome)">
+                        <span>ELIMINA</span>
+                    </div>
+                </div>
+                <div class="box-3">
+                    <div class="btn btn-three"  @click="InserisciDocenti">
+                        <span>AGGIUNGI</span>
+                    </div>
                 </div>
 
+                <section>
+                    <ul class="lista-group">
+                        <template v-for="doc in docenti">
+                            <li class="list-group-item list-group-item-action">{{ doc.nome}} {{doc.cognome }}</li>
+                        </template>
+                    </ul>
+                </section>
 
         <!--insegnamenti -->
                 <h2>Insegnamenti</h2>
-                <section>
-                <table class="table table-bordered">
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">id_corso</th>
-                        <th scope="col">id_docente</th>
-                    </tr>
-                    <tr v-for="insegn in insegnamenti">
-                        <th scope="col"></th>
-                        <td>{{insegn.id_corso}}</td>
-                        <td>{{insegn.id_docente}}</td>
-
-                    </tr>
-                </table>
-                </section>
-                <div class="modal-footer">
-                    <input type="id_corso" class="form-control"  v-model="insegnamenti.id_corso" id="id_corso">
-                    <label for="id_corso">id corso</label>
-                    <input type="id_docente" class="form-control"  v-model="insegnamenti.id_docente" id="id_docente">
-                    <label for="id_docente">id docente</label>
-                    <button @click="rimuoviInsegnamenti" type="button">Elimina</button>
-                    <button @click="InserisciInsegnamenti" type="button">Inserisci insegnamenti</button>
+            <div class="modal-footer">
+                <label for="id_corso">corso:</label>
+                <input type="id_corso" class="form-control"  v-model="insegnamenti.id_corso" id="id_corso">
+            </div>
+            <div class="modal-footer">
+                <label for="id_docente">docente:</label>
+                <input type="id_docente" class="form-control"  v-model="insegnamenti.id_docente" id="id_docente">
+            </div>
+                <div class="box-1">
+                    <div class="btn btn-one" @click="rimuoviInsegnamenti">
+                        <span>ELIMINA</span>
+                    </div>
                 </div>
+                <div class="box-3">
+                    <div class="btn btn-three"  @click="InserisciInsegnamenti">
+                        <span>AGGIUNGI</span>
+                    </div>
+                </div>
+
+                <section>
+                    <ul class="lista-group">
+                        <template v-for="insegn in insegnamenti">
+                            <li class="list-group-item list-group-item-action">{{ insegn.id_corso}} {{insegn.id_docente }}</li>
+                        </template>
+                    </ul>
+                </section>
+
+    </div>
+    </div>
 </div>
 <script>
     var admin = new Vue ({
@@ -126,6 +137,7 @@
             docenti:[],
             insegnamenti:[],
             link: '/TWEBIUM/AdminServlet',
+            link2: '/TWEBIUM/LoginServlet'
         },
         mounted() {
             this.init();
@@ -252,6 +264,14 @@
                     });
 
 
+            },
+            logout:function(){
+                $.post(this.link2,{
+                        action: 'LOGOUT'
+                    }
+                );
+                this.logged=false;
+                window.location.reload();
             }
         }
     });

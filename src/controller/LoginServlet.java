@@ -48,6 +48,9 @@ public class LoginServlet extends HttpServlet {
                 case "sing":
                     out.print(signIn(request, response));
                     break;
+                case "LOGOUT":
+                    this.logout(request, response);
+                    break;
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -104,6 +107,12 @@ public class LoginServlet extends HttpServlet {
             uJson = "[" + gson.toJson("esiste") + "]";
         }
         return uJson;
+    }
+    /*LOGOUT*/
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        System.out.println("Invalidata la sessione");
     }
 
 }
