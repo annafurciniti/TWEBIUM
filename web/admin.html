@@ -31,7 +31,7 @@
                 <a class="nav-link" href="index.html"><i class="far fa-address-book"></i>Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Logout</a>
+                <a class="nav-link" v-on:click="logout" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Logout</a>
             </li>
             <!--<li class="nav-item">
                 <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
@@ -148,6 +148,7 @@
                 $.get(this.link, {
                     action: 'INIT'
                 },function(data){
+                    self.logged=true;
                     self.ripetizioni=data[0];
                     self.corsi = data[1];
                     self.docenti = data[2];
@@ -271,7 +272,7 @@
                     }
                 );
                 this.logged=false;
-                window.location.reload();
+                window.location = "index.html";
             }
         }
     });

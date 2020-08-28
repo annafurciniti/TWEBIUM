@@ -60,7 +60,7 @@
             <div class="fadeIn first">
                 <img src="img/icons8-login-64.png" id="ops" alt="User Icon" />
             </div>
-            <h2 class="active">{{titolo}}</h2>
+            <h1 class="active">{{titolo}}</h1>
 
             <!-- Login Form -->
             <form onsubmit=";return false">
@@ -70,6 +70,7 @@
                 <input v-else type="submit" class="fadeIn fourth" v-on:click="signinfun" value="Sign In">
             </form>
 
+            <div v-if="show" class="alert alert-danger" role="alert">{{errore}}</div>
             <!-- Remind Passowrd -->
             <div id="formFooter">
                 <p>Non sei ancora Iscritto?</p>
@@ -84,6 +85,8 @@
         el:'#log',
         data:{
             titolo:'Accedi',
+            errore:'',
+            show: false,
             username:'',
             password:'',
             flag: true,
@@ -96,11 +99,12 @@
                     $.post(this.link, {action: 'login', username: this.username, password: this.password}, function (data) {
                         data=JSON.parse(data);
                         if (data[0] !== "errore") {
-                            //document.getElementById("wrongText").innerText = "";
+                            self.show=false;
                             window.location = "index.html";
                         }else {
-                            alert("errore!");
-                            //document.getElementById("wrongText").innerText = "Nome utente o password errati";
+                            //alert("errore!");
+                            self.errore = "Nome utente o password errati";
+                            self.show=true;
                             self.username = '';
                             self.password = '';
                         }
@@ -115,11 +119,12 @@
                     $.post(this.link, {action: 'sing', username: this.username, password: this.password}, function (data) {
                         data = JSON.parse(data);
                         if (data[0] !== "esiste") {
-                            //document.getElementById("wrongText").innerText = "";
+                            self.show=false;
                             window.location.replace("index.html");
                         }else {
-                            alert("nome già preso");
-                            //document.getElementById("wrongText").innerText = "Nome utente già occupato";
+                            //alert("nome già preso");
+                            self.errore = "Nome utente già occupato";
+                            self.show = "true";
                             self.username = '';
                             self.password = '';
                         }
@@ -130,6 +135,7 @@
             },
             cambio: function(){
                 self= this;
+                self.show=false;
                 self.flag = !self.flag;
                 if(self.flag){
                     self.titolo = 'Accedi';

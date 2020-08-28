@@ -59,14 +59,12 @@
             <p>nome: {{utente.username}}, password: {{utente.password}}, admin: {{utente.isAdmin}}</p>
             <table class="table table-bordered">
                 <tr>
-                    <th scope="col"></th>
                     <th scope="col">Corso</th>
                     <th scope="col">Docente</th>
                     <th scope="col">Ripetizione</th>
                     <th scope="col">Stato</th>
                 </tr>
                 <tr v-for="rip in ripetizioni" :id="rip.id_corso">
-                    <th scope="col"></th>
                     <td>{{rip.id_corso}}</td>
                     <td>{{rip.id_rip}}</td>
                     <td>{{rip.id_docente}}</td>
