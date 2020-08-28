@@ -45,7 +45,7 @@
             <h1>Corsi</h1>
             <div class="modal-footer">
                 <label  for="titolo">Inserisci il corso:</label>
-                <input type="titolo" class="form-control"  v-model="corsi.titolo" id="titolo">
+                <input type="text" class="form-control"  v-model="corsi.titolo" id="titolo">
             </div>
                 <div class="box-1">
                     <div class="btn btn-one"  @click="rimuoviCorso">
@@ -70,11 +70,11 @@
         <h2>Docenti</h2>
             <div class="modal-footer">
                 <label for="nome">Inserisci il nome:</label>
-                <input type="nome" class="form-control"  v-model="docenti.nome" id="nome">
+                <input type="text" class="form-control"  v-model="docenti.nome" id="nome">
             </div>
             <div class="modal-footer">
                 <label for="cognome">Inserisci il cognome:</label>
-                <input type="cognome" class="form-control"  v-model="docenti.cognome" id="cognome">
+                <input type="text" class="form-control"  v-model="docenti.cognome" id="cognome">
             </div>
                 <div class="box-1">
                     <div class="btn btn-one" @click="rimuoviDocenti(nome, cognome)">
@@ -99,11 +99,11 @@
                 <h2>Insegnamenti</h2>
             <div class="modal-footer">
                 <label for="id_corso">corso:</label>
-                <input type="id_corso" class="form-control"  v-model="insegnamenti.id_corso" id="id_corso">
+                <input type="text" class="form-control"  v-model="insegnamenti.id_corso" id="id_corso">
             </div>
             <div class="modal-footer">
                 <label for="id_docente">docente:</label>
-                <input type="id_docente" class="form-control"  v-model="insegnamenti.id_docente" id="id_docente">
+                <input type="text" class="form-control"  v-model="insegnamenti.id_docente" id="id_docente">
             </div>
                 <div class="box-1">
                     <div class="btn btn-one" @click="rimuoviInsegnamenti">
