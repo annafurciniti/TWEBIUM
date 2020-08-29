@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <title>Prenotazioni</title>
+</head>
+<body>
+<div id="pr">
+    <h1>Prenotazioni</h1>
+    <p v-for="rip in ripetizioni">{{rip.id_rip}}</p>
+</div>
+
+
+<script>
+    var app = new Vue ({
+        el: '#pr',
+        data: {
+            logged: false,
+            ripetizioni: [],
+            utente: {
+                username: '',
+                password: '',
+                isAdmin: ''
+            },
+            link: '/TWEBIUM/PrenotazioniServlet',
+            link2: '/TWEBIUM/LoginServlet',
+        },
+        mounted(){
+            this.init();
+        },
+        methods: {
+            init:function(){
+                var self = this;
+                $.post(this.link, {action:'INIT'}, function(data) {
+                    data = JSON.parse(data);
+                    if(data[0]===true){//sessione attiva login effettuato
+                        self.utente = data[1];
+                        self.ripetizioni = data[2];
+                        self.logged =true;
+                    }
+                    else{
+                        self.logged=false;
+                        window.location = "index.html";
+                    }
+                });
+            },
+
+            logout:function(){
+                $.post(this.link2,{
+                        action: 'LOGOUT'
+                    }
+                );
+                this.logged=false;
+                window.location = "index.html";
+            }
+        }
+    });
+</script>
+</body>
+</html>
