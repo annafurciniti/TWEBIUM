@@ -8,6 +8,28 @@ i {
     margin-right: 10px;
 }
 /*----------multi-level-accordian-menu------------*/
+div[class="col l7 s12"]{
+    text-align: center;
+    position: center ;
+    color:white;
+    font-family: "Font Awesome 5 Free";
+
+}
+
+.site-footer {
+    background-color: #5161ce;
+    position: relative;
+    background-position: bottom;
+    background-color: #5161ce;
+    background-position: bottom;
+    height:100%;
+    width: 100%;
+    color:white;
+    font-family: "Font Awesome 5 Free";
+    text-align: center;
+
+}
+
 .navbar-logo{
     padding: 15px;
     color: #fff;

@@ -26,7 +26,7 @@ public class AdminServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
+        m = new Model("jdbc:mysql://localhost:3306/tweb", "root", "");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -33,6 +33,9 @@ public class PrenotazioniServlet extends HttpServlet {
                 case "INIT":
                     out.print(mioinit(request, response));
                     break;
+                /*case "DISPONIBILE":
+                    out.print(statoDisponibile(request, response));
+                    break;*/
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -46,6 +49,38 @@ public class PrenotazioniServlet extends HttpServlet {
         String json ="[";
 
         ArrayList<Ripetizioni> ripetizioni = Model.getRipetizioni();
+        ArrayList<Ripetizioni> ripDisponibili = Model.DisponibilitaRip();
+
+
+        for (Ripetizioni rip: ripetizioni){
+            switch(rip.getStato()) {
+                case "disponibile":
+                    ripDisponibili.add(rip);
+            }
+        }
+
+        if (!s.isNew()) {
+            //sessione utente attiva
+            if (s.getAttribute("username") != null) {
+                u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
+                json += gson.toJson(true) + "," + gson.toJson(u) + "," + gson.toJson(ripetizioni) + "," + gson.toJson(ripDisponibili) + "]";
+            }
+        }
+        else{
+            json += gson.toJson(false) + "]";
+        }
+
+        return json;
+        }
+
+
+    /*private String statoDisponibile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession s = request.getSession();
+        Utenti u;
+        Gson gson = new Gson();
+        String json ="[";
+
+        ArrayList<Ripetizioni> ripetizioni = Model.DisponibilitaRip();
         if (!s.isNew()) {
             //sessione utente attiva
             if (s.getAttribute("username") != null) {
@@ -57,5 +92,5 @@ public class PrenotazioniServlet extends HttpServlet {
             json += gson.toJson(false) + "]";
         }
         return json;
-    }
+    }*/
 }

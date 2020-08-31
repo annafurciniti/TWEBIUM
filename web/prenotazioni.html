@@ -12,7 +12,13 @@
 <body>
 <div id="pr">
     <h1>Prenotazioni</h1>
-    <p v-for="rip in ripetizioni">{{rip.id_rip}}</p>
+    <p v-for="rip in ripetizioni">{{rip.stato}}</p>
+    <div class="box-3">
+        <div class="btn btn-three"   @click="init">
+            <span >DISPONIBILE</span>
+        </div>
+    </div>
+
 </div>
 
 
@@ -22,6 +28,9 @@
         data: {
             logged: false,
             ripetizioni: [],
+
+            ripDisponibile: [],
+
             utente: {
                 username: '',
                 password: '',
@@ -32,6 +41,7 @@
         },
         mounted(){
             this.init();
+            //this.statoDisponibile();
         },
         methods: {
             init:function(){
@@ -41,6 +51,7 @@
                     if(data[0]===true){//sessione attiva login effettuato
                         self.utente = data[1];
                         self.ripetizioni = data[2];
+                        self.ripDisponibile = data[3];
                         self.logged =true;
                     }
                     else{
@@ -49,6 +60,23 @@
                     }
                 });
             },
+
+            /*statoDisponibile:function(){
+                var self = this;
+                $.post(this.link, {action:'DISPONIBILE'}, function(data) {
+                    data = JSON.parse(data);
+                    if(data[0]===true){//sessione attiva login effettuato
+                        self.utente = data[1];
+                        self.ripDisponibile = data[3];
+                        self.logged =true;
+                    }
+                    else{
+                        self.logged=false;
+                        window.location = "index.html";
+                    }
+                });
+            },*/
+
 
             logout:function(){
                 $.post(this.link2,{

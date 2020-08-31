@@ -11,6 +11,22 @@ i {
     margin-right: 10px;
 }
 /*----------multi-level-accordian-menu------------*/
+div[class="col l7 s12"]{
+    text-align: center;
+    position: center ;
+    color:white;
+    font-family: "Font Awesome 5 Free";
+
+}
+.site-footer {
+    background-color: #5161ce;
+    background-position: bottom;
+    position: relative;
+    color:white;
+    font-family: "Font Awesome 5 Free";
+
+}
+
 .navbar-logo{
     padding: 15px;
     color: #fff;
@@ -302,6 +318,7 @@ div[class*=box] {
         bottom: -25px;
         left: -25px;
     }
+
 }
 
 
