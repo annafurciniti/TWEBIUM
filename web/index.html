@@ -47,21 +47,25 @@
                 </div>
             </div>
         </nav>
-        <h1 v-if="logged" class="m-3">Benvenuto {{utente.username}}!</h1>
-        <h1 v-else class="m-3">Benvenuto!</h1>
-        <div class="jumbotron card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);"> <!--'img/marvin-meyer-SYTO3xs06fU-unsplash.jpg'-->
-            <div class="text-white text-center py-5 px-4">
-                <div>
-                    <h1 class="card-title h1-responsive pt-3 mb-5 font-bold"><strong>Benvenuto su StudiaOnline.it!</strong></h1>
-                    <h5 class="mx-5 mb-5">Qui potrai prenotare corsi di ripetizione o approfondimento di svariate materie, e per ognuna di esse <br> c'è
-                        la possibilità di scegliere tra più professori appositamente selezionati per le loro capacità di istruire online. <br> Cosa aspetti,
-                        <strong>la prima settimana è gratis!</strong>
-                    </h5>
-                    <a class="btn btn-dark btn-md">Comincia</a>
-                </div>
+
+        <h1 v-if="logged" class="display-3 mt-5">Bentornato {{utente.username}}!</h1>
+        <h1 v-else class="display-3 mt-5">Benvenuto in StudiaOnline!</h1>
+
+        <div class="container py-5">
+            <div class="jumbotron text-white jumbotron-image shadow">
+                <h1 class="mb-4">
+                    <strong>Esplora i tuoi limiti!</strong>
+                </h1>
+                <h4 class="mb-4">
+                    <strong>Qui potrai prenotare corsi di ripetizione o approfondimento di svariate materie, e per ognuna di esse c'è
+                    la possibilità di scegliere tra più professori appositamente selezionati per le loro capacità di istruire online. Cosa aspetti,
+                    la prima settimana è gratis!</strong>
+                </h4>
+                <a href="#" class="btn btn-primary">Comincia ora!</a>
             </div>
         </div>
     </header>
+
 
     <!--<div class="jumbotron jumbotron-fluid">
         <div class="container">
@@ -85,12 +89,14 @@
                     <th scope="col">Docente</th>
                     <th scope="col">Ripetizione</th>
                     <th scope="col">Stato</th>
+                    <th scope="col">Username</th>
                 </tr>
                 <tr v-for="rip in ripetizioni" :id="rip.id_corso">
                     <td>{{rip.id_corso}}</td>
                     <td>{{rip.id_rip}}</td>
                     <td>{{rip.id_docente}}</td>
                     <td>{{rip.stato}}</td>
+                    <td>{{rip.username}}</td>
                 </tr>
             </table>
         </section>

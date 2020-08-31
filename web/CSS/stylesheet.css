@@ -24,7 +24,10 @@ div[class="col l7 s12"]{
     position: relative;
     color:white;
     font-family: "Font Awesome 5 Free";
+}
 
+.immagine-footer{
+    margin-top: 15px;
 }
 
 .navbar-logo{
@@ -320,6 +323,15 @@ div[class*=box] {
     }
 
 }
+
+/*jumbotron*/
+.jumbotron-image {
+    background-image: url("../img/imageedit_1_5937227047.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 
 
 
