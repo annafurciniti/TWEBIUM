@@ -414,6 +414,31 @@ public class Model {
         return ripetizioni;
     }
 
+    public static ArrayList<Ripetizioni> MieRip(String username) {
+        Connection conn1 = null;
+        ArrayList<Ripetizioni> ripetizioni = new ArrayList<>();
+        try {
+            conn1 = openConnection();
+
+            Statement st = conn1.createStatement();
+            username = "'" + username + "'";
+            ResultSet rs3 = st.executeQuery("SELECT * FROM ripetizioni WHERE ripetizioni.username=" + username);
+            while (rs3.next()) {
+                Ripetizioni r = new Ripetizioni(rs3.getInt("id_rip"), rs3.getString("stato") , rs3.getString("Giorno"), rs3.getInt("Ora_i"), rs3.getInt("Ora_f"), rs3.getInt("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
+                ripetizioni.add(r);
+                System.out.println("Ripetizioni disponibili");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error communicating with the database: " + e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                closeConnection(conn1);
+            }
+        }
+        return ripetizioni;
+    }
+
     public static void ModificaStato(Ripetizioni ripetizioni) {
         Connection conn1 = null;
         try {

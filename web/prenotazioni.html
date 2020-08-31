@@ -10,16 +10,35 @@
     <title>Prenotazioni</title>
 </head>
 <body>
-<div id="pr">
-    <h1>Prenotazioni</h1>
-    <p v-for="rip in ripetizioni">{{rip.stato}}</p>
-    <div class="box-3">
-        <div class="btn btn-three"   @click="init">
-            <span >DISPONIBILE</span>
-        </div>
-    </div>
+    <div id="pr">
+        <h1>Prenotazioni</h1>
+        <p v-for="rip in ripetizioni">{{rip.stato}}</p>
 
-</div>
+        <article class="container">
+            <!-- tabella Ripetizioni-->
+            <section>
+                <p>nome: {{utente.username}}, password: {{utente.password}}, admin: {{utente.isAdmin}}</p>
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col">Corso</th>
+                        <th scope="col">Docente</th>
+                        <th scope="col">Ripetizione</th>
+                        <th scope="col">Stato</th>
+                        <th scope="col">Username</th>
+                    </tr>
+                    <tr v-for="rip in ripetizioni">
+                        <td>{{rip.id_corso}}</td>
+                        <td>{{rip.id_rip}}</td>
+                        <td>{{rip.id_docente}}</td>
+                        <td>{{rip.stato}}</td>
+                        <td>{{rip.username}}</td>
+                    </tr>
+                </table>
+            </section>
+
+        </article>
+
+    </div>
 
 
 <script>
@@ -28,8 +47,6 @@
         data: {
             logged: false,
             ripetizioni: [],
-
-            ripDisponibile: [],
 
             utente: {
                 username: '',
@@ -41,7 +58,6 @@
         },
         mounted(){
             this.init();
-            //this.statoDisponibile();
         },
         methods: {
             init:function(){
@@ -51,7 +67,6 @@
                     if(data[0]===true){//sessione attiva login effettuato
                         self.utente = data[1];
                         self.ripetizioni = data[2];
-                        self.ripDisponibile = data[3];
                         self.logged =true;
                     }
                     else{
