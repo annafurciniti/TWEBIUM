@@ -441,6 +441,7 @@ public class Model {
 
     public static void ModificaStato(Ripetizioni ripetizioni) {
         Connection conn1 = null;
+
         try {
             conn1 = openConnection();
             Statement st = conn1.createStatement();

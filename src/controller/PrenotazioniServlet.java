@@ -55,7 +55,7 @@ public class PrenotazioniServlet extends HttpServlet {
         }
     }
 
-    private String mioinit(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private String mioinit(HttpServletRequest request, HttpServletResponse response) throws IOException {//cococommit
         HttpSession s = request.getSession();
         Utenti u;
         Gson gson = new Gson();
