@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns: xmlns: xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -10,14 +10,9 @@
 
     <link rel="stylesheet" type="text/css" href="CSS/stylesheet.css"/>
     <script type="text/javascript" src="navbar.js"></script>
-    <script type="text/javascript" src="footer.js"></script>
-
-
 </head>
-<body>
-<div id="admin">
-    <nav class="navbar navbar-expand-lg navbar-mainbg">
-        <div class="container">
+    <div id="admin">
+        <nav class="navbar navbar-expand-lg navbar-mainbg">
             <a class="navbar-brand navbar-logo" href="#">LOGO</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars text-white"></i>
@@ -35,209 +30,252 @@
                         <a class="nav-link" href="index.html"><i class="far fa-address-book"></i>Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" v-on:click="logout" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Logout</a>
+                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Logout</a>
                     </li>
                     <!--<li class="nav-item">
                         <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
                     </li>-->
                 </ul>
-            <div>
+            </div>
+        </nav>
+        <div class="card">
+            <!--card-->
+            <div class="row justify-content-center align-self-center">
+                <div class="card border-info mb-3" class="card text-center" style="width: 60rem;">
+                    <div class="card-header info-color white-text text-center py-4"><strong>Corsi</strong></div>
+                    <div class="card-body text-info">
+                        <!--form-->
+                        <form class="text-center" style="color: #757575;" action="#!">
+                            <div class="md-form">
+                                <label  for="titolo">Inserisci il corso:</label>
+                                <input type="text" class="form-control" placeholder="Titolo"  v-model="corsi.titolo" id="titolo">
+                            </div>
+                            <button @click="InserisciCorso" id="add" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
+                        </form>
+                        <!--table corsi -->
+                        <div  class="table-editable">
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <tbody v-for="corso in corsi">
+                                <tr >
+                                    <td onmouseover="style.color='blue'" onmouseout="style.color='black'" class="pt-3-half" contenteditable="true">{{corso.titolo}}
+                                    </td>
+                                    <td>
+                                         <span class="table-remove"><button type="button" v-on:click="rimuoviCorso(corso.titolo)"
+                                                                            class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- corso rimuovi
+        <div class="panel-body" v-for="corso in corsi">
+            {{corso.titolo}}
+        <button type="button" @click="rimuoviCorso" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>-->
+
+
+
+        <!-- docenti-->
+        <div class="card">
+            <!--card-->
+            <div class="row justify-content-center align-self-center">
+                <div class="card border-info mb-3" class="card text-center" style="width: 60rem;">
+                    <div class="card-header info-color white-text text-center py-4"><strong>Docenti</strong></div>
+                    <div class="card-body text-info">
+                        <!--form-->
+                        <form class="text-center" style="color: #757575;" action="#!">
+                            <div class="md-form">
+                                <label for="nome">Inserisci il nome:</label>
+                                <input type="text" class="form-control" placeholder="Nome"  v-model="docenti.nome" id="nome">
+                            </div>
+                            <div class="md-form">
+                                <label for="cognome">Inserisci il cognome:</label>
+                                <input type="text" class="form-control" placeholder="Cognome"  v-model="docenti.cognome" id="cognome">
+                            </div>
+                            <button @click="InserisciDocenti" id="add2" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
+                        </form>
+                        <!--table docenti-->
+                        <div  class="table-editable">
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <tbody v-for="doc in docenti">
+                                <tr>
+                                    <td class="pt-3-half" onmouseover="style.color='blue'" onmouseout="style.color='black'" contenteditable="true">{{ doc.nome}} {{doc.cognome }}</td>
+                                    <td>
+                                        <span class="table-remove"><button type="button" v-on:click="rimuoviDocenti(doc.nome,doc.cognome)"
+                                                                           class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--docenti rimuovi
+        <div class="box-1">
+            <div class="btn btn-one" @click="rimuoviDocenti(nome, cognome)">
+                <span>ELIMINA</span>
+            </div>
+        </div>-->
+        <!--insegnamenti-->
+        <div class="card">
+            <!--card-->
+            <div class="row justify-content-center align-self-center">
+                <div class="card border-info mb-3" class="card text-center" style="width: 60rem;">
+                    <div class="card-header info-color white-text text-center py-4"><strong>Insegnamenti</strong></div>
+                    <div class="card-body text-info">
+                        <!--form-->
+                        <form class="text-center" style="color: #757575;" action="#!">
+                            <div class="md-form">
+                                <label for="id_corso">corso:</label>
+                                <input type="text" class="form-control" placeholder="Corso"  v-model="insegnamenti.id_corso" id="id_corso">
+                            </div>
+                            <div class="md-form">
+                                <label for="id_docente">docente:</label>
+                                <input type="text" class="form-control" placeholder="Docenti" v-model="insegnamenti.id_docente" id="id_docente">
+                            </div>
+                            <button @click="InserisciInsegnamenti" id="add3" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
+                        </form>
+                        <!-- table insegnamenti-->
+                        <div  class="table-editable">
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <tbody v-for="insegn in insegnamenti">
+                                <tr>
+                                    <td class="pt-3-half" onmouseover="style.color='blue'" onmouseout="style.color='black'" contenteditable="true">{{ insegn.id_corso}} {{insegn.id_docente }}</td>
+                                    <td>
+                                     <span class="table-remove"><button type="button" v-on:click="rimuoviInsegnamenti(insegn-id_corso, insegn.id_docente)"
+                                                                        class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
+                                     </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</nav>
-            <!-- corso-->
-    <div class="container">
-        <div class="center">
-            <h1>Corsi</h1>
-            <div class="modal-footer">
-                <label  for="titolo">Inserisci il corso:</label>
-                <input type="text" class="form-control"  v-model="corsi.titolo" id="titolo">
-            </div>
-                <div class="box-1">
-                    <div class="btn btn-one"  @click="rimuoviCorso">
-                         <span >ELIMINA</span>
-                    </div>
-                </div>
-                <div class="box-3">
-                    <div class="btn btn-three"   @click="InserisciCorso">
-                        <span >AGGIUNGI</span>
-                    </div>
-                </div>
-          <!--  </div>-->
-                <section>
-                    <ul class="lista-group">
-                        <template v-for="corso in corsi">
-                            <li class="list-group-item list-group-item-action">{{ corso.titolo }}</li>
-                        </template>
-                    </ul>
-                </section>
 
-            <!-- docenti-->
-        <h2>Docenti</h2>
-            <div class="modal-footer">
-                <label for="nome">Inserisci il nome:</label>
-                <input type="text" class="form-control"  v-model="docenti.nome" id="nome">
-            </div>
-            <div class="modal-footer">
-                <label for="cognome">Inserisci il cognome:</label>
-                <input type="text" class="form-control"  v-model="docenti.cognome" id="cognome">
-            </div>
-                <div class="box-1">
-                    <div class="btn btn-one" @click="rimuoviDocenti(nome, cognome)">
-                        <span>ELIMINA</span>
-                    </div>
-                </div>
-                <div class="box-3">
-                    <div class="btn btn-three"  @click="InserisciDocenti">
-                        <span>AGGIUNGI</span>
-                    </div>
-                </div>
 
-                <section>
-                    <ul class="lista-group">
-                        <template v-for="doc in docenti">
-                            <li class="list-group-item list-group-item-action">{{ doc.nome}} {{doc.cognome }}</li>
-                        </template>
-                    </ul>
-                </section>
+    <!-- rimuovi insegnamenti
+         <div class="box-1">
+             <div class="btn btn-one" @click="rimuoviInsegnamenti">
+                 <span>ELIMINA</span>
+             </div>
+         </div>
+   -->
 
-        <!--insegnamenti -->
-                <h2>Insegnamenti</h2>
-            <div class="modal-footer">
-                <label for="id_corso">corso:</label>
-                <input type="text" class="form-control"  v-model="insegnamenti.id_corso" id="id_corso">
-            </div>
-            <div class="modal-footer">
-                <label for="id_docente">docente:</label>
-                <input type="text" class="form-control"  v-model="insegnamenti.id_docente" id="id_docente">
-            </div>
-                <div class="box-1">
-                    <div class="btn btn-one" @click="rimuoviInsegnamenti">
-                        <span>ELIMINA</span>
-                    </div>
-                </div>
-                <div class="box-3">
-                    <div class="btn btn-three"  @click="InserisciInsegnamenti">
-                        <span>AGGIUNGI</span>
-                    </div>
-                </div>
 
-                <section>
-                    <ul class="lista-group">
-                        <template v-for="insegn in insegnamenti">
-                            <li class="list-group-item list-group-item-action">{{ insegn.id_corso}} {{insegn.id_docente }}</li>
-                        </template>
-                    </ul>
-                </section>
-
-    </div>
-    </div>
-
-    <my_footer> </my_footer>
-</div>
-<script>
-    var admin = new Vue ({
-        el: '#admin',
-        data: {
-            logged: false,
-            ripetizioni: [],
-            corsi:[],
-            docenti:[],
-            insegnamenti:[],
-            link: '/TWEBIUM/AdminServlet',
-            link2: '/TWEBIUM/LoginServlet'
-        },
-        mounted() {
-            this.init();
-        },
-        methods: {
-            init: function(){
-                var self=this;
-                $.get(this.link, {
-                    action: 'INIT'
-                },function(data){
-                    self.logged=true;
-                    self.ripetizioni=data[0];
-                    self.corsi = data[1];
-                    self.docenti = data[2];
-                    self.insegnamenti = data[3];
-                })
+    <script>
+        var admin = new Vue ({
+            el: '#admin',
+            data: {
+                logged: false,
+                ripetizioni: [],
+                corsi:[],
+                docenti:[],
+                insegnamenti:[],
+                link: '/TWEBIUM/AdminServlet',
+                link2: '/TWEBIUM/LoginServlet'
             },
-            /*aggiungi corso*/
-            InserisciCorso: function () {
-                var self = this;
-                if (self.corsi.titolo !== "") {
-                    $.post(this.link, {
-                            action: 'NEWCORSO',
-                            titolo: this.corsi.titolo
-                        },
-                        function (data) {
-                            self.corsi = data[3]
-                            window.location.reload();
-                        });
-                } else {
-                    self.err = "nome gia presente nel db"
-                }
+            mounted() {
+                this.init();
             },
-            /*aggiungi docenti*/
-            InserisciDocenti: function () {
-                var self = this;
-                if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
-                    $.post(this.link, {
-                            action: 'NEWDOCENTE',
-                            nome: this.docenti.nome,
-                            cognome: this.docenti.cognome
-                        },
-                        function (data) {
-                            self.docenti = data[6]
-                            window.location.reload();
-                        })
-                }else {
-                    self.err = "nome gia presente nel db"
-                }
-
-            },
-            /*aggiungi insegnamenti*/
-            InserisciInsegnamenti: function () {
-                var self = this;
-                $.post(this.link, {
-                        action: 'NEWINSEGNAMENTI',
-                        id_corso: this.insegnamenti.id_corso,
-                        id_docente: this.insegnamenti.id_docente,
-                    },
-                    function (data) {
-                        self.insegnamenti = data[7]
-                        if (self.insegnamenti.id_corso !== "" && self.insegnamenti.id_docente !== "") {
-                            self.insegnamenti = data[7]
-                            window.location.reload();
-                        } else {
-                            self.err = "nome gia presente nel db"
-                        }
+            methods: {
+                init: function(){
+                    var self=this;
+                    $.get(this.link, {
+                        action: 'INIT'
+                    },function(data){
+                        self.ripetizioni=data[0];
+                        self.corsi = data[1];
+                        self.docenti = data[2];
+                        self.insegnamenti = data[3];
                     })
-            },
+                },
+                /*aggiungi corso*/
+                InserisciCorso: function () {
+                    var self = this;
+                    if (self.corsi.titolo !== "") {
+                        $.post(this.link, {
+                                action: 'NEWCORSO',
+                                titolo: this.corsi.titolo
+                            },
+                            function (data) {
+                                self.corsi = data[3]
+                                window.location.reload();
+                            });
+                    } else {
+                        self.err = "nome gia presente nel db"
+                    }
+                },
+                /*aggiungi docenti*/
+                InserisciDocenti: function () {
+                    var self = this;
+                    if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
+                        $.post(this.link, {
+                                action: 'NEWDOCENTE',
+                                nome: this.docenti.nome,
+                                cognome: this.docenti.cognome
+                            },
+                            function (data) {
+                                self.docenti = data[6]
+                                window.location.reload();
+                            })
+                    }else {
+                        self.err = "nome gia presente nel db"
+                    }
 
-          rimuoviCorso: function () {
-                var self = this;
-                if (self.corsi.titolo !== "") {
+                },
+                /*aggiungi insegnamenti*/
+                InserisciInsegnamenti: function () {
+                    var self = this;
+                    $.post(this.link, {
+                            action: 'NEWINSEGNAMENTI',
+                            id_corso: this.insegnamenti.id_corso,
+                            id_docente: this.insegnamenti.id_docente,
+                        },
+                        function (data) {
+                            self.insegnamenti = data[7]
+                            if (self.insegnamenti.id_corso !== "" && self.insegnamenti.id_docente !== "") {
+                                self.insegnamenti = data[7]
+                                window.location.reload();
+                            } else {
+                                self.err = "nome gia presente nel db"
+                            }
+                        })
+                },
+
+                rimuoviCorso: function () {
+                    var self = this;
+                    titolo = document.getElementById('titolo').innerHTML;
                     $.post(this.link, {
                             action: 'DELETECORSO',
-                            titolo: this.corsi.titolo
+                            titolo: self.corsi.titolo
                         },
-                        function (data) {
-                            //data = JSON.parse(data);
-                            if (data == "true") {
-                                self.corsi=data[1]
-                                window.location.reload(); /*aggiorno la pagina*/
-                          } else {
-                                self.err = "errore"
+                        function(data) {
+                            data = JSON.parse(data);
+                            if(data === true) {
+                                window.location.reload();
+                            }else{
+                                alert("errore")
                             }
                         });
-                }else{
-                    self.err= "non é stato inserito nessun corso"
-                }
-            },
-         rimuoviDocenti: function () {
-                var self = this;
-                if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
+                },
+                rimuoviDocenti: function () {
+                    var self = this;
+                    nome=document.getElementById('nome').innerHTML;
+                    cognome=document.getElementById('cognome').innerHTML;
                     $.post(this.link, {
                             action: 'DELETEDOCENTE',
                             nome: this.docenti.nome,
@@ -247,42 +285,42 @@
                             if (data == "true") {
                                 alert("rimosso")
                                 window.location.reload(); /*aggiorno la pagina*/
-                           } else {
+                            } else {
                                 self.err = "errore"
                             }
                         });
-                }else{
-                    self.err="non é stato inserito alcun docente"
+
+
+                },
+                rimuoviInsegnamenti: function () {
+                    var self = this;
+                    id_corso=document.getElementById('id_corso');
+                    id_docente=document.getElementById('id_docente');
+                    $.post(this.link, {action: 'DELETEINSEGNAMENTI',
+                            id_corso : this.insegnamenti.id_corso,
+                            id_docente:this.insegnamenti.id_docente},
+                        function (data) {
+                            if (data == "true") {
+                                alert("rimosso")
+                                window.location.reload(); /*aggiorno la pagina*/
+                            } else {
+                                self.err = "errore"
+                            }
+                        });
+
+
+                },
+                logout:function(){
+                    $.post(this.link2,{
+                            action: 'LOGOUT'
+                        }
+                    );
+                    this.logged=false;
+                    window.location.reload();
                 }
 
-
-            },
-            rimuoviInsegnamenti: function () {
-                var self = this;
-                $.post(this.link, {action: 'DELETEINSEGNAMENTI',
-                        id_corso : this.insegnamenti.id_corso,
-                        id_docente:this.insegnamenti.id_docente},
-                    function (data) {
-                        if (data == "true") {
-                            alert("rimosso")
-                            window.location.reload(); /*aggiorno la pagina*/
-                       } else {
-                            self.err = "errore"
-                        }
-                    });
-
-
-            },
-            logout:function(){
-                $.post(this.link2,{
-                        action: 'LOGOUT'
-                    }
-                );
-                this.logged=false;
-                window.location = "index.html";
             }
-        }
-    });
-</script>
-</body>
+        });
+    </script>
+    </body>
 </html>
