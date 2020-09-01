@@ -21,7 +21,7 @@
                 <ul class="navbar-nav ml-auto">
                     <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>I miei corsi</a>
+                        <a class="nav-link" href="prenotazioni.html"><i class="fas fa-tachometer-alt"></i>I miei corsi</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Admin</a>
@@ -38,20 +38,25 @@
                 </ul>
             </div>
         </nav>
-        <div class="card">
-            <!--card-->
+
+        <!--Corsi-->
+        <div class="card m-5">
             <div class="row justify-content-center align-self-center">
                 <div class="card border-info mb-3" class="card text-center" style="width: 60rem;">
                     <div class="card-header info-color white-text text-center py-4"><strong>Corsi</strong></div>
                     <div class="card-body text-info">
                         <!--form-->
-                        <form class="text-center" style="color: #757575;" action="#!">
-                            <div class="md-form">
+                        <form class="text-center" style="color: #757575;" id="usrform" action="#!">
+                            <div class="md-form mb-2">
                                 <label  for="titolo">Inserisci il corso:</label>
-                                <input type="text" class="form-control" placeholder="Titolo"  v-model="corsi.titolo" id="titolo">
+                                <input type="text" class="form-control float-center" placeholder="Titolo"  v-model="corsi.titolo" id="titolo">
                             </div>
-                            <button @click="InserisciCorso" id="add" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
                         </form>
+                        <div class="md-form">
+                            <textarea rows="4" cols="50" name="comment" form="usrform" class="form-control float-center" placeholder="Descrizione corso"  v-model="corsi.descrizione" id="descrizione"></textarea>
+                        </div>
+                        <button @click="InserisciCorso" id="add" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
+
                         <!--table corsi -->
                         <div  class="table-editable">
                             <table class="table table-bordered table-responsive-md table-striped text-center">
@@ -81,7 +86,7 @@
 
 
         <!-- docenti-->
-        <div class="card">
+        <div class="card m-5">
             <!--card-->
             <div class="row justify-content-center align-self-center">
                 <div class="card border-info mb-3" class="card text-center" style="width: 60rem;">
@@ -89,13 +94,12 @@
                     <div class="card-body text-info">
                         <!--form-->
                         <form class="text-center" style="color: #757575;" action="#!">
-                            <div class="md-form">
-                                <label for="nome">Inserisci il nome:</label>
-                                <input type="text" class="form-control" placeholder="Nome"  v-model="docenti.nome" id="nome">
+                            <div class="md-form mb-2">
+                                <label for="nome">Inserisci Docente:</label>
+                                <input type="text" class="form-control float-center" placeholder="Nome"  v-model="docenti.nome" id="nome">
                             </div>
                             <div class="md-form">
-                                <label for="cognome">Inserisci il cognome:</label>
-                                <input type="text" class="form-control" placeholder="Cognome"  v-model="docenti.cognome" id="cognome">
+                                <input type="text" class="form-control float-center" placeholder="Cognome"  v-model="docenti.cognome" id="cognome">
                             </div>
                             <button @click="InserisciDocenti" id="add2" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
                         </form>
@@ -104,7 +108,7 @@
                             <table class="table table-bordered table-responsive-md table-striped text-center">
                                 <tbody v-for="doc in docenti">
                                 <tr>
-                                    <td class="pt-3-half" onmouseover="style.color='blue'" onmouseout="style.color='black'" contenteditable="true">{{ doc.nome}} {{doc.cognome }}</td>
+                                    <td class="pt-3-half" onmouseover="style.color='blue'" onmouseout="style.color='black'" contenteditable="true">{{doc.nome}} {{doc.cognome}}</td>
                                     <td>
                                         <span class="table-remove"><button type="button" v-on:click="rimuoviDocenti(doc.nome,doc.cognome)"
                                                                            class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
@@ -127,7 +131,7 @@
             </div>
         </div>-->
         <!--insegnamenti-->
-        <div class="card">
+        <div class="card m-5">
             <!--card-->
             <div class="row justify-content-center align-self-center">
                 <div class="card border-info mb-3" class="card text-center" style="width: 60rem;">
@@ -137,11 +141,11 @@
                         <form class="text-center" style="color: #757575;" action="#!">
                             <div class="md-form">
                                 <label for="id_corso">corso:</label>
-                                <input type="text" class="form-control" placeholder="Corso"  v-model="insegnamenti.id_corso" id="id_corso">
+                                <input type="text" class="form-control float-center" placeholder="Corso"  v-model="insegnamenti.id_corso" id="id_corso">
                             </div>
                             <div class="md-form">
                                 <label for="id_docente">docente:</label>
-                                <input type="text" class="form-control" placeholder="Docenti" v-model="insegnamenti.id_docente" id="id_docente">
+                                <input type="text" class="form-control float-center" placeholder="Docenti" v-model="insegnamenti.id_docente" id="id_docente">
                             </div>
                             <button @click="InserisciInsegnamenti" id="add3" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
                         </form>
@@ -209,7 +213,8 @@
                     if (self.corsi.titolo !== "") {
                         $.post(this.link, {
                                 action: 'NEWCORSO',
-                                titolo: this.corsi.titolo
+                                titolo: this.corsi.titolo,
+                                desc: this.corsi.descrizione
                             },
                             function (data) {
                                 self.corsi = data[3]
@@ -256,12 +261,12 @@
                         })
                 },
 
-                rimuoviCorso: function () {
+                rimuoviCorso: function (titolo) {
                     var self = this;
-                    titolo = document.getElementById('titolo').innerHTML;
+                    //titolo = document.getElementById('titolo').innerHTML;
                     $.post(this.link, {
                             action: 'DELETECORSO',
-                            titolo: self.corsi.titolo
+                            titolo: titolo
                         },
                         function(data) {
                             data = JSON.parse(data);
@@ -272,18 +277,16 @@
                             }
                         });
                 },
-                rimuoviDocenti: function () {
+                rimuoviDocenti: function (nome,cognome) {
                     var self = this;
-                    nome=document.getElementById('nome').innerHTML;
-                    cognome=document.getElementById('cognome').innerHTML;
                     $.post(this.link, {
                             action: 'DELETEDOCENTE',
-                            nome: this.docenti.nome,
-                            cognome: this.docenti.cognome
+                            nome: nome,
+                            cognome: cognome
                         },
                         function (data) {
-                            if (data == "true") {
-                                alert("rimosso")
+                            data = JSON.parse(data);
+                            if (data === true) {
                                 window.location.reload(); /*aggiorno la pagina*/
                             } else {
                                 self.err = "errore"

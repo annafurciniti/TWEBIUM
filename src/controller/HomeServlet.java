@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import dao.Corso;
 import dao.Model;
 import dao.Ripetizioni;
 import dao.Utenti;
@@ -55,8 +56,8 @@ public class HomeServlet extends HttpServlet {
         Gson gson = new Gson();
         String json ="[";
 
-        //ArrayList<Corso> corsi = Model.getCorsi();
-        ArrayList<Ripetizioni> ripetizioni = Model.getRipetizioni();
+        ArrayList<Corso> corsi = Model.getCorsi();
+        //ArrayList<Ripetizioni> ripetizioni = Model.getRipetizioni();
         if (!s.isNew()) {
             //sessione utente attiva
             System.out.println("sessione era già esistente");
@@ -70,8 +71,8 @@ public class HomeServlet extends HttpServlet {
         else{
             System.out.println("sessione nuova");
         }
-        //json += gson.toJson(corsi) + "]";
-        json += gson.toJson(ripetizioni) + "]";
+        json += gson.toJson(corsi) + "]";
+        //json += gson.toJson(ripetizioni) + "]";
         return json;
     }
 }

@@ -66,42 +66,25 @@
         </div>
     </header>
 
+    <blockquote class="blockquote text-center">
+        <p class="mb-0">Our greatest weakness lies in <strong>givin up</strong>. The most certain way to succeed is always to try just one more time</strong>.</p>
+        <footer class="blockquote-footer">Someone famous in <cite title="Source Title">THOMAS A. EDISON</cite></footer>
+    </blockquote>
 
-    <!--<div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">Hello, world!</h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-            <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-            </p>
+    <div class="container">
+        <h2 class="header center m-5" id="Corsi">Corsi disponibili al momento</h2>
+        <div class="row justify-content-around">
+            <div class="card bg-info text-white col-5 mb-5" v-for="corso in corsi">
+                <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+                <div class="card-body">
+                    <h5 class="card-title">{{corso.titolo}}</h5>
+                    <p class="card-text">{{corso.descrizione}}</p>
+                    <a href="#" class="btn btn-dark stretched-link float-right">Button</a>
+                </div>
+            </div>
         </div>
-    </div>-->
-
-    <article class="container">
-        <!-- tabella Ripetizioni-->
-        <section>
-            <p>nome: {{utente.username}}, password: {{utente.password}}, admin: {{utente.isAdmin}}</p>
-            <table class="table table-bordered">
-                <tr>
-                    <th scope="col">Corso</th>
-                    <th scope="col">Docente</th>
-                    <th scope="col">Ripetizione</th>
-                    <th scope="col">Stato</th>
-                    <th scope="col">Username</th>
-                </tr>
-                <tr v-for="rip in ripetizioni" :id="rip.id_corso">
-                    <td>{{rip.id_corso}}</td>
-                    <td>{{rip.id_rip}}</td>
-                    <td>{{rip.id_docente}}</td>
-                    <td>{{rip.stato}}</td>
-                    <td>{{rip.username}}</td>
-                </tr>
-            </table>
-        </section>
-
-    </article>
+    </div>
+    
     <my-footer > </my-footer>
 </div>
 <script>
@@ -134,12 +117,13 @@
 
                     if(data[0]===true){//sessione attiva login effettuato
                         self.utente = data[1];
-                        //self.corsi = data[2];
-                        self.ripetizioni = data[2];
+                        self.corsi = data[2];
+                        //self.ripetizioni = data[2];
                         self.logged =true;
                     }
                     else{
-                        self.ripetizioni = data[0];
+                        //self.ripetizioni = data[0];
+                        self.corsi = data[0];
                         self.logged=false;
                         self.loading = true;
                     }

@@ -188,9 +188,9 @@ public class Model {
 
             String Nome = "'" + docente.getNome() + "'";
             String Cognome = "'" + docente.getCognome() + "'";
-            System.out.println("Il docente da rimuovere é: " + Nome + " " + Cognome);
             Statement st = conn1.createStatement();
             st.executeUpdate("DELETE FROM docenti WHERE docenti.Nome=" +Nome+ "AND docenti.Cognome=" + Cognome + "");
+            System.out.println("Docente" + Nome + " " + Cognome + " rimosso.");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -240,7 +240,7 @@ public class Model {
             Statement st2 = conn1.createStatement();
             ResultSet rs2 = st2.executeQuery("SELECT * FROM corsi");
             while (rs2.next()) {
-                Corso c = new Corso(rs2.getString("titolo"));
+                Corso c = new Corso(rs2.getString("titolo"),rs2.getString("descrizione"));
                 out2.add(c);
             }
         } catch (SQLException e) {
@@ -259,6 +259,7 @@ public class Model {
         try {
             conn1 = openConnection();
             String titolo = "\"" + corso.getTitolo()+ "\"";
+            String descr = "\"" + corso.getDescrizione()+ "\"";
             Statement st = conn1.createStatement();
             ResultSet rs = st.executeQuery("SELECT corsi.Titolo " +
                     "FROM `corsi` " +
@@ -267,8 +268,30 @@ public class Model {
                 System.out.println("Già presente nel DB");
                 return false;
             }
-            st.executeUpdate("INSERT INTO Corsi (titolo) VALUE (" + titolo + ")");
+            st.executeUpdate("INSERT INTO corsi (titolo,descrizione) VALUE (" + titolo + "," + descr + ")");
             System.out.println("Corso: " + titolo + "é stato aggiunto nel DB.");
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error communicating with the database QUA: " + e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                closeConnection(conn1);
+            }
+        }
+        return false;
+    }
+
+    //Rimuovi corso
+    public static boolean RimuoviCorso(String titolo) {
+        Connection conn1 = null;
+        try {
+            conn1 = openConnection();
+
+            String Titolo = "\"" + titolo + "\"";
+            System.out.println("Il corso da rimuovere é: " + Titolo);
+            Statement st = conn1.createStatement();
+            st.executeUpdate("DELETE FROM corsi WHERE corsi.Titolo=" + Titolo + "");
+            System.out.println("Corso: " + Titolo + "rimosso.");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -280,29 +303,8 @@ public class Model {
         return false;
     }
 
-    //Rimuovi corso
-    public static boolean RimuoviCorso(Corso corso) {
-        Connection conn1 = null;
-        try {
-            conn1 = openConnection();
-
-            String Titolo = "\"" + corso.getTitolo() + "\"";
-            System.out.println("Il corso da rimuovere é: " + Titolo);
-            Statement st = conn1.createStatement();
-            st.executeUpdate("DELETE FROM corsi WHERE corsi.Titolo=" + Titolo + "");
-            System.out.println("Corso: " + Titolo + "rimosso.");
-        } catch (SQLException e) {
-            System.out.println("Error communicating with the database: " + e.getMessage());
-        } finally {
-            if (conn1 != null) {
-                closeConnection(conn1);
-            }
-        }
-        return false;
-    }
-
     //update corso
-    public static void ModificaCorso(Corso corso){
+    public static void ModificaCorso(Corso corso){//???
         Connection conn1 = null;
         try {
             conn1 = openConnection();
@@ -346,7 +348,7 @@ public class Model {
     }
 
     //inserisco ripetizione
-    public static boolean InserisciRipetizione(Ripetizioni ripetizioni) {
+    public static boolean InserisciRipetizione(Ripetizioni ripetizioni) {//???
         Connection conn1 = null;
         try {
             conn1 = openConnection();

@@ -85,7 +85,8 @@ public class AdminServlet extends HttpServlet {
     private String InserisciCorso(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         String titolo = request.getParameter("titolo");
-        Corso c = new Corso(titolo);
+        String desc = request.getParameter("desc");
+        Corso c = new Corso(titolo,desc);
         Boolean add = Model.InserisciCorso(c);
         System.out.println("return:" + add);
 
@@ -95,8 +96,7 @@ public class AdminServlet extends HttpServlet {
     private String rimuoviCorso(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson =new Gson();
         String titolo = request.getParameter("titolo");
-        Corso c = new Corso(titolo);
-        boolean add =Model.RimuoviCorso(c);
+        boolean add =Model.RimuoviCorso(titolo);
         return gson.toJson(add);
     }
     /*AGGIUNGI DOCENTE*/
@@ -116,7 +116,8 @@ public class AdminServlet extends HttpServlet {
         String Nome = request.getParameter("nome");
         String Cognome =request.getParameter("cognome");
         Docenti d = new Docenti(Nome,Cognome);
-        boolean delete =Model.RimuoviDoc(d);
+        boolean delete = Model.RimuoviDoc(d);
+        System.out.println("AdminServlet/riumuoviDocenti; delete-> " + delete);
         return gson.toJson(delete);
     }
 
