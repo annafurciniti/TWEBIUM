@@ -19,7 +19,7 @@ div[class="col l7 s12"]{
 
 }
 .site-footer {
-    background-color: #5161ce;
+    /*background-color: #5161ce;*/
     background-position: bottom;
     position: relative;
     color:white;
@@ -209,10 +209,39 @@ h1,h2,h3{
 
 /*jumbotron*/
 .jumbotron-image {
-    background-image: url("../img/imageedit_1_5937227047.png");
+    background-image: url("../img/marvin-meyer-SYTO3xs06fU-unsplash (1).jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+#gratis{
+    color: 	#87CEFA;
+}
+
+.card{
+    /*background:linear-gradient(135deg, #0FF0B3 0%,#036ED9 100%);*/
+    background:linear-gradient(135deg, #17ead9 0%,#6078ea 100%);
+    border-style: none;
+}
+
+.diagonale{
+    background-color: white;
+    background-image: -webkit-linear-gradient(-65deg, white 40%, #80ced6 60%);
+    min-height: 500px;
+}
+
+hr{
+    margin: auto;
+    size:5px;
+    width:80%;
+    color:white;
+}
+
+.ben { color: #65799b; font-family: 'Helvetica Neue', sans-serif; font-weight: bold; letter-spacing: -1px; line-height: 1; }
+
+#graduate{
+    width:6.5%;
 }
 
 

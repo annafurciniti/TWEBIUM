@@ -18,7 +18,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-mainbg">
             <div class="container">
-                <a class="navbar-brand navbar-logo" href="#">LOGO</a>
+                <a class="navbar-brand navbar-logo" href="#"><img src="img/graduate.png" id="graduate" alt="Logo"/></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-bars text-white"></i>
                 </button>
@@ -47,45 +47,58 @@
                 </div>
             </div>
         </nav>
-
-        <h1 v-if="logged" class="display-3 mt-5">Bentornato {{utente.username}}!</h1>
-        <h1 v-else class="display-3 mt-5">Benvenuto in StudiaOnline!</h1>
-
-        <div class="container py-5">
-            <div class="jumbotron text-white jumbotron-image shadow">
-                <h1 class="mb-4">
-                    <strong>Esplora i tuoi limiti!</strong>
-                </h1>
-                <h4 class="mb-4">
-                    <strong>Qui potrai prenotare corsi di ripetizione o approfondimento di svariate materie, e per ognuna di esse c'è
-                    la possibilità di scegliere tra più professori appositamente selezionati per le loro capacità di istruire online. Cosa aspetti,
-                    la prima settimana è gratis!</strong>
-                </h4>
-                <a href="#" class="btn btn-primary">Comincia ora!</a>
-            </div>
-        </div>
     </header>
 
-    <blockquote class="blockquote text-center">
-        <p class="mb-0">Our greatest weakness lies in <strong>givin up</strong>. The most certain way to succeed is always to try just one more time</strong>.</p>
-        <footer class="blockquote-footer">Someone famous in <cite title="Source Title">THOMAS A. EDISON</cite></footer>
-    </blockquote>
+    <div class="diagonale">
+        <div class="container text-center">
+            <p v-if="logged" class="display-4 mt-5 ben"><u>Bentornato {{utente.username}}!</u></p>
+            <p v-else class="display-4 mt-5 ben"><u>Benvenuto su StudiaOnline!</u></p>
+        </div>
 
-    <div class="container">
-        <h2 class="header center m-5" id="Corsi">Corsi disponibili al momento</h2>
-        <div class="row justify-content-around">
-            <div class="card bg-info text-white col-5 mb-5" v-for="corso in corsi">
-                <!--<img class="card-img-top" src="..." alt="Card image cap">-->
-                <div class="card-body">
-                    <h5 class="card-title">{{corso.titolo}}</h5>
-                    <p class="card-text">{{corso.descrizione}}</p>
-                    <a href="#" class="btn btn-dark stretched-link float-right">Button</a>
+        <div class="container py-3">
+            <div class="jumbotron text-white text-center jumbotron-image shadow">
+                <h2>- 1# sito di corsi di recupero in Italia -</h2>
+                <div class="row">
+                    <div class="col-1"></div>
+                    <h4 class="mb-4 p-3 col-10 border border-secondary rounded">
+                        Qui potrai prenotare ripetizioni individuali per varie materie, per le quali si ha la
+                        possibilità di scegliere tra più professori, tutti con almeno quattro anni di esperienza di istruzione online.
+                        Cosa aspetti,<br> <strong id="gratis">LA PRIMA SETTIMANA E' GRATIS!</strong>
+                    </h4>
+                </div>
+                <div class="row">
+                    <div class="col-3"></div>
+                    <a href="login.html" class="btn btn-primary btn-lg col-6">Comincia ora!</a>
                 </div>
             </div>
         </div>
+
+        <hr class="mb-5">
+
+        <blockquote class="blockquote text-center">
+            <h4 class="mb-0">Our greatest weakness lies in <strong>givin up</strong>. The most certain way to succeed is always to <strong>try just one more time</strong>.</h4>
+            <footer class="blockquote-footer">Someone famous in <cite title="Source Title">THOMAS A. EDISON</cite></footer>
+        </blockquote>
+
+        <hr class="m-5">
+
+
+        <div class="container">
+            <h2 class="header center m-5" id="Corsi">Corsi disponibili al momento</h2>
+            <div class="row justify-content-around">
+                <div class="card text-white col-5 mb-5" v-for="corso in corsi">
+                    <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+                    <div class="card-body">
+                        <h5 class="card-title">{{corso.titolo}}</h5>
+                        <p class="card-text">{{corso.descrizione}}</p>
+                        <a href="#" class="btn btn-dark stretched-link float-right">Button</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="mb-5">
+        <my-footer > </my-footer>
     </div>
-    
-    <my-footer > </my-footer>
 </div>
 <script>
     var app = new Vue ({
