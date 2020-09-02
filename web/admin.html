@@ -8,7 +8,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <title>Admin</title>
 
-    <link rel="stylesheet" type="text/css" href="CSS/stylesheet.css"/>
+    <link rel="stylesheet" type="text/css" href="CSS/stylesheetAdmin.css"/>
     <script type="text/javascript" src="navbar.js"></script>
 </head>
     <div id="admin">
@@ -41,28 +41,31 @@
 
         <!--Corsi-->
         <div class="card m-5">
+
             <div class="row justify-content-center align-self-center">
                 <div class="card border-info mb-3" class="card text-center" style="width: 60rem;">
-                    <div class="card-header info-color white-text text-center py-4"><strong>Corsi</strong></div>
+                    <div class="card-header info-color white-text text-center py-4" ><strong>Corsi</strong></div>
+                    <div class="jumbotron text-white text-center jumbotron-image shadow">
                     <div class="card-body text-info">
+
                         <!--form-->
                         <form class="text-center" style="color: #757575;" id="usrform" action="#!">
                             <div class="md-form mb-2">
-                                <label  for="titolo">Inserisci il corso:</label>
+                                <label id="inserisci" for="titolo"><strong>Inserisci il corso:</strong></label>
                                 <input type="text" class="form-control float-center" placeholder="Titolo"  v-model="corsi.titolo" id="titolo">
                             </div>
                         </form>
                         <div class="md-form">
                             <textarea rows="4" cols="50" name="comment" form="usrform" class="form-control float-center" placeholder="Descrizione corso"  v-model="corsi.descrizione" id="descrizione"></textarea>
                         </div>
-                        <button @click="InserisciCorso" id="add" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
+                        <button @click="InserisciCorso" id="add" class="btn btn-info " type="submit">Aggiungi</button>
 
                         <!--table corsi -->
                         <div  class="table-editable">
                             <table class="table table-bordered table-responsive-md table-striped text-center">
                                 <tbody v-for="corso in corsi">
                                 <tr >
-                                    <td onmouseover="style.color='blue'" onmouseout="style.color='black'" class="pt-3-half" contenteditable="true">{{corso.titolo}}
+                                    <td  onmouseover="style.color='blue'" onmouseout="style.color='black'" class="pt-3-half" contenteditable="true">{{corso.titolo}}
                                     </td>
                                     <td>
                                          <span class="table-remove"><button type="button" v-on:click="rimuoviCorso(corso.titolo)"
@@ -75,14 +78,8 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
-
-        <!-- corso rimuovi
-        <div class="panel-body" v-for="corso in corsi">
-            {{corso.titolo}}
-        <button type="button" @click="rimuoviCorso" class="close" data-dismiss="alert"><span>&times;</span></button>
-        </div>-->
-
 
 
         <!-- docenti-->
@@ -91,17 +88,18 @@
             <div class="row justify-content-center align-self-center">
                 <div class="card border-info mb-3" class="card text-center" style="width: 60rem;">
                     <div class="card-header info-color white-text text-center py-4"><strong>Docenti</strong></div>
+                    <div class="jumbotron text-white text-center jumbotron-image shadow">
                     <div class="card-body text-info">
                         <!--form-->
                         <form class="text-center" style="color: #757575;" action="#!">
                             <div class="md-form mb-2">
-                                <label for="nome">Inserisci Docente:</label>
+                                <label for="nome" id="inserisci2">Inserisci Docente:</label>
                                 <input type="text" class="form-control float-center" placeholder="Nome"  v-model="docenti.nome" id="nome">
                             </div>
                             <div class="md-form">
                                 <input type="text" class="form-control float-center" placeholder="Cognome"  v-model="docenti.cognome" id="cognome">
                             </div>
-                            <button @click="InserisciDocenti" id="add2" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
+                            <button @click="InserisciDocenti" id="add2" class="btn btn-info" type="submit">Aggiungi</button>
                         </form>
                         <!--table docenti-->
                         <div  class="table-editable">
@@ -121,33 +119,29 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
 
 
-        <!--docenti rimuovi
-        <div class="box-1">
-            <div class="btn btn-one" @click="rimuoviDocenti(nome, cognome)">
-                <span>ELIMINA</span>
-            </div>
-        </div>-->
         <!--insegnamenti-->
         <div class="card m-5">
             <!--card-->
             <div class="row justify-content-center align-self-center">
                 <div class="card border-info mb-3" class="card text-center" style="width: 60rem;">
                     <div class="card-header info-color white-text text-center py-4"><strong>Insegnamenti</strong></div>
+                    <div class="jumbotron text-white text-center jumbotron-image shadow">
                     <div class="card-body text-info">
                         <!--form-->
                         <form class="text-center" style="color: #757575;" action="#!">
                             <div class="md-form">
-                                <label for="id_corso">corso:</label>
+                                <label for="id_corso" id="inserisci3">corso:</label>
                                 <input type="text" class="form-control float-center" placeholder="Corso"  v-model="insegnamenti.id_corso" id="id_corso">
                             </div>
                             <div class="md-form">
-                                <label for="id_docente">docente:</label>
+                                <label for="id_docente" id="inserisci4">docente:</label>
                                 <input type="text" class="form-control float-center" placeholder="Docenti" v-model="insegnamenti.id_docente" id="id_docente">
                             </div>
-                            <button @click="InserisciInsegnamenti" id="add3" class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Aggiungi</button>
+                            <button @click="InserisciInsegnamenti" id="add3" class="btn btn-info" type="submit">Aggiungi</button>
                         </form>
                         <!-- table insegnamenti-->
                         <div  class="table-editable">
@@ -168,6 +162,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -295,7 +290,7 @@
 
 
                 },
-                rimuoviInsegnamenti: function () {
+                rimuoviInsegnamenti: function (id_corso, id_docente) {
                     var self = this;
                     id_corso=document.getElementById('id_corso');
                     id_docente=document.getElementById('id_docente');

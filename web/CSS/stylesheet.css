@@ -129,51 +129,6 @@ div[class="col l7 s12"]{
     left: -25px;
 }
 
-
-/*admin*/
-
-#table{
-
-}
-.card{
-    alignment: center;
-    height: auto;
-    margin-top: 2%;
-}
-#listacorsi{
-    text-align: center;
-    position: center;
-    alignment: center;
-    width:50%;
-}
-remove{
-    color: red;
-    text-align: right;
-}
-label{
-    width: 30%;
-}
-textarea {
-    width: 30%;
-}
-
-.form-control{
-    width:100%;
-    text-align: center;
-    alignment: center;
-    display: flex;
-    display: -webkit-flex;
-    flex-direction: row;
-    -webkit-flex-direction: row;
-}
-h1,h2,h3{
-    text-align: center;
-}
-.titolo{
-    text-align:center;
-    display: block;
-    width: 30%;
-}
 @media (max-width: 991px){
     #navbarSupportedContent ul li a{
         padding: 12px 30px;
@@ -209,7 +164,7 @@ h1,h2,h3{
 
 /*jumbotron*/
 .jumbotron-image {
-    background-image: url("../img/marvin-meyer-SYTO3xs06fU-unsplash (1).jpg");
+    background-image: url("../img/imageedit_1_5937227047.png");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
