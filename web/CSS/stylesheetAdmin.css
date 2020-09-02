@@ -1,0 +1,86 @@
+
+.table-editable{
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color: white;
+}
+.card{
+    alignment: center;
+    height: auto;
+    margin-top: 2%;
+}
+.pt-3-half{
+    font-size:24px;
+    color: #0d0d0d;
+}
+#inserisci, inserisci2, inserisci3, inserisci4{
+    font-size:24px;
+    color: #0d0d0d;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+#inserisci2{
+    font-size:24px;
+    color: #0d0d0d;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+#inserisci3{
+    font-size:24px;
+    color: #0d0d0d;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+#inserisci4{
+    font-size:24px;
+    color: #0d0d0d;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+.jumbotron-image {
+    background-image: url("../img/istockphoto-502131388-170667a.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#add{
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+#add2{
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+#add3{
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+#listacorsi{
+    text-align: center;
+    position: center;
+    alignment: center;
+    width:50%;
+}
+remove{
+    color: red;
+    text-align: right;
+}
+label{
+    width: 30%;
+}
+textarea {
+    width: 30%;
+}
+
+.form-control{
+    width:100%;
+    text-align: center;
+    alignment: center;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+}
+h1,h2,h3{
+    text-align: center;
+}
+.titolo{
+    text-align:center;
+    display: block;
+    width: 30%;
+}
