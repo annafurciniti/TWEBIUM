@@ -469,7 +469,7 @@ public class Model {
             Statement st2 = conn1.createStatement();
             ResultSet rs2 = st2.executeQuery("SELECT * FROM insegnamenti");
             while (rs2.next()) {
-                Insegnamenti i = new Insegnamenti(rs2.getInt("id_corso"), rs2.getInt("id_docente"));
+                Insegnamenti i = new Insegnamenti(rs2.getString("titolo"), rs2.getInt("id_docente"));
                 out.add(i);
             }
         }
@@ -486,15 +486,15 @@ public class Model {
     public static boolean InserisciInsegnamenti(Insegnamenti insegnamenti) {
         Connection conn1 = null;
         try { conn1 = openConnection();
-            String id_corso = "\"" + insegnamenti.getId_corso() + "\"";
+            String titolo = "\"" + insegnamenti.getTitolo() + "\"";
             String id_docente = "\"" + insegnamenti.getId_docente() + "\"";
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT insegnamenti.id_corso, insegnamenti.id_docente" + " FROM insegnamenti " + "WHERE insegnamenti.id_corso =" + id_corso + " AND insegnamenti.id_docente="+id_docente+"");
+            ResultSet rs = st.executeQuery("SELECT insegnamenti.titolo, insegnamenti.id_docente" + " FROM insegnamenti " + "WHERE insegnamenti.titolo =" + titolo + " AND insegnamenti.id_docente="+id_docente+"");
             if (rs.isBeforeFirst()) { System.out.println("Già presente nel DB");
                 return false;
             }
-            st.executeUpdate("INSERT INTO insegnamenti (id_corso,id_docente) VALUE (" + id_corso + "," + id_docente + ")");
-            System.out.println("Insegnamento: " + id_corso + " " + id_docente + " aggiunto nel DB");
+            st.executeUpdate("INSERT INTO insegnamenti (titolo,id_docente) VALUE (" + titolo + "," + id_docente + ")");
+            System.out.println("Insegnamento: " + titolo + "con docente " + id_docente + " aggiunto nel DB");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage()); }
@@ -510,17 +510,17 @@ public class Model {
     public static boolean RimuoviInsegnamenti(Insegnamenti insegnamenti) {
         Connection conn1 = null;
         try { conn1 = openConnection();
-            String id_corso = "'" + insegnamenti.getId_corso() + "'";
+            String titolo = "'" + insegnamenti.getTitolo() + "'";
             String id_docente = "'" + insegnamenti.getId_docente() + "'";
-            System.out.println("L'insegnamento da rimuovere é: " + id_corso +"con docente" +id_docente);
+            System.out.println("L'insegnamento da rimuovere é: " + titolo +"con docente" +id_docente);
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT insegnamenti.id_corso, insegnamenti.id_docente" + " FROM insegnamenti " + "WHERE insegnamenti.id_corso =" + id_corso + " AND insegnamenti.id_docente="+id_docente+"");
+            ResultSet rs = st.executeQuery("SELECT insegnamenti.titolo, insegnamenti.id_docente" + " FROM insegnamenti " + "WHERE insegnamenti.titolo =" + titolo + " AND insegnamenti.id_docente="+id_docente+"");
             if (!rs.isBeforeFirst()) {
                 System.out.println("Non é presente nel DB.");
                 return false;
             }
-            st.executeUpdate("DELETE FROM insegnamenti WHERE insegnamenti.id_corso=" + id_corso +" AND insegnamenti.id_docente= "+id_docente+"");
-            System.out.println("L'insegnamento: " + id_corso + "con docente"+id_docente+"rimosso.");
+            st.executeUpdate("DELETE FROM insegnamenti WHERE insegnamenti.titolo=" + titolo +" AND insegnamenti.id_docente= "+id_docente+"");
+            System.out.println("L'insegnamento: " + titolo + "con docente"+id_docente+"rimosso.");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -537,7 +537,7 @@ public class Model {
         Connection conn1 = null;
         try { conn1 = openConnection();
             Statement st = conn1.createStatement();
-            st.executeUpdate("UPDATE insegnamenti Set id_corso = ? WHERE id_docente = ?");
+            st.executeUpdate("UPDATE insegnamenti Set titolo = ? WHERE id_docente = ?");
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
         } finally {

@@ -2,16 +2,18 @@ package dao;
 
 public class Insegnamenti{
 
-    private int id_corso;
+
+    private String titolo;;
     private int id_docente;
 
-    public Insegnamenti(int id_corso, int id_docente ) {
-        this.id_corso = id_corso;
+    public Insegnamenti(String titolo, int id_docente ) {
+        this.titolo = titolo;
         this.id_docente= id_docente;
     }
-    public int getId_corso() { return id_corso; }
-
-    public void setId_corso(int id_corso) { this.id_corso = id_corso; }
+    public String getTitolo() { return titolo; }
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
 
     public int getId_docente() { return id_docente; }
 
@@ -19,7 +21,7 @@ public class Insegnamenti{
 
 
     public String toString() {
-        return "corso: " + id_corso + "docente: " + id_docente;
+        return "corso: " + titolo + "docente: " + id_docente;
     }
 
 }
