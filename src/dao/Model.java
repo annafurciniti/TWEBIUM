@@ -137,7 +137,7 @@ public class Model {
             Statement st1 = conn1.createStatement();
             ResultSet rs1 = st1.executeQuery("SELECT * FROM docenti");
             while (rs1.next()) {
-                Docenti d = new Docenti(rs1.getString("Nome"), rs1.getString("Cognome"));
+                Docenti d = new Docenti(rs1.getString("Nome"), rs1.getString("Cognome"), rs1.getInt("id_docente"));
                 //, rs1.getInt("id_docente")
                 doc.add(d);
             }
@@ -159,16 +159,17 @@ public class Model {
 
             String Nome = "\"" + docente.getNome() + "\"";
             String Cognome = "\"" + docente.getCognome() + "\"";
+            String id_docente = "'" + docente.getId_docente() + "'";
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT docenti.nome, docenti.cognome " +
+            ResultSet rs = st.executeQuery("SELECT docenti.nome, docenti.cognome, docenti.id_docente " +
                     "FROM `docenti` " +
-                    "WHERE docenti.Nome=" + Nome +" AND docenti.Cognome= "+ Cognome +"");
+                    "WHERE docenti.Nome=" + Nome +" AND docenti.Cognome= "+ Cognome +" AND docenti.id_docente= "+ id_docente +"");
             if (rs.isBeforeFirst()) {
                 System.out.println("Già presente nel DB");
                 return false;
             }
-            st.executeUpdate("INSERT INTO Docenti (Nome,Cognome) VALUE (" + Nome + "," + Cognome + ")");
-            System.out.println("Docente: " + Nome + " " + Cognome + " aggiunto nel DB");
+            st.executeUpdate("INSERT INTO Docenti (Nome,Cognome,Id_docente) VALUE (" + Nome + "," + Cognome + "," + id_docente + ")");
+            System.out.println("Docente: " + Nome + " " + Cognome + "," + id_docente + " aggiunto nel DB");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -188,8 +189,9 @@ public class Model {
 
             String Nome = "'" + docente.getNome() + "'";
             String Cognome = "'" + docente.getCognome() + "'";
+            String id_docente = "'" + docente.getId_docente() + "'";
             Statement st = conn1.createStatement();
-            st.executeUpdate("DELETE FROM docenti WHERE docenti.Nome=" +Nome+ "AND docenti.Cognome=" + Cognome + "");
+            st.executeUpdate("DELETE FROM docenti WHERE docenti.Nome=" +Nome+ " AND docenti.Cognome= " + Cognome + " AND docenti.id_docente= " + id_docente + "");
             System.out.println("Docente" + Nome + " " + Cognome + " rimosso.");
             return true;
         } catch (SQLException e) {
@@ -416,15 +418,16 @@ public class Model {
         return ripetizioni;
     }
 
-    public static ArrayList<Ripetizioni> MieRip(String username) {
+    public static ArrayList<Ripetizioni> MieRip(String stato) {
         Connection conn1 = null;
         ArrayList<Ripetizioni> ripetizioni = new ArrayList<>();
         try {
             conn1 = openConnection();
 
             Statement st = conn1.createStatement();
-            username = "'" + username + "'";
-            ResultSet rs3 = st.executeQuery("SELECT * FROM ripetizioni WHERE ripetizioni.username=" + username);
+            stato = "'" + stato + "'";
+            //username = "'" + username + "'";
+            ResultSet rs3 = st.executeQuery("SELECT * FROM ripetizioni WHERE ripetizioni.stato=" + stato);
             while (rs3.next()) {
                 Ripetizioni r = new Ripetizioni(rs3.getInt("id_rip"), rs3.getString("stato") , rs3.getString("Giorno"), rs3.getInt("Ora_i"), rs3.getInt("Ora_f"), rs3.getInt("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
                 ripetizioni.add(r);
@@ -441,14 +444,19 @@ public class Model {
         return ripetizioni;
     }
 
-    public static void ModificaStato(Ripetizioni ripetizioni) {
+    public static boolean ModificaStato(int id_rip, String stato) {
         Connection conn1 = null;
-
+        ArrayList<Ripetizioni> ripetizioni = new ArrayList<>();
+        //int rs = 0;
+        //System.out.println("Function "+ id_rip +  "    " + stato);
         try {
             conn1 = openConnection();
             Statement st = conn1.createStatement();
-            st.executeUpdate("UPDATE ripetizioni Set stato = ? WHERE id_rip = ?");
-
+            stato = "'" + stato + "'";
+            id_rip = Integer.parseInt("'" + id_rip + "'");
+            st.executeUpdate("UPDATE ripetizioni Set ripetizioni.stato = '"+stato+"' WHERE ripetizioni.id_rip = "+id_rip+" ");
+            System.out.println("RISULTATO UPDATE: " +stato);
+            return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
         } finally {
@@ -456,6 +464,9 @@ public class Model {
                 closeConnection(conn1);
             }
         }
+       // System.out.println("RISULTATO UPDATE: " +stato);
+       // return rs ==1;
+        return false;
     }
 
     /**

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
 
@@ -12,42 +12,66 @@
 <body>
     <div id="pr">
         <h1>Prenotazioni</h1>
-        <p v-for="rip in ripetizioni">{{rip.stato}}</p>
+       <!-- <p v-for="rip in ripetizioni">{{rip.stato}}</p>-->
 
-        <article class="container">
+        <div class="container">
             <!-- tabella Ripetizioni-->
-            <section>
+            <div  class="table-editable">
                 <p>nome: {{utente.username}}, password: {{utente.password}}, admin: {{utente.isAdmin}}</p>
                 <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <th scope="col">Corso</th>
-                        <th scope="col">Docente</th>
                         <th scope="col">Ripetizione</th>
                         <th scope="col">Stato</th>
-                        <th scope="col">Username</th>
-                    </tr>
-                    <tr v-for="rip in ripetizioni">
-                        <td>{{rip.id_corso}}</td>
+                        <th scope="col">Giorno</th>
+                        <th scope="col">Ora_i</th>
+                        <th scope="col">Ora_f</th>
+                         <th scope="col">Corso</th>
+                         <th scope="col">Docente</th>
+                         <th scope="col">Username</th>
+                     </tr>
+                    </thead>
+                    <tbody v-for="rip in ripetizioni">
+                    <tr>
                         <td>{{rip.id_rip}}</td>
-                        <td>{{rip.id_docente}}</td>
                         <td>{{rip.stato}}</td>
+                        <td>{{rip.Giorno}}</td>
+                        <td>{{rip.Ora_i}}</td>
+                        <td>{{rip.Ora_f}}</td>
+                        <td>{{rip.id_corso}}</td>
+                        <td>{{rip.id_docente}}</td>
                         <td>{{rip.username}}</td>
                     </tr>
+                    </tbody>
                 </table>
-            </section>
+            </div>
+            <div class="modal-content">
+                <div class="form-group">
+                    <label for="id_rip"> Identificativo ripetizione: </label>
+                    <input class="form-control" placeholder="Ripetizioni" v-model="ripetizioni.id_rip" id="id_rip">
+                </div>
 
-        </article>
+                <div id="cambiaStato" class="modal-footer">
+                    <button v-on:click="modificaRip('svolta')" class="modal-close waves-effect waves-green btn-flat">Svolta</button>
+                    <button v-on:click="modificaRip('disdetta')" class="modal-close waves-effect waves-orange btn-flat">Disdici</button>
+                    <a href="#!" class="modal-close waves-effect waves-red btn-flat">Annulla</a>
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
-
+    <my_footer></my_footer>
 
 <script>
-    var app = new Vue ({
+    var pr = new Vue ({
         el: '#pr',
         data: {
             logged: false,
+            sessione:'',
             ripetizioni: [],
-
+            id_rip: -1,
             utente: {
                 username: '',
                 password: '',
@@ -90,8 +114,18 @@
                         window.location = "index.html";
                     }
                 });
-            },*/
+            },
 
+            modificaRip : function(stato){
+                var self = this;
+                this.id_rip =document.getElementById('id_rip').innerHTML;
+                $.post(this.link, {id_rip: this.id_rip, action: "CAMBIASTATO", stato: stato},
+                    function (data) {
+                            data = JSON.parse(data);
+                            self.ripetizioni = data[2];
+                            window.location = "prenotazioni.html";
+                    });
+            },*/
 
             logout:function(){
                 $.post(this.link2,{

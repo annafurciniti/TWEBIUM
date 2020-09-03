@@ -46,8 +46,8 @@ public class PrenotazioniServlet extends HttpServlet {
                 case "INIT":
                     out.print(mioinit(request, response));
                     break;
-                /*case "DISPONIBILE":
-                    out.print(statoDisponibile(request, response));
+           /*     case "CAMBIASTATO":
+                    out.print(modificaStato(request, response));
                     break;*/
             }
         } catch (IOException e) {
@@ -92,5 +92,15 @@ public class PrenotazioniServlet extends HttpServlet {
             json += gson.toJson(false) + "]";
         }
         return json;
-    }*/
+    }
+    private String modificaStato(HttpServletRequest request, HttpServletResponse response){
+        Gson gson = new Gson();
+        String id_rip = request.getParameter("id_rip");
+        String stato = request.getParameter("stato");
+        boolean ret = Model.ModificaStato(Integer.parseInt(id_rip), stato);
+        System.out.println("Stato nuovo di "+id_rip+": " + stato);
+        return gson.toJson(ret);
+
+    }
+*/
 }

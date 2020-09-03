@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" type="text/css" href="CSS/stylesheetAdmin.css"/>
     <script type="text/javascript" src="navbar.js"></script>
+    <script type="text/javascript" src="footer.js"></script>
 </head>
     <div id="admin">
         <nav class="navbar navbar-expand-lg navbar-mainbg">
@@ -30,7 +31,7 @@
                         <a class="nav-link" href="index.html"><i class="far fa-address-book"></i>Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Logout</a>
+                        <a class="nav-link" v-on:click="logout" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Logout</a>
                     </li>
                     <!--<li class="nav-item">
                         <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
@@ -51,7 +52,7 @@
                         <!--form-->
                         <form class="text-center" style="color: #757575;" id="usrform" action="#!">
                             <div class="md-form mb-2">
-                                <label id="inserisci" for="titolo"><strong>Inserisci il corso:</strong></label>
+                                <label id="inserisci" for="titolo">Inserisci il corso:</label>
                                 <input type="text" class="form-control float-center" placeholder="Titolo"  v-model="corsi.titolo" id="titolo">
                             </div>
                         </form>
@@ -63,9 +64,14 @@
                         <!--table corsi -->
                         <div  class="table-editable">
                             <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                <tr>
+                                    <td><strong>Titolo</strong></td>
+                                </tr>
+                                </thead>
                                 <tbody v-for="corso in corsi">
                                 <tr >
-                                    <td  onmouseover="style.color='blue'" onmouseout="style.color='black'" class="pt-3-half" contenteditable="true">{{corso.titolo}}
+                                    <td  onmouseover="style.color='white'" onmouseout="style.color='black'" class="pt-3-half" contenteditable="true">{{corso.titolo}}
                                     </td>
                                     <td>
                                          <span class="table-remove"><button type="button" v-on:click="rimuoviCorso(corso.titolo)"
@@ -99,16 +105,28 @@
                             <div class="md-form">
                                 <input type="text" class="form-control float-center" placeholder="Cognome"  v-model="docenti.cognome" id="cognome">
                             </div>
+                            <div class="md-form">
+                                <input type="int" class="form-control float-center" placeholder="id"  v-model="docenti.id_docente" id="id_docente1">
+                            </div>
                             <button @click="InserisciDocenti" id="add2" class="btn btn-info" type="submit">Aggiungi</button>
                         </form>
                         <!--table docenti-->
                         <div  class="table-editable">
                             <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                <tr>
+                                    <td><strong>Nome</strong></td>
+                                    <td><strong>Cognome</strong></td>
+                                    <td><strong>Id</strong></td>
+                                </tr>
+                                </thead>
                                 <tbody v-for="doc in docenti">
                                 <tr>
-                                    <td class="pt-3-half" onmouseover="style.color='blue'" onmouseout="style.color='black'" contenteditable="true">{{doc.nome}} {{doc.cognome}}</td>
+                                    <td class="pt-3-half" onmouseover="style.color='white'" onmouseout="style.color='black'" contenteditable="true">{{doc.nome}} </td>
+                                    <td class="pt-3-half" onmouseover="style.color='white'" onmouseout="style.color='black'" contenteditable="true"> {{doc.cognome}} </td>
+                                    <td class="pt-3-half" onmouseover="style.color='white'" onmouseout="style.color='black'" contenteditable="true"> {{doc.id_docente}}</td>
                                     <td>
-                                        <span class="table-remove"><button type="button" v-on:click="rimuoviDocenti(doc.nome,doc.cognome)"
+                                        <span class="table-remove"><button type="button" v-on:click="rimuoviDocenti(doc.nome,doc.cognome, doc.id_docente)"
                                                                            class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
                                         </span>
                                     </td>
@@ -134,11 +152,11 @@
                         <!--form-->
                         <form class="text-center" style="color: #757575;" action="#!">
                             <div class="md-form">
-                                <label for="titolo" id="inserisci3">corso:</label>
+                                <label for="titolo" id="inserisci3">Corso:</label>
                                 <input type="text" class="form-control float-center" placeholder="Corso"  v-model="insegnamenti.titolo" id="titolo2">
                             </div>
                             <div class="md-form">
-                                <label for="id_docente" id="inserisci4">docente:</label>
+                                <label for="id_docente" id="inserisci4">Docente:</label>
                                 <input type="text" class="form-control float-center" placeholder="Docenti" v-model="insegnamenti.id_docente" id="id_docente">
                             </div>
                             <button @click="InserisciInsegnamenti" id="add3" class="btn btn-info" type="submit">Aggiungi</button>
@@ -146,9 +164,16 @@
                         <!-- table insegnamenti-->
                         <div  class="table-editable">
                             <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                <tr>
+                                    <td><strong>Titolo corso</strong></td>
+                                    <td><strong>Id docente</strong></td>
+                                </tr>
+                                </thead>
                                 <tbody v-for="insegn in insegnamenti">
                                 <tr>
-                                    <td class="pt-3-half" onmouseover="style.color='blue'" onmouseout="style.color='black'" contenteditable="true">{{ insegn.titolo}} {{insegn.id_docente }}</td>
+                                    <td class="pt-3-half" onmouseover="style.color='white'" onmouseout="style.color='black'" contenteditable="true">{{ insegn.titolo}}</td>
+                                    <td class="pt-3-half" onmouseover="style.color='white'" onmouseout="style.color='black'" contenteditable="true"> {{insegn.id_docente }}</td>
                                     <td>
                                      <span class="table-remove"><button type="button" v-on:click="rimuoviInsegnamenti(insegn.titolo, insegn.id_docente)"
                                                                         class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
@@ -163,16 +188,8 @@
             </div>
         </div>
     </div>
+        <my-footer > </my-footer>
     </div>
-
-
-    <!-- rimuovi insegnamenti
-         <div class="box-1">
-             <div class="btn btn-one" @click="rimuoviInsegnamenti">
-                 <span>ELIMINA</span>
-             </div>
-         </div>
-   -->
 
 
     <script>
@@ -180,6 +197,7 @@
             el: '#admin',
             data: {
                 logged: false,
+                sessione:'',
                 ripetizioni: [],
                 corsi:[],
                 docenti:[],
@@ -200,6 +218,7 @@
                         self.corsi = data[1];
                         self.docenti = data[2];
                         self.insegnamenti = data[3];
+
                     })
                 },
                 /*aggiungi corso*/
@@ -222,11 +241,12 @@
                 /*aggiungi docenti*/
                 InserisciDocenti: function () {
                     var self = this;
-                    if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
+                    if (self.docenti.nome !== "" && self.docenti.cognome !== "" && self.docenti.id_docente!== "") {
                         $.post(this.link, {
                                 action: 'NEWDOCENTE',
                                 nome: this.docenti.nome,
-                                cognome: this.docenti.cognome
+                                cognome: this.docenti.cognome,
+                                id_docente: this.docenti.id_docente
                             },
                             function (data) {
                                 self.docenti = data[6]
@@ -272,12 +292,13 @@
                             }
                         });
                 },
-                rimuoviDocenti: function (nome,cognome) {
+                rimuoviDocenti: function (nome,cognome, id_docente) {
                     var self = this;
                     $.post(this.link, {
                             action: 'DELETEDOCENTE',
                             nome: nome,
-                            cognome: cognome
+                            cognome: cognome,
+                            id_docente: id_docente
                         },
                         function (data) {
                             data = JSON.parse(data);
