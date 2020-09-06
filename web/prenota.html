@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prenota</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="CSS/stylesheetPren.css"/>
+    <script type="text/javascript" src="JS/navbar.js"></script>
+    <script type="text/javascript" src="JS/footer.js"></script>
+
+</head>
+<body>
+<div id="pren">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-mainbg">
+            <div class="container">
+                <a class="navbar-brand navbar-logo" href="javascript:void(0);"><img src="img/graduate.png" id="graduate" alt="Logo"/></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars text-white"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="admin.html" v-if="utente.isAdmin==1"><i class="far fa-calendar-alt"></i>Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="prenotazioni.html"><i class="fas fa-tachometer-alt"></i>I miei corsi</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Prenota</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html"><i class="far fa-address-book"></i>Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" v-on:click="logout" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Logout</a>
+                        </li>
+                        <!--<li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-3 text-center">
+            <ol class="step-indicator mb-4">
+                    <li v-for="step in steps" :key="step.id" :class="step.classObject">
+                        <div class="step"><i :class="step.icon_class" aria-hidden="true"></i></div>
+                        <div class="caption hidden-xs hidden-sm">Step {{step.id}}: {{step.title}}</div>
+                    </li>
+            </ol>
+
+            <div v-show="currentstep == 1">
+                <h3>Scegli il corso che ti interessa:</h3>
+                <div class="container">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr v-for="corso in corsi">
+                            <td v-on:click="getDocenti(corso.titolo)"><a href="#!">{{corso.titolo}}</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div v-show="currentstep == 2">
+                <h3>Scegli il docente: </h3>
+                <div class="container">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr v-for="doc in docenti">
+                            <td v-on:click="getRipetizioni(doc.id_docente,doc.nome,doc.cognome)"><a href="#!">{{doc.nome}} {{doc.cognome}}</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div v-show="currentstep == 3">
+                <h3>Scegli l'ora e il giorno: </h3>
+                    <div v-if="vuoto">
+                        Spiacenti, non ci sono ripetizioni disponibili per {{materia}} con {{nomeprof}}.
+                    </div>
+                    <div v-else>
+                        <table class="table table-bordered table-hover">
+                            <thead class="celle-scure">
+                                <tr>
+                                    <th>Giorno & Ora</th>
+                                    <th>Lunedi'</th>
+                                    <th>Martedi'</th>
+                                    <th>Mercoledi'</th>
+                                    <th>Giovedi'</th>
+                                    <th>Venerdi'</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="m in 4">
+                                <th class="celle-scure">{{ora[m-1]}}</th>
+                                <td v-for="n in goDisp.length" v-if="goDisp[n-1][m-1]" class="attiva text-white" v-on:click="getResoconto(m-1,n-1)">
+                                    <strong>PRENOTA</strong></td>
+
+                                <td v-else class="non-attiva"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+
+            <div v-show="currentstep == 4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <div class="card text-justify text-white">
+                            <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+                                <h3 class="card-header"><strong><u>Resoconto</u></strong></h3>
+                                <div class="card-body">
+                                    <h5 class="card-text ml-3">Corso: {{materia}} <br>Docente: {{nomeprof}} <br> Ora: {{ora[h]}} <br> Giorno: {{giorno[g]}}</h5>
+                                    <hr class="mb-2">
+                                    <div class="text-center"><a href="#" class="btn btn-light text-primary" v-on:click="prenota"><strong>CONFERMA</strong></a></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-4"></div>
+                <button type="button" id="back" class="btn col-4" v-on:click="stepBack" :disabled="currentstep==1"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                <div class="col-2"></div>
+            </div>
+        </div>
+        </div>
+    <!--<my-footer></my-footer>-->
+</div>
+<script>
+    var prenota = new Vue ({
+        el:'#pren',
+        data:{
+            logged: false,
+            utente: {
+                username: '',
+                password: '',
+                isAdmin: ''
+            },
+
+            link:'/TWEBIUM/LoginServlet',
+            link2:'/TWEBIUM/PrenotaServlet',
+
+            ripetizioni: [],
+            corsi: [],
+            docenti: [],
+            goDisp: [],
+            vuoto: false,
+
+            materia:'',
+            prof:'',
+            h:'',
+            g:'',
+            nomeprof:'',
+
+
+            ora:[
+                "15:00-16:00",
+                "16:00-17:00",
+                "17:00-18:00",
+                "18:00-19:00"
+            ],
+            giorno:[
+                "Lunedì",
+                "Martedì",
+                "Mercoledì",
+                "Giovedì",
+                "Venerdì"
+            ],
+            currentstep: 1,
+            steps: [
+                {
+                    id: 1,
+                    title: "Corso",
+                    icon_class: "fa fa-book",
+                    classObject: {
+                        active: true,
+                        complete: false
+                    }
+                },
+                {
+                    id: 2,
+                    title: "Docenti",
+                    icon_class: "fa fa-user",
+                    classObject: {
+                        active: false,
+                        complete: false
+                    }
+                },
+                {
+                    id: 3,
+                    title: "Ora e Giorno",
+                    icon_class: "fa fa-calendar",
+                    classObject: {
+                        active: false,
+                        complete: false
+                    }
+                },
+                {
+                    id: 4,
+                    title: "Conferma",
+                    icon_class: "fa fa-check-circle",
+                    classObject: {
+                        active: false,
+                        complete: false
+                    }
+                }
+            ]
+        },
+        mounted(){
+            this.init();
+        },
+        methods:{
+            init:function(){
+                var self = this;
+                $.post(this.link2, {action:'INIT'}, function(data) {
+                    data = JSON.parse(data);
+                    if(data[0]===true){//sessione attiva login effettuato
+                        self.utente = data[1];
+                        self.corsi = data[2];
+                        self.logged = true;
+                    }
+                    else{
+                        window.location = "index.html";
+                    }
+                });
+            },
+            logout:function(){
+                $.post(this.link,{
+                        action: 'LOGOUT'
+                    }
+                );
+                this.logged=false;
+                window.location = "index.html";
+            },
+            getDocenti(corso){
+                var self = this;
+                self.materia= corso;
+                $.post(this.link2, {action:'DOC', corso: corso}, function(data) {
+                    data = JSON.parse(data);
+                    if(data[0]===true){//sessione attiva login effettuato
+                        self.docenti = data[1];
+                        self.changeClass(true);
+                        self.currentstep = 2;
+                    }
+                    else{
+                        window.location = "index.html";
+                    }
+                });
+            },
+            getRipetizioni(docente,nome,cognome){
+                var self = this;
+                self.prof= docente;
+                self.nomeprof= nome +" "+ cognome;
+                $.post(this.link2, {action:'RIP', doc: docente, corso: this.materia}, function(data) {
+                    data = JSON.parse(data);
+                    if(data[0]===true){//sessione attiva login effettuato
+                        self.goDisp = data[1];
+                        self.changeClass(true);
+                        self.currentstep = 3;
+                        self.vuoto=false;
+                    }
+                    else if(data[0]==="vuoto"){
+                        self.vuoto=true;
+                        self.currentstep = 3;
+                    }
+                    else{
+                        window.location = "index.html";
+                    }
+                });
+            },
+            getResoconto(h, g){
+                var self = this;
+                self.h = h;
+                self.g = g;
+                self.changeClass(true);
+                self.currentstep = 4;
+            },
+            prenota(){
+                var self = this;
+                console.log(this.prof + ", " + this.materia + ", " + this.h + ", " + this.g );
+                $.post(this.link2, {action:'PRENOTA', doc: this.prof, corso: this.materia, ora: this.h, giorno: this.g}, function(data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if(data[0]===true){//sessione attiva, prenotazione effettuata
+                        //window.location = "prenotazioni.html"
+                        self.errore=false;
+                    }
+                    else if(data[0] === "errore"){//sessione attiva, errore prenotazione
+                        alert("c'è stato un errore durante la prenotazione");
+                    }
+                    else if(data[0] === "occupato"){//sessione attiva, errore prenotazione
+                        alert("Hai già una prenotazione in questo orario!")
+                    }
+                    else{//sessione scaduta
+                        //window.location = "index.html"
+                    }
+                });
+            },
+            stepBack() {
+                var self = this;
+                self.changeClass(false);
+                self.currentstep = self.currentstep-1;
+            },/*
+            indicatorclass(){
+                return {
+                    active: this.step.id == this.currentstep,
+                    complete: this.currentstep > this.step.id
+                };
+            },*/
+            changeClass:function(flag){//flag = true allora ti sposti in avanti, all'indietro altrimenti
+                var self = this;
+                if(flag){
+                    self.steps[this.currentstep-1].classObject = {
+                        active: false,
+                        complete: true
+                    };
+                    self.steps[this.currentstep].classObject = {
+                        active: true,
+                        complete: false
+                    };
+                }
+                else{
+                    self.steps[this.currentstep-1].classObject = {
+                        active: false,
+                        complete: false
+                    };
+                    self.steps[this.currentstep-2].classObject = {
+                        active: true,
+                        complete: false
+                    };
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
+

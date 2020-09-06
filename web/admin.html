@@ -9,23 +9,27 @@
     <title>Admin</title>
 
     <link rel="stylesheet" type="text/css" href="CSS/stylesheetAdmin.css"/>
-    <script type="text/javascript" src="navbar.js"></script>
+    <script type="text/javascript" src="JS/navbar.js"></script>
     <script type="text/javascript" src="footer.js"></script>
 </head>
     <div id="admin">
         <nav class="navbar navbar-expand-lg navbar-mainbg">
-            <a class="navbar-brand navbar-logo" href="#">LOGO</a>
+            <a class="navbar-brand navbar-logo" href="index.html"><img src="img/graduate.png" id="graduate" alt="Logo"/></a>
+            <!--<a class="navbar-brand navbar-logo" href="#">LOGO</a>-->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars text-white"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Admin</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="prenotazioni.html"><i class="fas fa-tachometer-alt"></i>I miei corsi</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Admin</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="prenota.html"><i class="fas fa-tachometer-alt"></i>Prenota</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="index.html"><i class="far fa-address-book"></i>Home</a>
@@ -333,7 +337,7 @@
                         }
                     );
                     this.logged=false;
-                    window.location.reload();
+                    window.location = "index.html";
                 }
 
             }

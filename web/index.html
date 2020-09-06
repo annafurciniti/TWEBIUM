@@ -7,8 +7,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="CSS/stylesheet.css"/>
-    <script type="text/javascript" src="navbar.js"></script>
-    <script type="text/javascript" src="footer.js"></script>
+    <script type="text/javascript" src="JS/navbar.js"></script>
+    <script type="text/javascript" src="JS/footer.js"></script>
 
     <title>Homepage</title>
 </head>
@@ -18,7 +18,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-mainbg">
             <div class="container">
-                <a class="navbar-brand navbar-logo" href="#"><img src="img/graduate.png" id="graduate" alt="Logo"/></a>
+                <a class="navbar-brand navbar-logo" href="javascript:void(0);"><img src="img/graduate.png" id="graduate" alt="Logo"/></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-bars text-white"></i>
                 </button>
@@ -26,10 +26,13 @@
                     <ul class="navbar-nav ml-auto">
                         <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                         <li class="nav-item" v-if="logged">
+                            <a class="nav-link" href="admin.html" v-if="utente.isAdmin==1"><i class="far fa-calendar-alt"></i>Admin</a>
+                        </li>
+                        <li class="nav-item" v-if="logged">
                             <a class="nav-link" href="prenotazioni.html"><i class="fas fa-tachometer-alt"></i>I miei corsi</a>
                         </li>
                         <li class="nav-item" v-if="logged">
-                            <a class="nav-link" href="admin.html" v-if="utente.isAdmin==1"><i class="far fa-calendar-alt"></i>Admin</a>
+                            <a class="nav-link" href="prenota.html"><i class="fas fa-tachometer-alt"></i>Prenota</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Home</a>
@@ -77,7 +80,7 @@
 
         <blockquote class="blockquote text-center">
             <h4 class="mb-0">Our greatest weakness lies in <strong>givin up</strong>. The most certain way to succeed is always to <strong>try just one more time</strong>.</h4>
-            <footer class="blockquote-footer">Someone famous in <cite title="Source Title">THOMAS A. EDISON</cite></footer>
+            <footer class="blockquote-footer"><cite title="Source Title">THOMAS A. EDISON</cite></footer>
         </blockquote>
 
         <hr class="m-5">
@@ -86,12 +89,12 @@
         <div class="container">
             <h2 class="header center m-5" id="Corsi">Corsi disponibili al momento</h2>
             <div class="row justify-content-around">
-                <div class="card text-white col-5 mb-5" v-for="corso in corsi">
+                <div class="card text-justify text-white col-5 mb-5" v-for="corso in corsi">
                     <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+                    <h4 class="card-header"><strong><u>{{corso.titolo}}</u></strong></h4>
                     <div class="card-body">
-                        <h5 class="card-title">{{corso.titolo}}</h5>
                         <p class="card-text">{{corso.descrizione}}</p>
-                        <a href="#" class="btn btn-dark stretched-link float-right">Button</a>
+                        <a href="javascript:void(0);" class="btn btn-light text-primary stretched-link float-right">VEDI CORSO</a>
                     </div>
                 </div>
             </div>
@@ -105,10 +108,7 @@
         el: '#app',
         data: {
             logged: false,
-            sessione: '',
-            ripetizioni: [],
             corsi: [],
-            docenti: [],
             utente: {
                 username: '',
                 password: '',
@@ -116,8 +116,7 @@
             },
             link: '/TWEBIUM/LoginServlet',
             link2: '/TWEBIUM/HomeServlet',
-            err: null,
-            loading: false
+            err: null
         },
         mounted(){
             this.init();
@@ -138,7 +137,6 @@
                         //self.ripetizioni = data[0];
                         self.corsi = data[0];
                         self.logged=false;
-                        self.loading = true;
                     }
                 });
             },

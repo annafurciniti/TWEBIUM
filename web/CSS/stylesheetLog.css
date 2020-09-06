@@ -456,3 +456,7 @@ input[type=password]::placeholder {
 *:focus {
     outline: none;
 }
+
+#graduate{
+    width:6.5%;
+}

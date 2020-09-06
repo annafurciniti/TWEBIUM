@@ -33,7 +33,6 @@
                     </thead>
                     <tbody v-for="rip in ripetizioni">
                     <tr>
-                        <td>{{rip.id_rip}}</td>
                         <td>{{rip.stato}}</td>
                         <td>{{rip.Giorno}}</td>
                         <td>{{rip.Ora_i}}</td>
@@ -48,7 +47,7 @@
             <div class="modal-content">
                 <div class="form-group">
                     <label for="id_rip"> Identificativo ripetizione: </label>
-                    <input class="form-control" placeholder="Ripetizioni" v-model="ripetizioni.id_rip" id="id_rip">
+                    <input class="form-control" placeholder="Ripetizioni" v-model="ripetizioni" id="id_rip"><!--tutto da cambiare-->
                 </div>
 
                 <div id="cambiaStato" class="modal-footer">
@@ -71,7 +70,6 @@
             logged: false,
             sessione:'',
             ripetizioni: [],
-            id_rip: -1,
             utente: {
                 username: '',
                 password: '',

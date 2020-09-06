@@ -124,6 +124,28 @@ public class Model {
         return false;
     }
 
+    public static boolean utenteLibero(int giorno, int ora, String utente) {
+        Connection conn1 = null;
+        try {
+            conn1 = openConnection();
+            String g = "'" + giorno + "'";
+            String o = "'" + ora + "'";
+            String u = "'" + utente + "'";
+
+            Statement st = conn1.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM ripetizioni WHERE Username = "+ u +" && Ora_i= "+ o +" && Giorno= "+ g +"  && Stato='prenotato'");
+            if(rs.next())
+                return false;
+        } catch (SQLException e) {
+            System.out.println("Error communicating with the database: " + e.getMessage());
+        } finally {
+            if (conn1 != null) {
+                closeConnection(conn1);
+            }
+        }
+        return true;
+    }
+
     /**
      * DOCENTI
      **/
@@ -305,7 +327,7 @@ public class Model {
         return false;
     }
 
-    //update corso
+    /*update corso
     public static void ModificaCorso(Corso corso){//???
         Connection conn1 = null;
         try {
@@ -320,7 +342,7 @@ public class Model {
                 closeConnection(conn1);
             }
         }
-    }
+    }*/
 
 
     /**
@@ -335,8 +357,8 @@ public class Model {
             Statement st3 = conn1.createStatement();
             ResultSet rs3 = st3.executeQuery("SELECT * FROM ripetizioni");
             while (rs3.next()) {
-                Ripetizioni r = new Ripetizioni(rs3.getInt("id_rip"),rs3.getString("stato") , rs3.getString("Giorno"), rs3.getInt("Ora_i"), +
-                        + rs3.getInt("Ora_f"), rs3.getInt("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
+                Ripetizioni r = new Ripetizioni(rs3.getString("stato") , rs3.getInt("Giorno"), rs3.getInt("Ora_i")
+                        , rs3.getString("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
                 out3.add(r);
             }
         } catch (SQLException e) {
@@ -349,15 +371,18 @@ public class Model {
         return out3;
     }
 
-    //inserisco ripetizione
-    public static boolean InserisciRipetizione(Ripetizioni ripetizioni) {//???
+    public static boolean prenota(Ripetizioni ripetizioni) {
         Connection conn1 = null;
         try {
             conn1 = openConnection();
-            String id_rip = "'" + ripetizioni.getId_rip() + "'";
+            String corso = "'" + ripetizioni.getId_corso() + "'";
+            String docente = "'" + ripetizioni.getId_docente() + "'";
+            String utente = "'" + ripetizioni.getUsername() + "'";
+            String ora = "'" + ripetizioni.getOra_i() + "'";
+            String giorno = "'" + ripetizioni.getGiorno() + "'";
             Statement st = conn1.createStatement();
-            st.executeUpdate("INSERT INTO Ripetizioni (id_rip) VALUE (" + id_rip + ")");
-            System.out.println("Ripetizione: " + ripetizioni.getId_rip() + "é stato aggiunto nel DB.");
+            st.executeUpdate("UPDATE ripetizioni Set Username = "+utente+", Stato = 'prenotato' WHERE  id_corso= "+corso+" && id_docente= "+docente+" && Ora_i= "+ ora +" && Giorno= "+ giorno +" ");
+            System.out.println("Ripetizione prenotata per "+ utente);
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -369,20 +394,21 @@ public class Model {
         return false;
     }
 
+
+
     //rimuovo ripetizioni
     public static void rimuoviRipetizioni(Ripetizioni ripetizioni){
         Connection conn1 = null;
         try {
             conn1 = openConnection();
 
-            String id_corso = "'" + ripetizioni.getId_corso() + "'";
+            String giorno = "'" + ripetizioni.getGiorno() + "'";
             String id_docente = "'" + ripetizioni.getId_docente() + "'";
-            String id_rip = "'" + ripetizioni.getId_rip() + "'";
+            String ora = "'" + ripetizioni.getOra_i() + "'";
 
-            System.out.println("La ripetizione da rimuovere é: " + id_rip);
             Statement st = conn1.createStatement();
-            st.executeUpdate("DELETE FROM ripetizioni WHERE ripetizioni.id_rip=" + id_rip + "");
-            System.out.println("Ripetizione: " + id_rip + "rimossa.");
+            st.executeUpdate("DELETE FROM ripetizioni WHERE Giorno =" + giorno + " && id_docente =" + id_docente + " && Ora_i =" + ora + "");
+            System.out.println("Ripetizione: rimossa.");
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
         } finally {
@@ -394,16 +420,16 @@ public class Model {
 
 
     // Visualizzo la disponibilità delle ripetizioni
-    public static ArrayList<Ripetizioni> DisponibilitaRip() {
+    public static ArrayList<Ripetizioni> getRipDisponibili() {
         Connection conn1 = null;
         ArrayList<Ripetizioni> ripetizioni = new ArrayList<>();
         try {
             conn1 = openConnection();
 
             Statement st = conn1.createStatement();
-            ResultSet rs3 = st.executeQuery("SELECT * FROM ripetizioni WHERE stato='disponibile' ");
+            ResultSet rs3 = st.executeQuery("SELECT * FROM ripetizioni WHERE username is NULL ");
             while (rs3.next()) {
-                    Ripetizioni r = new Ripetizioni(rs3.getInt("id_rip"), rs3.getString("stato") , rs3.getString("Giorno"), rs3.getInt("Ora_i"), rs3.getInt("Ora_f"), rs3.getInt("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
+                    Ripetizioni r = new Ripetizioni( rs3.getString("stato") , rs3.getInt("Giorno"), rs3.getInt("Ora_i"), rs3.getString("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
                     ripetizioni.add(r);
                     System.out.println("Ripetizioni disponibili");
                 }
@@ -429,7 +455,7 @@ public class Model {
             //username = "'" + username + "'";
             ResultSet rs3 = st.executeQuery("SELECT * FROM ripetizioni WHERE ripetizioni.stato=" + stato);
             while (rs3.next()) {
-                Ripetizioni r = new Ripetizioni(rs3.getInt("id_rip"), rs3.getString("stato") , rs3.getString("Giorno"), rs3.getInt("Ora_i"), rs3.getInt("Ora_f"), rs3.getInt("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
+                Ripetizioni r = new Ripetizioni( rs3.getString("stato") , rs3.getInt("Giorno"), rs3.getInt("Ora_i"), rs3.getString("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
                 ripetizioni.add(r);
                 System.out.println("Ripetizioni disponibili");
             }

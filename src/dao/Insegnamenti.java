@@ -21,7 +21,7 @@ public class Insegnamenti{
 
 
     public String toString() {
-        return "corso: " + titolo + "docente: " + id_docente;
+        return "corso: " + titolo + " docente: " + id_docente;
     }
 
 }

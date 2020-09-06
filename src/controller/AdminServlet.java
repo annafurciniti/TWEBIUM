@@ -104,8 +104,7 @@ public class AdminServlet extends HttpServlet {
         Gson gson = new Gson();
         String Nome = request.getParameter("nome");
         String Cognome =request.getParameter("cognome");
-        int id_docente =Integer.parseInt(request.getParameter("id_docente"));
-        Docenti d = new Docenti(Nome,Cognome, id_docente);
+        Docenti d = new Docenti(Nome,Cognome,0);
         Boolean add = Model.InserisciDocenti(d);
         System.out.println("return:" + add);
 
@@ -116,8 +115,7 @@ public class AdminServlet extends HttpServlet {
         Gson gson =new Gson();
         String Nome = request.getParameter("nome");
         String Cognome =request.getParameter("cognome");
-        int id_docente =Integer.parseInt(request.getParameter("id_docente"));
-        Docenti d = new Docenti(Nome,Cognome, id_docente);
+        Docenti d = new Docenti(Nome,Cognome,0);
         boolean delete = Model.RimuoviDoc(d);
         System.out.println("AdminServlet/riumuoviDocenti; delete-> " + delete);
         return gson.toJson(delete);
