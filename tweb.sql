@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 06, 2020 at 05:17 PM
+-- Generation Time: Sep 08, 2020 at 05:52 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.14
 
@@ -52,21 +52,19 @@ INSERT INTO `corsi` (`Titolo`, `descrizione`) VALUES
 --
 
 CREATE TABLE `docenti` (
-  `id_docente` int(11) NOT NULL,
-  `Nome` varchar(25) NOT NULL,
-  `Cognome` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `nome` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `docenti`
 --
 
-INSERT INTO `docenti` (`id_docente`, `Nome`, `Cognome`) VALUES
-(2, 'Silvia', 'Saporetti'),
-(3, 'Carla', 'Bengasi'),
-(4, 'Mauro', 'Foti'),
-(5, 'Cristina', 'Ciocia'),
-(6, 'Tiziana', 'Basanisi');
+INSERT INTO `docenti` (`nome`) VALUES
+('Carla Bengasi'),
+('Cristina Ciocia'),
+('Mauro Foti'),
+('Silvia Saporetti'),
+('Tiziana Basanisi');
 
 -- --------------------------------------------------------
 
@@ -75,7 +73,7 @@ INSERT INTO `docenti` (`id_docente`, `Nome`, `Cognome`) VALUES
 --
 
 CREATE TABLE `insegnamenti` (
-  `id_docente` int(11) NOT NULL,
+  `id_docente` varchar(30) NOT NULL,
   `Titolo` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -84,15 +82,15 @@ CREATE TABLE `insegnamenti` (
 --
 
 INSERT INTO `insegnamenti` (`id_docente`, `Titolo`) VALUES
-(2, 'Chimica'),
-(3, 'Chimica'),
-(2, 'Fisica'),
-(3, 'Fisica'),
-(4, 'Inglese'),
-(4, 'Italiano'),
-(6, 'Italiano'),
-(6, 'Latino'),
-(5, 'Matematica');
+('Carla Bengasi', 'Chimica'),
+('Silvia Saporetti', 'Chimica'),
+('Carla Bengasi', 'Fisica'),
+('Silvia Saporetti', 'Fisica'),
+('Mauro Foti', 'Inglese'),
+('Mauro Foti', 'Italiano'),
+('Tiziana Basanisi', 'Italiano'),
+('Tiziana Basanisi', 'Latino'),
+('Cristina Ciocia', 'Matematica');
 
 -- --------------------------------------------------------
 
@@ -105,7 +103,7 @@ CREATE TABLE `ripetizioni` (
   `Giorno` smallint(9) NOT NULL,
   `Ora_i` int(11) NOT NULL,
   `id_corso` varchar(30) DEFAULT NULL,
-  `id_docente` int(11) NOT NULL,
+  `id_docente` varchar(30) NOT NULL,
   `Username` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -114,58 +112,58 @@ CREATE TABLE `ripetizioni` (
 --
 
 INSERT INTO `ripetizioni` (`Stato`, `Giorno`, `Ora_i`, `id_corso`, `id_docente`, `Username`) VALUES
-('disponibile', 1, 15, 'Chimica', 2, NULL),
-('disponibile', 1, 15, 'Matematica', 5, NULL),
-('disponibile', 1, 16, 'Chimica', 2, NULL),
-('disponibile', 1, 16, 'Inglese', 4, NULL),
-('disponibile', 1, 16, 'Matematica', 5, NULL),
-('disponibile', 1, 17, 'Chimica', 2, NULL),
-('disponibile', 1, 17, 'Inglese', 4, NULL),
-('disponibile', 1, 17, 'Matematica', 5, NULL),
-('disponibile', 1, 18, 'Chimica', 2, NULL),
-('disponibile', 1, 18, 'Matematica', 5, NULL),
-('disponibile', 2, 15, 'Matematica', 5, NULL),
-('disponibile', 2, 15, 'Latino', 6, NULL),
-('disponibile', 2, 16, 'Fisica', 2, NULL),
-('disponibile', 2, 16, 'Italiano', 4, NULL),
-('disponibile', 2, 16, 'Matematica', 5, NULL),
-('disponibile', 2, 16, 'Latino', 6, NULL),
-('disponibile', 2, 17, 'Fisica', 2, NULL),
-('disponibile', 2, 17, 'Fisica', 3, NULL),
-('disponibile', 2, 17, 'Italiano', 4, NULL),
-('disponibile', 2, 18, 'Fisica', 2, NULL),
-('disponibile', 2, 18, 'Fisica', 3, NULL),
-('disponibile', 3, 15, 'Chimica', 3, NULL),
-('disponibile', 3, 15, 'Matematica', 5, NULL),
-('disponibile', 3, 16, 'Chimica', 3, NULL),
-('disponibile', 3, 16, 'Italiano', 4, NULL),
-('disponibile', 3, 16, 'Matematica', 5, NULL),
-('disponibile', 3, 17, 'Chimica', 3, NULL),
-('disponibile', 3, 17, 'Italiano', 4, NULL),
-('disponibile', 3, 17, 'Matematica', 5, NULL),
-('disponibile', 3, 17, 'Italiano', 6, NULL),
-('disponibile', 3, 18, 'Matematica', 5, NULL),
-('disponibile', 3, 18, 'Italiano', 6, NULL),
-('disponibile', 4, 15, 'Fisica', 2, NULL),
-('disponibile', 4, 16, 'Fisica', 2, NULL),
-('disponibile', 4, 16, 'Inglese', 4, NULL),
-('disponibile', 4, 16, 'Latino', 6, NULL),
-('disponibile', 4, 17, 'Fisica', 2, NULL),
-('disponibile', 4, 17, 'Fisica', 3, NULL),
-('disponibile', 4, 17, 'Inglese', 4, NULL),
-('disponibile', 4, 17, 'Latino', 6, NULL),
-('disponibile', 4, 18, 'Fisica', 2, NULL),
-('disponibile', 4, 18, 'Fisica', 3, NULL),
-('disponibile', 4, 18, 'Inglese', 4, NULL),
-('disponibile', 4, 18, 'Latino', 6, NULL),
-('disponibile', 5, 15, 'Latino', 6, NULL),
-('disponibile', 5, 16, 'Italiano', 6, NULL),
-('disponibile', 5, 17, 'Chimica', 3, NULL),
-('disponibile', 5, 17, 'Matematica', 5, NULL),
-('disponibile', 5, 17, 'Italiano', 6, NULL),
-('disponibile', 5, 18, 'Chimica', 3, NULL),
-('disponibile', 5, 18, 'Matematica', 5, NULL),
-('disponibile', 5, 18, 'Italiano', 6, NULL);
+('disponibile', 1, 15, 'Matematica', 'Cristina Ciocia', NULL),
+('disponibile', 1, 15, 'Chimica', 'Silvia Saporetti', NULL),
+('disponibile', 1, 16, 'Matematica', 'Cristina Ciocia', NULL),
+('prenotato', 1, 16, 'Inglese', 'Mauro Foti', 'riki'),
+('disponibile', 1, 16, 'Chimica', 'Silvia Saporetti', NULL),
+('disponibile', 1, 17, 'Matematica', 'Cristina Ciocia', NULL),
+('disponibile', 1, 17, 'Inglese', 'Mauro Foti', NULL),
+('disponibile', 1, 17, 'Chimica', 'Silvia Saporetti', NULL),
+('disponibile', 1, 18, 'Matematica', 'Cristina Ciocia', NULL),
+('disponibile', 1, 18, 'Chimica', 'Silvia Saporetti', NULL),
+('disponibile', 2, 15, 'Matematica', 'Cristina Ciocia', NULL),
+('disdetta', 2, 15, 'Latino', 'Tiziana Basanisi', 'riki'),
+('disponibile', 2, 16, 'Matematica', 'Cristina Ciocia', NULL),
+('svolto', 2, 16, 'Italiano', 'Mauro Foti', 'riki'),
+('disponibile', 2, 16, 'Fisica', 'Silvia Saporetti', NULL),
+('disponibile', 2, 16, 'Latino', 'Tiziana Basanisi', NULL),
+('disponibile', 2, 17, 'Fisica', 'Carla Bengasi', NULL),
+('disponibile', 2, 17, 'Italiano', 'Mauro Foti', NULL),
+('prenotato', 2, 17, 'Fisica', 'Silvia Saporetti', 'riki'),
+('disponibile', 2, 18, 'Fisica', 'Carla Bengasi', NULL),
+('disponibile', 2, 18, 'Fisica', 'Silvia Saporetti', NULL),
+('disponibile', 3, 15, 'Chimica', 'Carla Bengasi', NULL),
+('disponibile', 3, 15, 'Matematica', 'Cristina Ciocia', NULL),
+('svolto', 3, 16, 'Chimica', 'Carla Bengasi', 'riki'),
+('disponibile', 3, 16, 'Matematica', 'Cristina Ciocia', NULL),
+('disponibile', 3, 16, 'Italiano', 'Mauro Foti', NULL),
+('disponibile', 3, 17, 'Chimica', 'Carla Bengasi', NULL),
+('disponibile', 3, 17, 'Matematica', 'Cristina Ciocia', NULL),
+('disponibile', 3, 17, 'Italiano', 'Mauro Foti', NULL),
+('prenotato', 3, 17, 'Italiano', 'Tiziana Basanisi', 'riki'),
+('disponibile', 3, 18, 'Matematica', 'Cristina Ciocia', NULL),
+('disponibile', 3, 18, 'Italiano', 'Tiziana Basanisi', NULL),
+('disponibile', 4, 15, 'Fisica', 'Silvia Saporetti', NULL),
+('disponibile', 4, 16, 'Inglese', 'Carla Bengasi', NULL),
+('disponibile', 4, 16, 'Fisica', 'Silvia Saporetti', NULL),
+('svolto', 4, 16, 'Latino', 'Tiziana Basanisi', 'riki'),
+('disponibile', 4, 17, 'Fisica', 'Carla Bengasi', NULL),
+('prenotato', 4, 17, 'Inglese', 'Mauro Foti', 'riki'),
+('disponibile', 4, 17, 'Fisica', 'Silvia Saporetti', NULL),
+('disponibile', 4, 17, 'Latino', 'Tiziana Basanisi', NULL),
+('disponibile', 4, 18, 'Fisica', 'Carla Bengasi', NULL),
+('disponibile', 4, 18, 'Inglese', 'Mauro Foti', NULL),
+('disponibile', 4, 18, 'Fisica', 'Silvia Saporetti', NULL),
+('disponibile', 4, 18, 'Latino', 'Tiziana Basanisi', NULL),
+('prenotato', 5, 15, 'Latino', 'Tiziana Basanisi', 'riki'),
+('disponibile', 5, 16, 'Italiano', 'Tiziana Basanisi', NULL),
+('disponibile', 5, 17, 'Chimica', 'Carla Bengasi', NULL),
+('prenotato', 5, 17, 'Matematica', 'Cristina Ciocia', 'riki'),
+('disponibile', 5, 17, 'Italiano', 'Tiziana Basanisi', NULL),
+('disponibile', 5, 18, 'Chimica', 'Carla Bengasi', NULL),
+('disponibile', 5, 18, 'Matematica', 'Cristina Ciocia', NULL),
+('disponibile', 5, 18, 'Italiano', 'Tiziana Basanisi', NULL);
 
 -- --------------------------------------------------------
 
@@ -206,7 +204,7 @@ ALTER TABLE `corsi`
 -- Indexes for table `docenti`
 --
 ALTER TABLE `docenti`
-  ADD PRIMARY KEY (`id_docente`);
+  ADD PRIMARY KEY (`nome`);
 
 --
 -- Indexes for table `insegnamenti`
@@ -221,7 +219,6 @@ ALTER TABLE `insegnamenti`
 ALTER TABLE `ripetizioni`
   ADD PRIMARY KEY (`Giorno`,`Ora_i`,`id_docente`) USING BTREE,
   ADD KEY `username` (`Username`) USING BTREE,
-  ADD KEY `docente` (`id_docente`),
   ADD KEY `corso` (`id_corso`);
 
 --
@@ -231,16 +228,6 @@ ALTER TABLE `utenti`
   ADD PRIMARY KEY (`Username`);
 
 --
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `docenti`
---
-ALTER TABLE `docenti`
-  MODIFY `id_docente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- Constraints for dumped tables
 --
 
@@ -248,15 +235,13 @@ ALTER TABLE `docenti`
 -- Constraints for table `insegnamenti`
 --
 ALTER TABLE `insegnamenti`
-  ADD CONSTRAINT `corso` FOREIGN KEY (`Titolo`) REFERENCES `corsi` (`Titolo`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `docente` FOREIGN KEY (`id_docente`) REFERENCES `docenti` (`id_docente`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `corso` FOREIGN KEY (`Titolo`) REFERENCES `corsi` (`Titolo`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ripetizioni`
 --
 ALTER TABLE `ripetizioni`
   ADD CONSTRAINT `rip_corso` FOREIGN KEY (`id_corso`) REFERENCES `corsi` (`Titolo`),
-  ADD CONSTRAINT `rip_docente` FOREIGN KEY (`id_docente`) REFERENCES `docenti` (`id_docente`),
   ADD CONSTRAINT `username` FOREIGN KEY (`Username`) REFERENCES `utenti` (`Username`) ON DELETE SET NULL ON UPDATE SET NULL;
 COMMIT;
 

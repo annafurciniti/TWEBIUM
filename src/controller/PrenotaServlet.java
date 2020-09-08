@@ -97,11 +97,15 @@ public class PrenotaServlet extends HttpServlet {
                 }
             }
 
+            System.out.println(doc.isEmpty());
+
             ArrayList<Docenti> ret = new ArrayList<Docenti>();
             for(Insegnamenti i: ins){
                 for(Iterator<Docenti> docIterator = doc.iterator(); docIterator.hasNext();){
                     Docenti d = docIterator.next();
-                    if(i.getId_docente() == d.getId_docente())
+
+                    System.out.println(i.getId_docente().equals(d.getNome()) + " :" + i.getId_docente() +" == "+ d.getNome());
+                    if(i.getId_docente().equals(d.getNome()))
                         ret.add(d);
                 }
             }
@@ -121,7 +125,7 @@ public class PrenotaServlet extends HttpServlet {
 
         if (!s.isNew()) {
             //sessione utente attiva
-            int docente = Integer.parseInt(request.getParameter("doc"));
+            String docente = request.getParameter("doc");
             String corso = request.getParameter("corso");
             ArrayList<Ripetizioni> rip = Model.getRipDisponibili();
 
@@ -135,7 +139,7 @@ public class PrenotaServlet extends HttpServlet {
             boolean vuoto= true;
             for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
                 Ripetizioni r = ripIterator.next();
-                if(r.getId_docente() == docente && (r.getId_corso().equals(corso))){
+                if(r.getId_docente().equals(docente)  && r.getId_corso().equals(corso)){
                     godisp[r.getGiorno()-1][r.getOra_i()-15] = true;
                     vuoto=false;
                 }
@@ -159,7 +163,7 @@ public class PrenotaServlet extends HttpServlet {
 
         if (!s.isNew()) {
             //sessione utente attiva
-            int docente = Integer.parseInt(request.getParameter("doc"));
+            String docente = request.getParameter("doc");
             int ora = Integer.parseInt(request.getParameter("ora")) + 15;
             int giorno = Integer.parseInt(request.getParameter("giorno")) + 1;
             String corso = request.getParameter("corso");

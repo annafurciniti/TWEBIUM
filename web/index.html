@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="CSS/stylesheet.css"/>
+    <link rel="stylesheet" type="text/css" href="CSS/navbar.css"/>
     <script type="text/javascript" src="JS/navbar.js"></script>
     <script type="text/javascript" src="JS/footer.js"></script>
 
@@ -20,28 +21,28 @@
             <div class="container">
                 <a class="navbar-brand navbar-logo" href="javascript:void(0);"><img src="img/graduate.png" id="graduate" alt="Logo"/></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-bars text-white"></i>
+                    <i class="fa fa-bars" aria-hidden="true"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                         <li class="nav-item" v-if="logged">
-                            <a class="nav-link" href="admin.html" v-if="utente.isAdmin==1"><i class="far fa-calendar-alt"></i>Admin</a>
+                            <a class="nav-link" href="admin.html" v-if="utente.isAdmin==1">Admin</a>
                         </li>
                         <li class="nav-item" v-if="logged">
-                            <a class="nav-link" href="prenotazioni.html"><i class="fas fa-tachometer-alt"></i>I miei corsi</a>
+                            <a class="nav-link" href="prenotazioni.html">I miei corsi</a>
                         </li>
                         <li class="nav-item" v-if="logged">
-                            <a class="nav-link" href="prenota.html"><i class="fas fa-tachometer-alt"></i>Prenota</a>
+                            <a class="nav-link" href="prenota.html">Prenota</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Home</a>
+                            <a class="nav-link" href="javascript:void(0);">Home</a>
                         </li>
                         <li class="nav-item" v-if="logged">
-                            <a class="nav-link" v-on:click="logout" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Logout</a>
+                            <a class="nav-link" v-on:click="logout" href="javascript:void(0);">Logout</a>
                         </li>
                         <li class="nav-item" v-if="!logged">
-                            <a class="nav-link" href="login.html"><i class="far fa-clone"></i>Accedi</a>
+                            <a class="nav-link" href="login.html">Accedi</a>
                         </li>
                         <!--<li class="nav-item">
                             <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
@@ -99,8 +100,8 @@
                 </div>
             </div>
         </div>
-        <hr class="mb-5">
-        <my-footer > </my-footer>
+        <hr class="mb-5"><!--clearfix w-100 d-md-none-->
+        <my-footer></my-footer>
     </div>
 </div>
 <script>

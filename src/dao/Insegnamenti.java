@@ -4,9 +4,9 @@ public class Insegnamenti{
 
 
     private String titolo;;
-    private int id_docente;
+    private String id_docente;
 
-    public Insegnamenti(String titolo, int id_docente ) {
+    public Insegnamenti(String titolo, String id_docente ) {
         this.titolo = titolo;
         this.id_docente= id_docente;
     }
@@ -15,10 +15,8 @@ public class Insegnamenti{
         this.titolo = titolo;
     }
 
-    public int getId_docente() { return id_docente; }
-
-    public void setId_docente(int id_docente) { this.id_docente = id_docente; }
-
+    public String getId_docente() { return id_docente; }
+    public void setId_docente(String id_docente) { this.id_docente = id_docente; }
 
     public String toString() {
         return "corso: " + titolo + " docente: " + id_docente;

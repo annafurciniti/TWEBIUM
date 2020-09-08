@@ -1,5 +1,5 @@
 Vue.component('my-footer', {
-    template: '<footer class="site-footer page-footer">\n' +
+    template: '<footer class="page-footer site-footer">\n' +
         '    <div class="container">\n' +
         '        <div class="row">\n' +
         '            <div class="col l3 s12 hide-on-med-and-down"  >\n' +

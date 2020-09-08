@@ -5,71 +5,157 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="CSS/navbar.css"/>
+    <link rel="stylesheet" type="text/css" href="CSS/stylesheetPren.css"/>
+    <script type="text/javascript" src="JS/navbar.js"></script>
+    <script type="text/javascript" src="JS/footer.js"></script>
     <title>Prenotazioni</title>
 </head>
 <body>
-    <div id="pr">
-        <h1>Prenotazioni</h1>
-       <!-- <p v-for="rip in ripetizioni">{{rip.stato}}</p>-->
+<div id="pr">
 
-        <div class="container">
-            <!-- tabella Ripetizioni-->
-            <div  class="table-editable">
-                <p>nome: {{utente.username}}, password: {{utente.password}}, admin: {{utente.isAdmin}}</p>
-                <table class="table table-bordered">
-                <thead>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-mainbg">
+            <div class="container">
+                <a class="navbar-brand navbar-logo" href="index.html"><img src="img/graduate.png" id="graduate" alt="Logo"/></a>
+                <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </button>-->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="admin.html" v-if="utente.isAdmin==1">Admin</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="javascript:void(0);">Miei Corsi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="prenota.html">Prenota</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" v-on:click="logout" href="javascript:void(0);">Logout</a>
+                        </li>
+                        <!--<li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <article>
+        <section class="container text-center mt-5">
+            <h3>Le tue Prenotazioni: </h3>
+            <table class="table table-bordered">
+                <thead class="celle-scure">
                     <tr>
-                        <th scope="col">Ripetizione</th>
-                        <th scope="col">Stato</th>
-                        <th scope="col">Giorno</th>
-                        <th scope="col">Ora_i</th>
-                        <th scope="col">Ora_f</th>
-                         <th scope="col">Corso</th>
-                         <th scope="col">Docente</th>
-                         <th scope="col">Username</th>
-                     </tr>
-                    </thead>
-                    <tbody v-for="rip in ripetizioni">
-                    <tr>
-                        <td>{{rip.stato}}</td>
-                        <td>{{rip.Giorno}}</td>
-                        <td>{{rip.Ora_i}}</td>
-                        <td>{{rip.Ora_f}}</td>
-                        <td>{{rip.id_corso}}</td>
-                        <td>{{rip.id_docente}}</td>
-                        <td>{{rip.username}}</td>
+                        <th>Giorno & Ora</th>
+                        <!--<th v-for="g in giorno">{{g}}</th>-->
+                        <th v-for="g in giorno">{{g}}</th>
                     </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-content">
-                <div class="form-group">
-                    <label for="id_rip"> Identificativo ripetizione: </label>
-                    <input class="form-control" placeholder="Ripetizioni" v-model="ripetizioni" id="id_rip"><!--tutto da cambiare-->
+                </thead>
+                <tbody>
+                    <tr v-for="m in 4">
+                        <td class="celle-scure">{{ora[m-1]}}</td>
+                        <td v-for="n in ripPren.length" v-if="ripPren[n-1][m-1] != null" class="attiva text-white"
+                            data-toggle="modal" data-target="#prenModal" v-on:click="dataModal(ripPren[n-1][m-1])">
+                            <strong>{{ripPren[n-1][m-1].id_corso}}</strong></td>
+                        <td v-else class="non-attiva"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="modal fade" id="prenModal" tabindex="-1" role="dialog" aria-labelledby="prenModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="prenModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Corso: {{ripModal.id_corso}}</h5>
+                            <h5>Docente: {{ripModal.id_docente}}</h5>
+                            <h5>Quando: <label id="goModal"></label></h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" v-on:click="cambiaStato('disdetta')">Disdici</button>
+                            <button type="button" class="btn btn-primary" v-on:click="cambiaStato('svolto')">Effettua</button>
+                        </div>
+                    </div>
                 </div>
-
-                <div id="cambiaStato" class="modal-footer">
-                    <button v-on:click="modificaRip('svolta')" class="modal-close waves-effect waves-green btn-flat">Svolta</button>
-                    <button v-on:click="modificaRip('disdetta')" class="modal-close waves-effect waves-orange btn-flat">Disdici</button>
-                    <a href="#!" class="modal-close waves-effect waves-red btn-flat">Annulla</a>
-                </div>
-
             </div>
+        </section>
 
-        </div>
 
-    </div>
-    <my_footer></my_footer>
+        <section class="container text-center mt-5">
+            <h3>Le tue prenotazioni svolte: </h3>
+            <table class="table table-bordered">
+                <thead class="celle-scure">
+                <tr>
+                    <th>Giorno & Ora</th>
+                    <th v-for="g in giorno">{{g}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="m in 4">
+                    <th class="celle-scure">{{ora[m-1]}}</th>
+                    <td v-for="n in ripSvol.length" v-if="ripSvol[n-1][m-1] != null" class="semi-attiva text-white">
+                        <strong>{{ripSvol[n-1][m-1].id_corso}}</strong></td>
+                    <td v-else class="non-attiva"></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
 
+
+        <section class="container text-center my-5">
+            <h3>Le tue prenotazioni disdette: </h3>
+            <table class="table table-bordered">
+                <thead class="celle-scure">
+                <tr>
+                    <th>Giorno & Ora</th>
+                    <th v-for="g in giorno">{{g}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="m in 4">
+                    <th class="celle-scure">{{ora[m-1]}}</th>
+                    <td v-for="n in ripDisd.length" v-if="ripDisd[n-1][m-1] != null" class="semi-attiva text-white">
+                        <strong>{{ripDisd[n-1][m-1].id_corso}}</strong></td>
+                    <td v-else class="non-attiva"></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </article>
+
+
+    <my-footer></my-footer>
+</div>
 <script>
     var pr = new Vue ({
         el: '#pr',
         data: {
             logged: false,
-            sessione:'',
-            ripetizioni: [],
+            ripPren: [],
+            ripDisd: [],
+            ripSvol: [],
+
+            ripModal: [],
+
             utente: {
                 username: '',
                 password: '',
@@ -77,6 +163,20 @@
             },
             link: '/TWEBIUM/PrenotazioniServlet',
             link2: '/TWEBIUM/LoginServlet',
+
+            ora:[
+                "15:00-16:00",
+                "16:00-17:00",
+                "17:00-18:00",
+                "18:00-19:00"
+            ],
+            giorno:[
+                "Lunedì",
+                "Martedì",
+                "Mercoledì",
+                "Giovedì",
+                "Venerdì"
+            ],
         },
         mounted(){
             this.init();
@@ -86,9 +186,11 @@
                 var self = this;
                 $.post(this.link, {action:'INIT'}, function(data) {
                     data = JSON.parse(data);
-                    if(data[0]===true){//sessione attiva login effettuato
+                    if(data[0]===true){
                         self.utente = data[1];
-                        self.ripetizioni = data[2];
+                        self.ripPren = data[2];
+                        self.ripDisd = data[3];
+                        self.ripSvol = data[4];
                         self.logged =true;
                     }
                     else{
@@ -97,34 +199,6 @@
                     }
                 });
             },
-
-            /*statoDisponibile:function(){
-                var self = this;
-                $.post(this.link, {action:'DISPONIBILE'}, function(data) {
-                    data = JSON.parse(data);
-                    if(data[0]===true){//sessione attiva login effettuato
-                        self.utente = data[1];
-                        self.ripDisponibile = data[3];
-                        self.logged =true;
-                    }
-                    else{
-                        self.logged=false;
-                        window.location = "index.html";
-                    }
-                });
-            },
-
-            modificaRip : function(stato){
-                var self = this;
-                this.id_rip =document.getElementById('id_rip').innerHTML;
-                $.post(this.link, {id_rip: this.id_rip, action: "CAMBIASTATO", stato: stato},
-                    function (data) {
-                            data = JSON.parse(data);
-                            self.ripetizioni = data[2];
-                            window.location = "prenotazioni.html";
-                    });
-            },*/
-
             logout:function(){
                 $.post(this.link2,{
                         action: 'LOGOUT'
@@ -132,9 +206,35 @@
                 );
                 this.logged=false;
                 window.location = "index.html";
-            }
+            },
+            dataModal: function(rip){
+                var self = this;
+                self.ripModal = rip;
+                document.getElementById('goModal').innerHTML = this.giorno[rip.giorno-1] + " alle " + this.ora[rip.ora_i-15];
+            },
+            cambiaStato: function(stato){
+                /*var self = this;
+                var d = this.ripModal.id_docente;
+                var o = this.ripModal.ora_i;
+                var g = this.ripModal.giorno;
+                console.log(d +" "+ o +" "+ g);
+                $.get(this.link, {action:'STATO', docente: d, ora: o, giorno: g, stato: stato}, function(data) {
+                    data = JSON.parse(data);
+                    if(data[0]===true){//sessione attiva login effettuato
+                        window.location.reload();
+                    }
+                    else{
+                        window.location = "index.html";
+                    }
+                });*/
+                alert("non faccio ancora niente :)");
+            },
         }
     });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

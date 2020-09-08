@@ -104,7 +104,7 @@ public class AdminServlet extends HttpServlet {
         Gson gson = new Gson();
         String Nome = request.getParameter("nome");
         String Cognome =request.getParameter("cognome");
-        Docenti d = new Docenti(Nome,Cognome,0);
+        Docenti d = new Docenti(Nome);
         Boolean add = Model.InserisciDocenti(d);
         System.out.println("return:" + add);
 
@@ -115,7 +115,7 @@ public class AdminServlet extends HttpServlet {
         Gson gson =new Gson();
         String Nome = request.getParameter("nome");
         String Cognome =request.getParameter("cognome");
-        Docenti d = new Docenti(Nome,Cognome,0);
+        Docenti d = new Docenti(Nome);
         boolean delete = Model.RimuoviDoc(d);
         System.out.println("AdminServlet/riumuoviDocenti; delete-> " + delete);
         return gson.toJson(delete);
@@ -125,7 +125,7 @@ public class AdminServlet extends HttpServlet {
     private String InserisciInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         String titolo = request.getParameter("titolo");
-        int id_docente =Integer.parseInt(request.getParameter("id_docente"));
+        String id_docente =request.getParameter("id_docente");
         Insegnamenti i = new Insegnamenti(titolo,id_docente);
         Boolean add = Model.InserisciInsegnamenti(i);
         System.out.println("return:" + add);
@@ -135,7 +135,7 @@ public class AdminServlet extends HttpServlet {
     private String rimuoviInsegnamenti(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson =new Gson();
         String titolo = request.getParameter("titolo");
-        int id_docente =Integer.parseInt(request.getParameter("id_docente"));
+        String id_docente =request.getParameter("id_docente");
         Insegnamenti i = new Insegnamenti(titolo,id_docente);
         boolean delete =Model.RimuoviInsegnamenti(i);
         System.out.println("AdminServlet/riumuoviInsegnamenti; delete-> " + delete);

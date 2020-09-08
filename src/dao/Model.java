@@ -159,8 +159,7 @@ public class Model {
             Statement st1 = conn1.createStatement();
             ResultSet rs1 = st1.executeQuery("SELECT * FROM docenti");
             while (rs1.next()) {
-                Docenti d = new Docenti(rs1.getString("Nome"), rs1.getString("Cognome"), rs1.getInt("id_docente"));
-                //, rs1.getInt("id_docente")
+                Docenti d = new Docenti(rs1.getString("Nome"));
                 doc.add(d);
             }
         } catch (SQLException e) {
@@ -180,18 +179,16 @@ public class Model {
             conn1 = openConnection();
 
             String Nome = "\"" + docente.getNome() + "\"";
-            String Cognome = "\"" + docente.getCognome() + "\"";
-            String id_docente = "'" + docente.getId_docente() + "'";
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT docenti.nome, docenti.cognome, docenti.id_docente " +
+            ResultSet rs = st.executeQuery("SELECT * " +
                     "FROM `docenti` " +
-                    "WHERE docenti.Nome=" + Nome +" AND docenti.Cognome= "+ Cognome +" AND docenti.id_docente= "+ id_docente +"");
+                    "WHERE docenti.Nome=" + Nome +"");
             if (rs.isBeforeFirst()) {
                 System.out.println("Già presente nel DB");
                 return false;
             }
-            st.executeUpdate("INSERT INTO Docenti (Nome,Cognome,Id_docente) VALUE (" + Nome + "," + Cognome + "," + id_docente + ")");
-            System.out.println("Docente: " + Nome + " " + Cognome + "," + id_docente + " aggiunto nel DB");
+            st.executeUpdate("INSERT INTO Docenti (Nome) VALUE (" + Nome + ")");
+            System.out.println("Docente: " + Nome + " aggiunto nel DB");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -210,11 +207,9 @@ public class Model {
             conn1 = openConnection();
 
             String Nome = "'" + docente.getNome() + "'";
-            String Cognome = "'" + docente.getCognome() + "'";
-            String id_docente = "'" + docente.getId_docente() + "'";
             Statement st = conn1.createStatement();
-            st.executeUpdate("DELETE FROM docenti WHERE docenti.Nome=" +Nome+ " AND docenti.Cognome= " + Cognome + " AND docenti.id_docente= " + id_docente + "");
-            System.out.println("Docente" + Nome + " " + Cognome + " rimosso.");
+            st.executeUpdate("DELETE FROM docenti WHERE docenti.Nome=" +Nome+ "");
+            System.out.println("Docente" + Nome + " rimosso.");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -225,31 +220,6 @@ public class Model {
         }
         return false;
     }
-
-    /*public static ArrayList<Docenti> DisponibilitàDoc(String id_rip) throws SQLException {
-        Connection conn1 = null;
-        ArrayList<Docenti> docenti = new ArrayList<>();
-        try {
-            conn1 = openConnection();
-
-            Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT docenti.id_docente FROM docenti join  ripetizioni.id_docente WHERE docenti.id_docente = ripetizioni.id_docente and ripetizioni.stato = 'disponibile' " + id_rip);
-            while (rs.next()) {
-                int id_docente = rs.getInt("id_docente");
-                String Nome = rs.getString("Nome");
-                String Cognome = rs.getString("Cognome");
-                Docenti d = new Docenti(Nome, Cognome, id_docente);
-                docenti.add(d);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error communicating with the database: " + e.getMessage());
-        } finally {
-            if (conn1 != null) {
-                closeConnection(conn1);
-            }
-        }
-        return docenti;
-    }*/
 
     /**
      * Corsi
@@ -358,7 +328,7 @@ public class Model {
             ResultSet rs3 = st3.executeQuery("SELECT * FROM ripetizioni");
             while (rs3.next()) {
                 Ripetizioni r = new Ripetizioni(rs3.getString("stato") , rs3.getInt("Giorno"), rs3.getInt("Ora_i")
-                        , rs3.getString("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
+                        , rs3.getString("ID_Corso"), rs3.getString("Id_docente"),rs3.getString("Username"));
                 out3.add(r);
             }
         } catch (SQLException e) {
@@ -394,8 +364,6 @@ public class Model {
         return false;
     }
 
-
-
     //rimuovo ripetizioni
     public static void rimuoviRipetizioni(Ripetizioni ripetizioni){
         Connection conn1 = null;
@@ -419,7 +387,6 @@ public class Model {
     }
 
 
-    // Visualizzo la disponibilità delle ripetizioni
     public static ArrayList<Ripetizioni> getRipDisponibili() {
         Connection conn1 = null;
         ArrayList<Ripetizioni> ripetizioni = new ArrayList<>();
@@ -429,11 +396,10 @@ public class Model {
             Statement st = conn1.createStatement();
             ResultSet rs3 = st.executeQuery("SELECT * FROM ripetizioni WHERE username is NULL ");
             while (rs3.next()) {
-                    Ripetizioni r = new Ripetizioni( rs3.getString("stato") , rs3.getInt("Giorno"), rs3.getInt("Ora_i"), rs3.getString("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
+                    Ripetizioni r = new Ripetizioni( rs3.getString("stato") , rs3.getInt("Giorno"), rs3.getInt("Ora_i"), rs3.getString("ID_Corso"), rs3.getString("Id_docente"),rs3.getString("Username"));
                     ripetizioni.add(r);
-                    System.out.println("Ripetizioni disponibili");
                 }
-
+            System.out.println("Ripetizioni disponibili");
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
         } finally {
@@ -444,22 +410,21 @@ public class Model {
         return ripetizioni;
     }
 
-    public static ArrayList<Ripetizioni> MieRip(String stato) {
+    public static ArrayList<Ripetizioni> getMieRip(String username) {
         Connection conn1 = null;
         ArrayList<Ripetizioni> ripetizioni = new ArrayList<>();
         try {
             conn1 = openConnection();
 
             Statement st = conn1.createStatement();
-            stato = "'" + stato + "'";
+            username = "'" + username + "'";
             //username = "'" + username + "'";
-            ResultSet rs3 = st.executeQuery("SELECT * FROM ripetizioni WHERE ripetizioni.stato=" + stato);
+            ResultSet rs3 = st.executeQuery("SELECT * FROM ripetizioni WHERE ripetizioni.username=" + username);
             while (rs3.next()) {
-                Ripetizioni r = new Ripetizioni( rs3.getString("stato") , rs3.getInt("Giorno"), rs3.getInt("Ora_i"), rs3.getString("ID_Corso"), rs3.getInt("Id_docente"),rs3.getString("Username"));
+                Ripetizioni r = new Ripetizioni( rs3.getString("stato") , rs3.getInt("Giorno"), rs3.getInt("Ora_i"), rs3.getString("ID_Corso"), rs3.getString("Id_docente"),rs3.getString("Username"));
                 ripetizioni.add(r);
-                System.out.println("Ripetizioni disponibili");
             }
-
+            System.out.println("Ripetizioni di " + username);
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
         } finally {
@@ -470,17 +435,18 @@ public class Model {
         return ripetizioni;
     }
 
-    public static boolean ModificaStato(int id_rip, String stato) {
+    public static boolean modificaStato(Ripetizioni rip, String stato) {
         Connection conn1 = null;
-        ArrayList<Ripetizioni> ripetizioni = new ArrayList<>();
-        //int rs = 0;
-        //System.out.println("Function "+ id_rip +  "    " + stato);
+
         try {
             conn1 = openConnection();
             Statement st = conn1.createStatement();
             stato = "'" + stato + "'";
-            id_rip = Integer.parseInt("'" + id_rip + "'");
-            st.executeUpdate("UPDATE ripetizioni Set ripetizioni.stato = '"+stato+"' WHERE ripetizioni.id_rip = "+id_rip+" ");
+            String docente = "'" + rip.getId_docente() + "'";
+            String giorno = "'" + rip.getGiorno() + "'";
+            String ora = "'" + rip.getOra_i() + "'";
+            st.executeUpdate("UPDATE ripetizioni Set ripetizioni.stato = '"+stato+"' WHERE ripetizioni.id_docente = "+docente+" && " +
+                    "ripetizioni.Ora_i = "+ora+" && ripetizioni.Giorno = "+giorno+"");
             System.out.println("RISULTATO UPDATE: " +stato);
             return true;
         } catch (SQLException e) {
@@ -490,8 +456,6 @@ public class Model {
                 closeConnection(conn1);
             }
         }
-       // System.out.println("RISULTATO UPDATE: " +stato);
-       // return rs ==1;
         return false;
     }
 
@@ -506,7 +470,7 @@ public class Model {
             Statement st2 = conn1.createStatement();
             ResultSet rs2 = st2.executeQuery("SELECT * FROM insegnamenti");
             while (rs2.next()) {
-                Insegnamenti i = new Insegnamenti(rs2.getString("titolo"), rs2.getInt("id_docente"));
+                Insegnamenti i = new Insegnamenti(rs2.getString("titolo"), rs2.getString("id_docente"));
                 out.add(i);
             }
         }

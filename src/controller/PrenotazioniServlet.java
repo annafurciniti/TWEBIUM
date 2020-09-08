@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @WebServlet(name = "PrenotazioniServlet", urlPatterns ={"/PrenotazioniServlet"})
 public class PrenotazioniServlet extends HttpServlet {
@@ -46,16 +47,16 @@ public class PrenotazioniServlet extends HttpServlet {
                 case "INIT":
                     out.print(mioinit(request, response));
                     break;
-           /*     case "CAMBIASTATO":
+                case "STATO":
                     out.print(modificaStato(request, response));
-                    break;*/
+                    break;
             }
         } catch (IOException e) {
             System.out.println(e);
         }
     }
 
-    private String mioinit(HttpServletRequest request, HttpServletResponse response) throws IOException {//cococommit
+    private String mioinit(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession s = request.getSession();
         Utenti u;
         Gson gson = new Gson();
@@ -63,44 +64,57 @@ public class PrenotazioniServlet extends HttpServlet {
 
 
         if (!s.isNew()) {
-                ArrayList<Ripetizioni> mieRip = Model.MieRip((String) s.getAttribute("username"));
-                u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
-                json += gson.toJson(true) + "," + gson.toJson(u) + "," + gson.toJson(mieRip) + "]";}
-        else{
-            json += gson.toJson(false) + "]";
-        }
 
-        return json;
-        }
+            u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
 
 
-    /*private String statoDisponibile(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession s = request.getSession();
-        Utenti u;
-        Gson gson = new Gson();
-        String json ="[";
+            Ripetizioni[][] goPren = new Ripetizioni[5][4];
+            Ripetizioni[][] goDisd = new Ripetizioni[5][4];
+            Ripetizioni[][] goSvol = new Ripetizioni[5][4];
 
-        ArrayList<Ripetizioni> ripetizioni = Model.DisponibilitaRip();
-        if (!s.isNew()) {
-            //sessione utente attiva
-            if (s.getAttribute("username") != null) {
-                u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
-                json += gson.toJson(true) + "," + gson.toJson(u) + "," + gson.toJson(ripetizioni) + "]";
+            String username = (String) s.getAttribute("username");
+            ArrayList<Ripetizioni> rip = Model.getMieRip(username);
+            for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
+                Ripetizioni r = ripIterator.next();
+                if(r.getStato().equals("prenotato") ){
+                    goPren[r.getGiorno()-1][r.getOra_i()-15] = r;
+                }
+                else if(r.getStato().equals("svolto"))
+                    goSvol[r.getGiorno()-1][r.getOra_i()-15] = r;
+                else
+                    goDisd[r.getGiorno()-1][r.getOra_i()-15] = r;
             }
+
+            json += gson.toJson(true) + "," + gson.toJson(u) + "," + gson.toJson(goPren) + "," + gson.toJson(goDisd) + "," + gson.toJson(goSvol) + "]";
         }
         else{
             json += gson.toJson(false) + "]";
         }
         return json;
     }
-    private String modificaStato(HttpServletRequest request, HttpServletResponse response){
-        Gson gson = new Gson();
-        String id_rip = request.getParameter("id_rip");
-        String stato = request.getParameter("stato");
-        boolean ret = Model.ModificaStato(Integer.parseInt(id_rip), stato);
-        System.out.println("Stato nuovo di "+id_rip+": " + stato);
-        return gson.toJson(ret);
 
+    private String modificaStato(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession s = request.getSession();
+        Utenti u;
+        Gson gson = new Gson();
+        String json ="[";
+
+
+        if (!s.isNew()) {
+            u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
+            String docente = request.getParameter("docente");
+            int ora = Integer.parseInt(request.getParameter("ora"));
+            int giorno = Integer.parseInt(request.getParameter("giorno"));
+            String stato = request.getParameter("stato");
+            System.out.println(docente + " " + giorno + " " + ora + " " + stato);
+
+            boolean x = Model.modificaStato(new Ripetizioni("",giorno,ora,"",docente,(String) s.getAttribute("username")),stato);
+
+            json += gson.toJson(true) + "]";
+        }
+        else{
+            json += gson.toJson(false) + "]";
+        }
+        return json;
     }
-*/
 }
