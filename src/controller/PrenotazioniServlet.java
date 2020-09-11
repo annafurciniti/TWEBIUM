@@ -109,8 +109,8 @@ public class PrenotazioniServlet extends HttpServlet {
             System.out.println(docente + " " + giorno + " " + ora + " " + stato);
 
             boolean x = Model.modificaStato(new Ripetizioni("",giorno,ora,"",docente,(String) s.getAttribute("username")),stato);
-
-            json += gson.toJson(true) + "]";
+            System.out.println("X è: " + x);
+            json += gson.toJson(x) + "]";
         }
         else{
             json += gson.toJson(false) + "]";

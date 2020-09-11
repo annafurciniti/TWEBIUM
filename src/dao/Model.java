@@ -445,7 +445,9 @@ public class Model {
             String docente = "'" + rip.getId_docente() + "'";
             String giorno = "'" + rip.getGiorno() + "'";
             String ora = "'" + rip.getOra_i() + "'";
-            st.executeUpdate("UPDATE ripetizioni Set ripetizioni.stato = '"+stato+"' WHERE ripetizioni.id_docente = "+docente+" && " +
+
+            System.out.println("Model.modificaStato -> " +docente + " " + giorno + " " + ora + " " + stato);
+            st.executeUpdate("UPDATE ripetizioni Set ripetizioni.stato = "+stato+" WHERE ripetizioni.id_docente = "+docente+" && " +
                     "ripetizioni.Ora_i = "+ora+" && ripetizioni.Giorno = "+giorno+"");
             System.out.println("RISULTATO UPDATE: " +stato);
             return true;
@@ -515,11 +517,6 @@ public class Model {
             String id_docente = "'" + insegnamenti.getId_docente() + "'";
             System.out.println("L'insegnamento da rimuovere é: " + titolo +"con docente" +id_docente);
             Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT insegnamenti.titolo, insegnamenti.id_docente" + " FROM insegnamenti " + "WHERE insegnamenti.titolo =" + titolo + " AND insegnamenti.id_docente="+id_docente+"");
-            if (!rs.isBeforeFirst()) {
-                System.out.println("Non é presente nel DB.");
-                return false;
-            }
             st.executeUpdate("DELETE FROM insegnamenti WHERE insegnamenti.titolo=" + titolo +" AND insegnamenti.id_docente= "+id_docente+"");
             System.out.println("L'insegnamento: " + titolo + "con docente"+id_docente+"rimosso.");
             return true;

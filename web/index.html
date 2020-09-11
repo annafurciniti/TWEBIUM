@@ -14,7 +14,8 @@
     <title>Homepage</title>
 </head>
 <body>
-<div id="app">
+<div id="app" class="full-height">
+    <div class="content-wrap">
     <!--barra di navigazione-->
     <header>
         <nav class="navbar navbar-expand-lg navbar-mainbg">
@@ -67,7 +68,7 @@
                     <h4 class="mb-4 p-3 col-10 border border-secondary rounded">
                         Qui potrai prenotare ripetizioni individuali per varie materie, per le quali si ha la
                         possibilità di scegliere tra più professori, tutti con almeno quattro anni di esperienza di istruzione online.
-                        Cosa aspetti,<br> <strong id="gratis">LA PRIMA SETTIMANA E' GRATIS!</strong>
+                        Cosa aspetti,<br> <strong id="gratis"><u>LA PRIMA SETTIMANA E' GRATIS!</u></strong>
                     </h4>
                 </div>
                 <div class="row">
@@ -84,7 +85,7 @@
             <footer class="blockquote-footer"><cite title="Source Title">THOMAS A. EDISON</cite></footer>
         </blockquote>
 
-        <hr class="m-5">
+        <hr class="m-15">
 
 
         <div class="container">
@@ -100,9 +101,10 @@
                 </div>
             </div>
         </div>
-        <hr class="mb-5"><!--clearfix w-100 d-md-none-->
-        <my-footer></my-footer>
+        <hr><!--clearfix w-100 d-md-none-->
+        </div>
     </div>
+    <my-footer></my-footer>
 </div>
 <script>
     var app = new Vue ({

@@ -92,6 +92,14 @@ body {
     background:linear-gradient(135deg, #5161ce 0%,#17ead9 100%);
 }
 
+.modred{
+    background:linear-gradient(135deg, #e01e37 0%,#ff944d 100%);
+}
+
+.modgreen{
+    background:linear-gradient(135deg, #35C081 0%,#ffffff 100%);
+}
+
 /*calendarietto*/
 
 .attiva{
@@ -106,7 +114,14 @@ body {
 }
 
 .semi-attiva{
-    background-color: #DE6B48; /*ED6A5A  */
+    cursor:pointer;
+    background-color: #35C081; /*ED6A5A  */
+    font-size: larger;
+}
+
+.semi-attiva:hover{
+    cursor:pointer;
+    background-color: #8FE0BC; /*ED6A5A  */
     font-size: larger;
 }
 
@@ -137,4 +152,18 @@ hr{
     size:5px;
     width:80%;
     color:white;
+}
+
+p{
+    cursor:pointer;
+}
+
+#pr{
+    position: relative;
+    min-height: 100vh;
+}
+
+#pren{
+    position: relative;
+    min-height: 100vh;
 }

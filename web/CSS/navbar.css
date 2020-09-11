@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-body{
-    font-family: 'Roboto', sans-serif;
-    margin-bottom: 15px;
+html {
+    height: 100%;
 }
+body { font-family: 'Roboto', sans-serif;
+    min-height: 100%;}
+
 i {
     margin-right: 10px;
 }
@@ -13,7 +15,6 @@ div[class="col l7 s12"]{
     position: center ;
     color:white;
     font-family: "Font Awesome 5 Free";
-
 }
 
 .navbar-logo{
@@ -149,15 +150,24 @@ div[class="col l7 s12"]{
 }
 
 .site-footer {
-    background-color: #5161ce;
+    background-color: #368FD3;
     /*background-position: bottom;*/
-    position: relative;
+    position: absolute;
     width:100%;
     color:white;
-    bottom: 0;
+    height: 182px;
+    bottom:0;
+}
+
+.content-wrap {
+    padding-bottom: 182px;    /* Footer height */
 }
 
 .immagine-footer{
-    margin-top: 15px;
+    margin-top: 20px;
+    color:white;
 }
+
+
+
 

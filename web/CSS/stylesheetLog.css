@@ -280,5 +280,8 @@ input[type=password]::placeholder {
     outline: none;
 }
 
-
+#log{
+    position: relative;
+    min-height: 100vh;
+}
 

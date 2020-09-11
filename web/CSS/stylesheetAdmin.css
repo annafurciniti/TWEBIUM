@@ -80,3 +80,12 @@ h1,h2,h3{
     display: block;
     width: 30%;
 }
+
+#admin{
+    position: relative;
+    min-height: 100vh;
+}
+
+.page-link{
+    cursor: pointer;
+}

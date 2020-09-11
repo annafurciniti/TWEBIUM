@@ -7,7 +7,7 @@
 }
 
 #gratis{
-    color: 	#87CEFA;
+    color: 	#90e0ef;
 }
 
 .card{
@@ -17,7 +17,7 @@
 }
 
 .card-header{
-    background:#5161ce;
+    background:#FE2F20;
     width: 100%;
 }
 
@@ -34,8 +34,12 @@ hr{
     color:white;
 }
 
-.ben { color: #65799b; font-family: 'Helvetica Neue', sans-serif; font-weight: bold; letter-spacing: -1px; line-height: 1; }
+.ben { color: #e63946; font-family: 'Helvetica Neue', sans-serif; font-weight: bold; letter-spacing: -1px; line-height: 1; }
 
+#app{
+    position: relative;
+    min-height: 100vh;
+}
 
 
 

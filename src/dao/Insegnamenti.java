@@ -3,7 +3,7 @@ package dao;
 public class Insegnamenti{
 
 
-    private String titolo;;
+    private String titolo;
     private String id_docente;
 
     public Insegnamenti(String titolo, String id_docente ) {

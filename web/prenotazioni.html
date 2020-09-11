@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="CSS/navbar.css"/>
     <link rel="stylesheet" type="text/css" href="CSS/stylesheetPren.css"/>
+    <link rel="stylesheet" type="text/css" href="CSS/navbar.css"/>
     <script type="text/javascript" src="JS/navbar.js"></script>
     <script type="text/javascript" src="JS/footer.js"></script>
     <title>Prenotazioni</title>
 </head>
 <body>
-<div id="pr">
-
+<div id="pr" class="full-height">
+    <div class="content-wrap">
     <header>
         <nav class="navbar navbar-expand-lg navbar-mainbg">
             <div class="container">
@@ -52,14 +52,21 @@
         </nav>
     </header>
 
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-5">
+            <li v-for="page in pages" class="page-item" :class="page.classObject"><p class="page-link" v-on:click="cambiaPag(page.id)">{{page.name}}</p></li> <!--:class="page.classObject"-->
+        </ul>
+    </nav>
+
+
     <article>
-        <section class="container text-center mt-5">
-            <h3>Le tue Prenotazioni: </h3>
+        <section class="container text-center mb-5 mt-3" v-show="currentPage == 1">
+            <h3>Le tue prenotazioni: </h3>
             <table class="table table-bordered">
                 <thead class="celle-scure">
                     <tr>
                         <th>Giorno & Ora</th>
-                        <!--<th v-for="g in giorno">{{g}}</th>-->
                         <th v-for="g in giorno">{{g}}</th>
                     </tr>
                 </thead>
@@ -74,32 +81,10 @@
                 </tbody>
             </table>
 
-            <div class="modal fade" id="prenModal" tabindex="-1" role="dialog" aria-labelledby="prenModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="prenModalLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <h5>Corso: {{ripModal.id_corso}}</h5>
-                            <h5>Docente: {{ripModal.id_docente}}</h5>
-                            <h5>Quando: <label id="goModal"></label></h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" v-on:click="cambiaStato('disdetta')">Disdici</button>
-                            <button type="button" class="btn btn-primary" v-on:click="cambiaStato('svolto')">Effettua</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
 
 
-        <section class="container text-center mt-5">
+        <section class="container text-center mb-5 mt-3" v-show="currentPage == 2">
             <h3>Le tue prenotazioni svolte: </h3>
             <table class="table table-bordered">
                 <thead class="celle-scure">
@@ -111,7 +96,8 @@
                 <tbody>
                 <tr v-for="m in 4">
                     <th class="celle-scure">{{ora[m-1]}}</th>
-                    <td v-for="n in ripSvol.length" v-if="ripSvol[n-1][m-1] != null" class="semi-attiva text-white">
+                    <td v-for="n in ripSvol.length" v-if="ripSvol[n-1][m-1] != null" class="semi-attiva text-white"
+                        data-toggle="modal" data-target="#altreModal" v-on:click="dataModal(ripSvol[n-1][m-1])">
                         <strong>{{ripSvol[n-1][m-1].id_corso}}</strong></td>
                     <td v-else class="non-attiva"></td>
                 </tr>
@@ -120,7 +106,7 @@
         </section>
 
 
-        <section class="container text-center my-5">
+        <section class="container text-center mb-5 mt-3" v-show="currentPage == 3">
             <h3>Le tue prenotazioni disdette: </h3>
             <table class="table table-bordered">
                 <thead class="celle-scure">
@@ -132,7 +118,8 @@
                 <tbody>
                 <tr v-for="m in 4">
                     <th class="celle-scure">{{ora[m-1]}}</th>
-                    <td v-for="n in ripDisd.length" v-if="ripDisd[n-1][m-1] != null" class="semi-attiva text-white">
+                    <td v-for="n in ripDisd.length" v-if="ripDisd[n-1][m-1] != null" class="semi-attiva text-white"
+                        data-toggle="modal" data-target="#altreModal" v-on:click="dataModal(ripDisd[n-1][m-1])">
                         <strong>{{ripDisd[n-1][m-1].id_corso}}</strong></td>
                     <td v-else class="non-attiva"></td>
                 </tr>
@@ -140,11 +127,59 @@
             </table>
         </section>
 
+        <section>
+            <!--MODAL PRENOTAZIONI ATTIVE-->
+            <div class="modal fade" id="prenModal" tabindex="-1" role="dialog" aria-labelledby="prenModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header modred">
+                            <h3 class="modal-title text-white" id="prenModalLabel">Dettagli prenotazione</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5><strong>Corso: </strong> {{ripModal.id_corso}}</h5>
+                            <h5><strong>Docente: </strong> {{ripModal.id_docente}}</h5>
+                            <h5><strong>Quando: </strong> <label id="goModal"></label></h5>
+
+                            <button type="button" class="btn btn-dark float-right ml-1" data-dismiss="modal">Close</button>
+                            <a type="button" class="btn modred text-white float-right ml-1" v-on:click="cambiaStato('disdetta')">Disdici</a>
+                            <a type="button" class="btn modred text-white float-right" v-on:click="cambiaStato('svolto')">Effettua</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <!--MODAL ALTRE PRENOTAZIONI-->
+            <div class="modal fade" id="altreModal" tabindex="-1" role="dialog" aria-labelledby="altreModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header modgreen">
+                            <h3 class="modal-title text-white" id="altreModalLabel">Dettagli prenotazione</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5><strong>Corso: </strong> {{ripModal.id_corso}}</h5>
+                            <h5><strong>Docente: </strong> {{ripModal.id_docente}}</h5>
+                            <h5><strong>Quando: </strong> <label id="gooModal"></label></h5>
+
+
+                            <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </article>
-
-
+    </div>
     <my-footer></my-footer>
 </div>
+
 <script>
     var pr = new Vue ({
         el: '#pr',
@@ -153,6 +188,7 @@
             ripPren: [],
             ripDisd: [],
             ripSvol: [],
+            currentPage: 1,
 
             ripModal: [],
 
@@ -177,6 +213,29 @@
                 "Giovedì",
                 "Venerdì"
             ],
+            pages:[
+                {
+                    id: 1,
+                    name:"Attive",
+                    classObject:{
+                        active:true,
+                    }
+                },
+                {
+                    id: 2,
+                    name:"Svolte",
+                    classObject:{
+                        active:false
+                    }
+                },
+                {
+                    id: 3,
+                    name:"Disdette",
+                    classObject:{
+                        active:false
+                    }
+                }
+            ]
         },
         mounted(){
             this.init();
@@ -211,30 +270,35 @@
                 var self = this;
                 self.ripModal = rip;
                 document.getElementById('goModal').innerHTML = this.giorno[rip.giorno-1] + " alle " + this.ora[rip.ora_i-15];
+                document.getElementById('gooModal').innerHTML = this.giorno[rip.giorno-1] + " alle " + this.ora[rip.ora_i-15];
             },
             cambiaStato: function(stato){
-                /*var self = this;
-                var d = this.ripModal.id_docente;
-                var o = this.ripModal.ora_i;
-                var g = this.ripModal.giorno;
-                console.log(d +" "+ o +" "+ g);
-                $.get(this.link, {action:'STATO', docente: d, ora: o, giorno: g, stato: stato}, function(data) {
-                    data = JSON.parse(data);
-                    if(data[0]===true){//sessione attiva login effettuato
-                        window.location.reload();
+                var self = this;
+                $.post(this.link, {action:'STATO', docente: this.ripModal.id_docente, ora: this.ripModal.ora_i, giorno: this.ripModal.giorno ,stato: stato},
+                    function(data) {
+                        data = JSON.parse(data);
+                        if(data[0]===true){//sessione attiva login effettuato
+                            window.location.reload();
+                        }
+                        else{
+                            window.location = "index.html";
                     }
-                    else{
-                        window.location = "index.html";
-                    }
-                });*/
-                alert("non faccio ancora niente :)");
+                });
             },
+            cambiaPag: function (pag) {
+                var self = this;
+                self.changeClass(pag)
+                self.currentPage= pag;
+            },
+            changeClass:function(pag){//flag = true allora ti sposti in avanti, all'indietro altrimenti
+                var self = this;
+                self.pages[this.currentPage-1].classObject = {active: false};
+                self.pages[pag-1].classObject = {active: true};
+            }
         }
     });
 </script>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
 </html>
