@@ -1,82 +1,10 @@
 /************/
-.table-editable{
-    font-size:24px;
-    font-family: 'Roboto', sans-serif;
-    color: white;
-}
-.card{
-    height: auto;
-}
-#id_docente1{
-    margin-top: 1%;
-}
-.pt-3-half{
-    font-size:24px;
-    color: #0d0d0d;
-}
-#inserisci{
-    font-size:24px;
-    color: #0d0d0d;
-    font-family: 'Roboto', sans-serif;
-}
-#inserisci2{
-    font-size:24px;
-    color: #0d0d0d;
-    font-family: 'Roboto', sans-serif;
-}
-#inserisci3{
-    font-size:24px;
-    color: #0d0d0d;
-    font-family: 'Roboto', sans-serif;
-}
-#inserisci4{
-    font-size:24px;
-    color: #0d0d0d;
-    font-family: 'Roboto', sans-serif;
-}
-#add{
-    margin-top: 1%;
-    margin-bottom: 1%;
-}
-#add2{
-    margin-top: 1%;
-    margin-bottom: 1%;
-}
-#add3{
-    margin-top: 1%;
-    margin-bottom: 1%;
-}
-#listacorsi{
-    text-align: center;
-    position: center;
-    alignment: center;
-    width:50%;
-}
-remove{
-    color: red;
-    text-align: right;
-}
-label{
-    width: 30%;
-}
-textarea {
-    width: 30%;
+
+.forms{
+    width: 60%;
 }
 
-.form-control{
-    width:100%;
-    text-align: center;
-    alignment: center;
-    display: flex;
-    display: -webkit-flex;
-    flex-direction: row;
-    -webkit-flex-direction: row;
-}
-h1,h2,h3{
-    text-align: center;
-}
 .titolo{
-    text-align:center;
     display: block;
     width: 30%;
 }
@@ -88,4 +16,28 @@ h1,h2,h3{
 
 .page-link{
     cursor: pointer;
+}
+
+.card-header{
+    background:linear-gradient(135deg, #5161ce 0%, #AFAAB9 100%);
+}
+
+thead{
+    background-color: #35C081;
+    color: white;
+}
+
+hr{
+    width:80%;
+    margin: auto;
+}
+
+.bott{
+    background-color: #10A89B;
+    color:white;
+}
+
+.bott:hover{
+    background-color: #15E0CF;
+    color:white;
 }

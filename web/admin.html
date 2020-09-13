@@ -2,11 +2,13 @@
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns: xmlns: xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <title>Admin</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <title>Admin</title>
 
     <link rel="stylesheet" type="text/css" href="CSS/stylesheetAdmin.css"/>
     <link rel="stylesheet" type="text/css" href="CSS/navbar.css"/>
@@ -58,42 +60,44 @@
             <!--Corsi-->
                 <div class="row justify-content-center align-self-center m-5" v-show="currentPage == 1">
                     <div class="card text-center" style="width: 60rem;">
-                        <div class="card-header info-color white-text text-center py-4" ><strong>Corsi</strong></div>
+                        <div class="card-header text-white text-center py-4" ><h2><strong>Corsi</strong></h2></div>
                         <div class="card-body text-info">
 
-                            <!--form-->
-                            <form class="text-center" style="color: #757575;" id="usrform" action="#!">
+                            <div class="container mt-1 mb-3 forms">
+                                <!--form-->
+                                <form id="usrform" action="#!">
+                                    <div class="md-form mb-2">
+                                        <label id="inserisci" for="titolo">Inserisci un corso:</label>
+                                        <input type="text" class="form-control float-center" placeholder="Titolo"  v-model="corsi.titolo" id="titolo">
+                                    </div>
+                                </form>
                                 <div class="md-form mb-2">
-                                    <label id="inserisci" for="titolo">Inserisci il corso:</label>
-                                    <input type="text" class="form-control float-center" placeholder="Titolo"  v-model="corsi.titolo" id="titolo">
+                                    <textarea rows="4" cols="50" name="comment" form="usrform" class="form-control float-center" placeholder="Descrizione corso"  v-model="corsi.descrizione" id="descrizione"></textarea>
                                 </div>
-                            </form>
-                            <div class="md-form">
-                                <textarea rows="4" cols="50" name="comment" form="usrform" class="form-control float-center" placeholder="Descrizione corso"  v-model="corsi.descrizione" id="descrizione"></textarea>
+                                <button @click="InserisciCorso" id="add" class="btn bott" type="submit">Aggiungi</button>
                             </div>
-                            <button @click="InserisciCorso" id="add" class="btn btn-info " type="submit">Aggiungi</button>
+
+                            <hr>
 
                             <!--table corsi -->
-                            <div  class="table-editable">
-                                <table class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                    <tr>
-                                        <td><strong>Titolo</strong></td>
-                                        <td></td>
-                                    </tr>
-                                    </thead>
-                                    <tbody v-for="corso in corsi">
-                                    <tr >
-                                        <td  onmouseover="style.color='white'" onmouseout="style.color='black'" class="pt-3-half" contenteditable="true">{{corso.titolo}}
-                                        </td>
-                                        <td>
-                                             <span class="table-remove"><button type="button" v-on:click="rimuoviCorso(corso.titolo)"
-                                                                                class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table class="table table-bordered table-striped table-hover table-responsive-md mt-3">
+                                <thead>
+                                <tr>
+                                    <td><strong>Titolo</strong></td>
+                                    <td></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="corso in corsi">
+                                    <td>{{corso.titolo}}
+                                    </td>
+                                    <td>
+                                         <button type="button" v-on:click="rimuoviCorso(corso.titolo)"
+                                                                            class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -101,40 +105,44 @@
             <!-- docenti-->
                 <div class="row justify-content-center align-self-center m-5 " v-show="currentPage == 2">
                     <div class="card text-center" style="width: 60rem;">
-                        <div class="card-header info-color white-text text-center py-4"><strong>Docenti</strong></div>
+                        <div class="card-header text-white text-center py-4" ><h2><strong>Docenti</strong></h2></div>
                         <div class="card-body text-info">
+
                             <!--form-->
-                            <form class="text-center" style="color: #757575;" action="#!">
-                                <div class="md-form mb-2">
-                                    <label for="nome" id="inserisci2">Inserisci Docente:</label>
-                                    <input type="text" class="form-control float-center" placeholder="Nome"  v-model="docenti.nome" id="nome">
-                                </div>
-                                <div class="md-form">
-                                    <input type="text" class="form-control float-center" placeholder="Cognome"  v-model="docenti.cognome" id="cognome">
-                                </div>
-                                <button @click="InserisciDocenti" id="add2" class="btn btn-info" type="submit">Aggiungi</button>
-                            </form>
-                            <!--table docenti-->
-                            <div  class="table-editable">
-                                <table class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                    <tr>
-                                        <td><strong>Professore</strong></td>
-                                        <td></td>
-                                    </tr>
-                                    </thead>
-                                    <tbody v-for="doc in docenti">
-                                    <tr>
-                                        <td class="pt-3-half" onmouseover="style.color='white'" onmouseout="style.color='black'" contenteditable="true">{{doc.nome}} </td>
-                                        <td>
-                                            <span class="table-remove"><button type="button" v-on:click="rimuoviDocenti(doc.nome,doc.cognome, doc.id_docente)"
-                                                                               class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <div class="container mt-1 mb-3 forms">
+                                <form action="#!">
+                                    <div class="md-form mb-2">
+                                        <label for="nome" id="inserisci2">Inserisci un Docente:</label>
+                                        <input type="text" class="form-control float-center" placeholder="Nome"  v-model="docenti.nome" id="nome">
+                                    </div>
+                                    <div class="md-form mb-2">
+                                        <input type="text" class="form-control float-center" placeholder="Cognome"  v-model="docenti.cognome" id="cognome">
+                                    </div>
+                                    <button @click="InserisciDocenti" id="add2" class="btn bott" type="submit">Aggiungi</button>
+                                </form>
                             </div>
+
+                            <hr>
+
+                            <!--table docenti-->
+                            <table class="table table-bordered table-striped table-hover table-responsive-md mt-4">
+                                <thead>
+                                <tr>
+                                    <td><strong>Professore</strong></td>
+                                    <td></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="doc in docenti">
+                                    <td>{{doc.nome}} </td>
+                                    <td>
+                                        <button type="button" v-on:click="rimuoviDocenti(doc.nome,doc.cognome, doc.id_docente)"
+                                                                           class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>
@@ -142,82 +150,96 @@
             <!--insegnamenti-->
                 <div class="row justify-content-center align-self-center m-5" v-show="currentPage == 3">
                     <div class="card text-center" style="width: 60rem;">
-                        <div class="card-header info-color white-text text-center py-4"><strong>Insegnamenti</strong></div>
+                        <div class="card-header text-white text-center py-4" ><h2><strong>Insegnamenti</strong></h2></div>
                         <div class="card-body text-info">
+
                             <!--form-->
-                            <form class="text-center" style="color: #757575;" action="#!">
-                                <div class="md-form">
-                                    <label for="titolo" id="inserisci3">Corso:</label>
-                                    <input type="text" class="form-control float-center" placeholder="Corso"  v-model="insegnamenti.titolo" id="titolo2">
-                                </div>
-                                <div class="md-form">
-                                    <label for="id_docente" id="inserisci4">Docente:</label>
-                                    <input type="text" class="form-control float-center" placeholder="Docenti" v-model="insegnamenti.id_docente" id="id_docente">
-                                </div>
-                                <button @click="InserisciInsegnamenti" id="add3" class="btn btn-info" type="submit">Aggiungi</button>
-                            </form>
-                            <!-- table insegnamenti-->
-                            <div  class="table-editable">
-                                <table class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                    <tr>
-                                        <td><strong>Titolo corso</strong></td>
-                                        <td><strong>Nome docente</strong></td>
-                                        <td></td>
-                                    </tr>
-                                    </thead>
-                                    <tbody v-for="insegn in insegnamenti">
-                                    <tr>
-                                        <td class="pt-3-half" onmouseover="style.color='white'" onmouseout="style.color='black'" contenteditable="true">{{ insegn.titolo}}</td>
-                                        <td class="pt-3-half" onmouseover="style.color='white'" onmouseout="style.color='black'" contenteditable="true"> {{insegn.id_docente }}</td>
-                                        <td>
-                                         <span class="table-remove"><button type="button" v-on:click="rimuoviInsegnamenti(insegn.titolo, insegn.id_docente)"
-                                                                            class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
-                                         </span>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <div class="container mt-1 mb-3 forms">
+                                <form action="#!">
+                                    <label>Inserisci un insegnamento:</label>
+                                    <div class="md-form mb-2">
+                                        <select class="form-control" v-model="docSelected">
+                                            <option value="" disabled hidden>Docente</option>
+                                            <option v-for="prof in docenti" v-bind:value="prof.nome">
+                                                {{prof.nome}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="md-form mb-2">
+                                        <select class="form-control" v-model="corSelected">
+                                            <option value="" disabled hidden>Corso</option>
+                                            <option v-for="cor in corsi" v-bind:value="cor.titolo">
+                                                {{cor.titolo}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <button @click="InserisciInsegnamenti" class="btn bott" type="submit">Aggiungi</button>
+                                </form>
                             </div>
+
+                            <hr>
+
+                            <!-- table insegnamenti-->
+                            <table class="table table-bordered table-striped table-hover table-responsive-md mt-4">
+                                <thead>
+                                <tr>
+                                    <td><strong>Titolo corso</strong></td>
+                                    <td><strong>Nome docente</strong></td>
+                                    <td></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="insegn in insegnamenti">
+                                    <td>{{insegn.titolo}}</td>
+                                    <td>{{insegn.id_docente }}</td>
+                                    <td>
+                                     <button type="button" v-on:click="rimuoviInsegnamenti(insegn.titolo, insegn.id_docente)"
+                                                                        class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
                         </div>
                 </div>
             </div>
 
-            <div class="row justify-content-center align-self-center m-5" v-show="currentPage == 4">
+            <!--tutte le ripetizioni-->
+                <div class="row justify-content-center align-self-center m-5" v-show="currentPage == 4">
                 <div class="card text-center" style="width: 60rem;">
-                    <div class="card-header info-color white-text text-center py-4"><strong>Tutte le ripetizioni</strong></div>
-                    <div class="card-body text-info">
+                    <div class="card-header text-white text-center py-4" ><h2><strong>Tutte le ripetizioni</strong></h2></div>
+                    <div class="card-body">
                         <!-- table insegnamenti-->
-                        <div class="table-editable">
-                            <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                    <tr>
-                                        <td><strong>Docente</strong></td>
-                                        <td><strong>Giorno</strong></td>
-                                        <td><strong>Ora</strong></td>
-                                        <td><strong>Corso</strong></td>
-                                        <td><strong>Stato</strong></td>
-                                        <td><strong>Username</strong></td>
-                                    </tr>
-                                </thead>
-                                <tbody v-for="rip in ripetizioni">
-                                    <tr>
-                                        <td class="pt-3-half">{{rip.id_docente}}</td>
-                                        <td class="pt-3-half">{{rip.giorno}}</td>
-                                        <td class="pt-3-half">{{rip.ora_i}}</td>
-                                        <td class="pt-3-half">{{rip.id_corso}}</td>
-                                        <td class="pt-3-half">{{rip.stato}}</td>
-                                        <td class="pt-3-half" v-if="rip.stato!='disponibile'">{{rip.username}}</td>
-                                        <td class="pt-3-half" v-else></td>
-                                        <!--<td>
-                                             <span class="table-remove"><button type="button" v-on:click="rimuoviInsegnamenti(insegn.titolo, insegn.id_docente)"
-                                                                                class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
-                                             </span>
-                                        </td>-->
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="table table-bordered table-striped table-responsive-md">
+                            <thead>
+                                <tr>
+                                    <td><strong>Docente</strong></td>
+                                    <td><strong>Giorno</strong></td>
+                                    <td><strong>Ora</strong></td>
+                                    <td><strong>Corso</strong></td>
+                                    <td><strong>Stato</strong></td>
+                                    <td><strong>Username</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="rip in ripetizioni">
+                                    <td>{{rip.id_docente}}</td>
+                                    <td>{{rip.giorno}}</td>
+                                    <td>{{rip.ora_i}}</td>
+                                    <td>{{rip.id_corso}}</td>
+                                    <td>{{rip.stato}}</td>
+                                    <td v-if="rip.stato!='disponibile'">{{rip.username}}</td>
+                                    <td v-else></td>
+                                    <!--<td>
+                                         <span class="table-remove"><button type="button" v-on:click="rimuoviInsegnamenti(insegn.titolo, insegn.id_docente)"
+                                                                            class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
+                                         </span>
+                                    </td>-->
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -237,6 +259,9 @@
                 docenti:[],
                 insegnamenti:[],
                 currentPage: 1,
+
+                docSelected: "",
+                corSelected: "",
 
                 link: '/TWEBIUM/AdminServlet',
                 link2: '/TWEBIUM/LoginServlet',
@@ -291,61 +316,54 @@
                 /*aggiungi corso*/
                 InserisciCorso: function () {
                     var self = this;
-                    if (self.corsi.titolo !== "" && self.corsi.descrizione !== "") {
-                        $.post(this.link, {
-                                action: 'NEWCORSO',
-                                titolo: this.corsi.titolo,
-                                desc: this.corsi.descrizione
-                            },
-                            function (data) {
-                                if(data===true)
-                                    window.location.reload();
-                                else
-                                    alert("operazione non riuscita");
-                            });
-                    } else {
-                        self.err = "I campi titolo e descrizione non possono essere vuoti."
-                    }
+                    $.post(this.link, {
+                            action: 'NEWCORSO',
+                            titolo: this.corsi.titolo,
+                            desc: this.corsi.descrizione
+                        },
+                        function (data) {
+                            if(data===true)
+                                window.location.reload();
+                            else if(data==="nullo")
+                                alert("I campi titolo e descrizione non possono essere vuoti.");
+                            else
+                                alert("operazione non riuscita");
+                    });
                 },
                 /*aggiungi docenti*/
                 InserisciDocenti: function () {
                     var self = this;
-                    if (self.docenti.nome !== "" && self.docenti.cognome !== "") {
-                        $.post(this.link, {
-                                action: 'NEWDOCENTE',
-                                nome: this.docenti.nome,
-                                cognome: this.docenti.cognome
-                            },
-                            function (data) {
-                                if(data===true)
-                                    window.location.reload();
-                                else
-                                    alert("operazione non riuscita");
-                            })
-                    }else{
-                        alert("I campi nome e cognome non possono essere vuoti.")
-                    }
-
+                    $.post(this.link, {
+                            action: 'NEWDOCENTE',
+                            nome: this.docenti.nome,
+                            cognome: this.docenti.cognome
+                        },
+                        function (data) {
+                            if(data===true)
+                                window.location.reload();
+                            else if(data==="nullo")
+                                alert("I campi nome e cognome non possono essere vuoti.")
+                            else
+                                alert("operazione non riuscita");
+                        });
                 },
                 /*aggiungi insegnamenti*/
                 InserisciInsegnamenti: function () {
                     var self = this;
-                    if (self.insegnamenti.titolo !== "" && self.insegnamenti.id_docente !== "") {
-                        $.post(this.link, {
-                                action: 'NEWINSEGNAMENTI',
-                                titolo: this.insegnamenti.titolo,
-                                id_docente: this.insegnamenti.id_docente,
-                            },
-                            function (data) {
-                                if(data===true)
-                                    window.location.reload();
-                                else
-                                    alert("operazione non riuscita");
-                            });
-                    }
-                    else {
-                        alert("I campi professore e corso non possono essere vuoti")
-                    }
+                    console.log(this.corSelected +", "+ this.docSelected);
+                    $.post(this.link, {
+                            action: 'NEWINSEGNAMENTI',
+                            titolo: this.corSelected,
+                            id_docente: this.docSelected,
+                        },
+                        function (data) {
+                            if(data===true)
+                                window.location.reload();
+                            else if(data==="nullo")
+                                alert("I campi professore e corso non possono essere vuoti")
+                            else
+                                alert("operazione non riuscita");
+                        });
                 },
 
                 rimuoviCorso: function (titolo) {
@@ -394,6 +412,14 @@
 
 
                 },
+                dropDoc:function(prof){
+                    var self = this;
+                    self.docSelected = prof;
+                },
+                dropCor:function(cor){
+                    var self = this;
+                    self.corSelected = cor;
+                },
                 logout:function(){
                     $.post(this.link2,{
                             action: 'LOGOUT'
@@ -415,5 +441,6 @@
             }
         });
     </script>
+
     </body>
 </html>
