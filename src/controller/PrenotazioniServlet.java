@@ -64,9 +64,7 @@ public class PrenotazioniServlet extends HttpServlet {
 
 
         if (!s.isNew()) {
-
             u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
-
 
             Ripetizioni[][] goPren = new Ripetizioni[5][4];
             Ripetizioni[][] goDisd = new Ripetizioni[5][4];
@@ -74,6 +72,7 @@ public class PrenotazioniServlet extends HttpServlet {
 
             String username = (String) s.getAttribute("username");
             ArrayList<Ripetizioni> rip = Model.getMieRip(username);
+
             for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
                 Ripetizioni r = ripIterator.next();
                 if(r.getStato().equals("prenotato") ){

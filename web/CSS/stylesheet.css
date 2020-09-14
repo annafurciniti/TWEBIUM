@@ -7,7 +7,7 @@
 }
 
 #gratis{
-    color: 	#90e0ef;
+    color: 	#ffbe0b;
 }
 
 .card{
@@ -17,7 +17,8 @@
 }
 
 .card-header{
-    background:#FE2F20;
+    background:linear-gradient(135deg, #FE2F20 0%,#FE7A71 100%);
+    /*background:#FE2F20;*/
     width: 100%;
 }
 
@@ -34,7 +35,7 @@ hr{
     color:white;
 }
 
-.ben { color: #e63946; font-family: 'Helvetica Neue', sans-serif; font-weight: bold; letter-spacing: -1px; line-height: 1; }
+.ben { color: #3a86ff; font-family: 'Helvetica Neue', sans-serif; font-weight: bold; letter-spacing: -1px; line-height: 1; }
 
 #app{
     position: relative;

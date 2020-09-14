@@ -86,7 +86,6 @@ public class PrenotaServlet extends HttpServlet {
         if (!s.isNew()) {
             //sessione utente attiva
             String corso = request.getParameter("corso");
-            System.out.println(corso);
             ArrayList<Insegnamenti> ins = Model.getInsegnamenti();
             ArrayList<Docenti> doc = Model.getDocenti();
 
@@ -96,8 +95,6 @@ public class PrenotaServlet extends HttpServlet {
                     insIterator.remove();
                 }
             }
-
-            System.out.println(doc.isEmpty());
 
             ArrayList<Docenti> ret = new ArrayList<Docenti>();
             for(Insegnamenti i: ins){
@@ -168,7 +165,7 @@ public class PrenotaServlet extends HttpServlet {
             int giorno = Integer.parseInt(request.getParameter("giorno")) + 1;
             String corso = request.getParameter("corso");
 
-            System.out.println("id_docente: "+docente+" ,corso: "+corso+" , giorno: "+ giorno+" , ora: "+ora);
+            //System.out.println("id_docente: "+docente+" ,corso: "+corso+" , giorno: "+ giorno+" , ora: "+ora);
             if(Model.utenteLibero(giorno, ora,(String) s.getAttribute("username"))){
                 boolean res = Model.prenota(new Ripetizioni("",giorno,ora,corso,docente,(String) s.getAttribute("username")));
                 if(res)//prenotazione andata a buon fine

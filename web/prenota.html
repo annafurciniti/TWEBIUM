@@ -171,6 +171,7 @@
             h:'',
             g:'',
 
+            currentstep: 1,
 
             ora:[
                 "15:00-16:00",
@@ -185,7 +186,6 @@
                 "Giovedì",
                 "Venerdì"
             ],
-            currentstep: 1,
             steps: [
                 {
                     id: 1,
@@ -295,7 +295,7 @@
             },
             prenota(){
                 var self = this;
-                console.log(this.prof + ", " + this.materia + ", " + this.h + ", " + this.g );
+                //console.log(this.prof + ", " + this.materia + ", " + this.h + ", " + this.g );
                 $.post(this.link2, {action:'PRENOTA', doc: this.prof, corso: this.materia, ora: this.h, giorno: this.g}, function(data) {
                     data = JSON.parse(data);
                     console.log(data);
@@ -319,7 +319,7 @@
                 self.changeClass(false);
                 self.currentstep = self.currentstep-1;
             },
-            changeClass:function(flag){//flag = true allora ti sposti in avanti, all'indietro altrimenti
+            changeClass:function(flag){//flag = true allora ti sposti in avanti, altrimenti all'indietro
                 var self = this;
                 if(flag){
                     self.steps[this.currentstep-1].classObject = {

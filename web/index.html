@@ -96,12 +96,13 @@
                     <h4 class="card-header"><strong><u>{{corso.titolo}}</u></strong></h4>
                     <div class="card-body">
                         <p class="card-text">{{corso.descrizione}}</p>
-                        <a href="javascript:void(0);" class="btn btn-light text-primary stretched-link float-right">VEDI CORSO</a>
+                        <a href="javascript:void(0);" v-if="logged" class="btn btn-light text-primary stretched-link float-right">VEDI CORSO</a>
+                        <a href="login.html" v-else class="btn btn-light text-primary stretched-link float-right">VEDI CORSO</a>
                     </div>
                 </div>
             </div>
         </div>
-        <hr><!--clearfix w-100 d-md-none-->
+        <hr>
         </div>
     </div>
     <my-footer></my-footer>
