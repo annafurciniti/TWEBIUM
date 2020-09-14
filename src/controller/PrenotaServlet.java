@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -24,7 +25,7 @@ public class PrenotaServlet extends HttpServlet {
         ServletContext ctx = conf.getServletContext();
         String url = ctx.getInitParameter("DB-URL");
         String user = ctx.getInitParameter(" user");
-        new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
+        new Model("jdbc:mysql://localhost:3306/tweb1", "root", "root");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -59,6 +60,7 @@ public class PrenotaServlet extends HttpServlet {
 
     private String mioinit(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession s = request.getSession();
+        String c = request.getParameter("case");
         Gson gson = new Gson();
         String json ="[";
 
@@ -126,25 +128,29 @@ public class PrenotaServlet extends HttpServlet {
             String corso = request.getParameter("corso");
             ArrayList<Ripetizioni> rip = Model.getRipDisponibili();
 
+            ArrayList<Ripetizioni> orario1 = new ArrayList<Ripetizioni>();
             boolean[][] godisp = new boolean[5][4];
             for(int i=0; i<5; i++){
                 for(int j=0; j<4; j++){
                     godisp[i][j]= false;
+
                 }
             }
 
+          //  ArrayList<Ripetizioni> orario = new ArrayList<Ripetizioni>();//android
             boolean vuoto= true;
             for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
                 Ripetizioni r = ripIterator.next();
                 if(r.getId_docente().equals(docente)  && r.getId_corso().equals(corso)){
                     godisp[r.getGiorno()-1][r.getOra_i()-15] = true;
                     vuoto=false;
+                    orario1.add(r);
                 }
             }
             if(vuoto)
                 json +=  gson.toJson("vuoto")+ "]";
             else
-                json += gson.toJson(true) + "," + gson.toJson(godisp) + "]";
+                json += gson.toJson(true) + "," + gson.toJson(godisp) + "," + gson.toJson(orario1) + "]";
         }
         else{
             json += gson.toJson(false) + "]";
@@ -154,6 +160,7 @@ public class PrenotaServlet extends HttpServlet {
 
     private String prenota(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession s = request.getSession();
+        String c = request.getParameter("case");//android
         Gson gson = new Gson();
         String json;
 
@@ -183,4 +190,5 @@ public class PrenotaServlet extends HttpServlet {
         }
         return json;
     }
+
 }

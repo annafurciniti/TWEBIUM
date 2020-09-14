@@ -28,7 +28,7 @@ public class PrenotazioniServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
+        new Model("jdbc:mysql://localhost:3306/tweb1", "root", "root");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,14 +61,20 @@ public class PrenotazioniServlet extends HttpServlet {
         Utenti u;
         Gson gson = new Gson();
         String json ="[";
+        String c = request.getParameter("caseMobile");
 
 
         if (!s.isNew()) {
             u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
 
             Ripetizioni[][] goPren = new Ripetizioni[5][4];
+            ArrayList<Ripetizioni> goPrenApp =new ArrayList<>();
+
             Ripetizioni[][] goDisd = new Ripetizioni[5][4];
+            ArrayList<Ripetizioni> goDisdApp =new ArrayList<>();
+
             Ripetizioni[][] goSvol = new Ripetizioni[5][4];
+            ArrayList<Ripetizioni> goSvolApp =new ArrayList<>();
 
             String username = (String) s.getAttribute("username");
             ArrayList<Ripetizioni> rip = Model.getMieRip(username);
@@ -76,15 +82,36 @@ public class PrenotazioniServlet extends HttpServlet {
             for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
                 Ripetizioni r = ripIterator.next();
                 if(r.getStato().equals("prenotato") ){
-                    goPren[r.getGiorno()-1][r.getOra_i()-15] = r;
+                    if(c==null)
+                        goPren[r.getGiorno()-1][r.getOra_i()-15] = r;
+                    else
+                        goPrenApp.add(r);
                 }
                 else if(r.getStato().equals("svolto"))
-                    goSvol[r.getGiorno()-1][r.getOra_i()-15] = r;
+                    if(c==null)
+                        goSvol[r.getGiorno()-1][r.getOra_i()-15] = r;
+                    else
+                        goSvolApp.add(r);
                 else
-                    goDisd[r.getGiorno()-1][r.getOra_i()-15] = r;
+                    if(c==null)
+                        goDisd[r.getGiorno()-1][r.getOra_i()-15] = r;
+                    else
+                        goDisdApp.add(r);
+            }
+            String pAttive, pSvolte, pDisdette;
+            if(c == null) {
+                pAttive = gson.toJson(goPren);
+                pSvolte = gson.toJson(goSvol);
+                pDisdette = gson.toJson(goDisd);
+            }else {
+                pAttive = gson.toJson(goPrenApp);
+                pSvolte = gson.toJson(goSvolApp);
+                pDisdette = gson.toJson(goDisdApp);
             }
 
-            json += gson.toJson(true) + "," + gson.toJson(u) + "," + gson.toJson(goPren) + "," + gson.toJson(goDisd) + "," + gson.toJson(goSvol) + "]";
+
+
+            json += gson.toJson(true) + "," + gson.toJson(u) + "," + gson.toJson(goPren) + "," + gson.toJson(goDisd) + "," + gson.toJson(goSvol) + "," + gson.toJson(pAttive) + "," + gson.toJson(pSvolte) +  "," + gson.toJson(pDisdette) + "]";
         }
         else{
             json += gson.toJson(false) + "]";
