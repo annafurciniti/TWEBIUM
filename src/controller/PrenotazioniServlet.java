@@ -28,7 +28,7 @@ public class PrenotazioniServlet extends HttpServlet {
         String user = ctx.getInitParameter(" user");
         //String pwd= ctx.getInitParameter(" pwd");
         //m = new Model(url, user, "root"); //problema probabilmente con conf
-        new Model("jdbc:mysql://localhost:3306/tweb1", "root", "root");
+        new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -78,40 +78,43 @@ public class PrenotazioniServlet extends HttpServlet {
 
             String username = (String) s.getAttribute("username");
             ArrayList<Ripetizioni> rip = Model.getMieRip(username);
+            String pAttive, pSvolte, pDisdette;
 
-            for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
-                Ripetizioni r = ripIterator.next();
-                if(r.getStato().equals("prenotato") ){
-                    if(c==null)
+            if(c==null){
+                for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
+                    Ripetizioni r = ripIterator.next();
+                    if(r.getStato().equals("prenotato") ){
                         goPren[r.getGiorno()-1][r.getOra_i()-15] = r;
-                    else
-                        goPrenApp.add(r);
-                }
-                else if(r.getStato().equals("svolto"))
-                    if(c==null)
+                    }
+                    else if(r.getStato().equals("svolto"))
                         goSvol[r.getGiorno()-1][r.getOra_i()-15] = r;
                     else
-                        goSvolApp.add(r);
-                else
-                    if(c==null)
                         goDisd[r.getGiorno()-1][r.getOra_i()-15] = r;
-                    else
-                        goDisdApp.add(r);
-            }
-            String pAttive, pSvolte, pDisdette;
-            if(c == null) {
+                }
+
                 pAttive = gson.toJson(goPren);
                 pSvolte = gson.toJson(goSvol);
                 pDisdette = gson.toJson(goDisd);
-            }else {
+
+            }
+            else{ //android
+                for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
+                    Ripetizioni r = ripIterator.next();
+                    if(r.getStato().equals("prenotato"))
+                        goPrenApp.add(r);
+                    else if(r.getStato().equals("svolto"))
+                        goSvolApp.add(r);
+                    else
+                        goDisdApp.add(r);
+                }
+
                 pAttive = gson.toJson(goPrenApp);
                 pSvolte = gson.toJson(goSvolApp);
                 pDisdette = gson.toJson(goDisdApp);
             }
 
 
-
-            json += gson.toJson(true) + "," + gson.toJson(u) + "," + gson.toJson(goPren) + "," + gson.toJson(goDisd) + "," + gson.toJson(goSvol) + "," + gson.toJson(pAttive) + "," + gson.toJson(pSvolte) +  "," + gson.toJson(pDisdette) + "]";
+            json += gson.toJson(true) + "," + gson.toJson(u) + "," + pAttive + "," + pSvolte +  "," + pDisdette + "]";
         }
         else{
             json += gson.toJson(false) + "]";

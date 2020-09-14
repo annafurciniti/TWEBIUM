@@ -25,7 +25,7 @@ public class PrenotaServlet extends HttpServlet {
         ServletContext ctx = conf.getServletContext();
         String url = ctx.getInitParameter("DB-URL");
         String user = ctx.getInitParameter(" user");
-        new Model("jdbc:mysql://localhost:3306/tweb1", "root", "root");
+        new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,7 +60,6 @@ public class PrenotaServlet extends HttpServlet {
 
     private String mioinit(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession s = request.getSession();
-        String c = request.getParameter("case");
         Gson gson = new Gson();
         String json ="[";
 
@@ -120,6 +119,7 @@ public class PrenotaServlet extends HttpServlet {
         HttpSession s = request.getSession();
         Gson gson = new Gson();
         String json ="[";
+        String c = request.getParameter("case");
 
 
         if (!s.isNew()) {
@@ -128,12 +128,11 @@ public class PrenotaServlet extends HttpServlet {
             String corso = request.getParameter("corso");
             ArrayList<Ripetizioni> rip = Model.getRipDisponibili();
 
-            ArrayList<Ripetizioni> orario1 = new ArrayList<Ripetizioni>();
+            ArrayList<Ripetizioni> orario = new ArrayList<Ripetizioni>();
             boolean[][] godisp = new boolean[5][4];
             for(int i=0; i<5; i++){
                 for(int j=0; j<4; j++){
                     godisp[i][j]= false;
-
                 }
             }
 
@@ -144,13 +143,20 @@ public class PrenotaServlet extends HttpServlet {
                 if(r.getId_docente().equals(docente)  && r.getId_corso().equals(corso)){
                     godisp[r.getGiorno()-1][r.getOra_i()-15] = true;
                     vuoto=false;
-                    orario1.add(r);
+                    orario.add(r);
                 }
             }
-            if(vuoto)
-                json +=  gson.toJson("vuoto")+ "]";
-            else
-                json += gson.toJson(true) + "," + gson.toJson(godisp) + "," + gson.toJson(orario1) + "]";
+
+            if(c!=null)//android
+                json += gson.toJson(orario)  + "]";
+
+            else{
+                if(vuoto)
+                    json +=  gson.toJson("vuoto")+ "]";
+                else //scenario buono
+                    json += gson.toJson(true) + "," + gson.toJson(godisp) + "]";
+            }
+
         }
         else{
             json += gson.toJson(false) + "]";
