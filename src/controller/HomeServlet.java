@@ -52,27 +52,29 @@ public class HomeServlet extends HttpServlet {
 
     private String mioinit(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession s = request.getSession();
+        String c = request.getParameter("case");
         Utenti u;
         Gson gson = new Gson();
         String json ="[";
 
         ArrayList<Corso> corsi = Model.getCorsi();
         //ArrayList<Ripetizioni> ripetizioni = Model.getRipetizioni();
-        if (!s.isNew()) {
-            //sessione utente attiva
-            System.out.println("sessione era già esistente");
-            if (s.getAttribute("username") != null) {
-                //System.out.println(s.getAttribute("username"));
-                u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
-                json += gson.toJson(true) + "," + gson.toJson(u) + ",";
-                System.out.println(gson.toJson(u));
+        if(c == null) {
+            if (!s.isNew()) {
+                //sessione utente attiva
+                System.out.println("sessione era già esistente");
+                if (s.getAttribute("username") != null) {
+                    //System.out.println(s.getAttribute("username"));
+                    u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
+                    json += gson.toJson(true) + "," + gson.toJson(u) + ",";
+                    System.out.println(gson.toJson(u));
+                }
+            }
+            else{
+                System.out.println("sessione nuova");
             }
         }
-        else{
-            System.out.println("sessione nuova");
-        }
-        json += gson.toJson(corsi) + "]";
-        //json += gson.toJson(ripetizioni) + "]";
+            json += gson.toJson(corsi) + "]";
         return json;
     }
 }

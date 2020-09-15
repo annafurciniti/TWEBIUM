@@ -62,63 +62,56 @@ public class PrenotazioniServlet extends HttpServlet {
         Gson gson = new Gson();
         String json ="[";
         String c = request.getParameter("caseMobile");
+        String usernameApp = request.getParameter("username");//solo da android
 
+        Ripetizioni[][] goPren = new Ripetizioni[5][4];
+        ArrayList<Ripetizioni> goPrenApp =new ArrayList<>();
 
-        if (!s.isNew()) {
-            u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
+        Ripetizioni[][] goDisd = new Ripetizioni[5][4];
+        ArrayList<Ripetizioni> goDisdApp =new ArrayList<>();
 
-            Ripetizioni[][] goPren = new Ripetizioni[5][4];
-            ArrayList<Ripetizioni> goPrenApp =new ArrayList<>();
+        Ripetizioni[][] goSvol = new Ripetizioni[5][4];
+        ArrayList<Ripetizioni> goSvolApp =new ArrayList<>();
 
-            Ripetizioni[][] goDisd = new Ripetizioni[5][4];
-            ArrayList<Ripetizioni> goDisdApp =new ArrayList<>();
+        ArrayList<Ripetizioni> rip = new ArrayList<>();
 
-            Ripetizioni[][] goSvol = new Ripetizioni[5][4];
-            ArrayList<Ripetizioni> goSvolApp =new ArrayList<>();
-
-            String username = (String) s.getAttribute("username");
-            ArrayList<Ripetizioni> rip = Model.getMieRip(username);
-            String pAttive, pSvolte, pDisdette;
-
-            if(c==null){
-                for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
-                    Ripetizioni r = ripIterator.next();
-                    if(r.getStato().equals("prenotato") ){
-                        goPren[r.getGiorno()-1][r.getOra_i()-15] = r;
-                    }
-                    else if(r.getStato().equals("svolto"))
-                        goSvol[r.getGiorno()-1][r.getOra_i()-15] = r;
-                    else
-                        goDisd[r.getGiorno()-1][r.getOra_i()-15] = r;
-                }
-
-                pAttive = gson.toJson(goPren);
-                pSvolte = gson.toJson(goSvol);
-                pDisdette = gson.toJson(goDisd);
-
-            }
-            else{ //android
-                for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
-                    Ripetizioni r = ripIterator.next();
-                    if(r.getStato().equals("prenotato"))
-                        goPrenApp.add(r);
-                    else if(r.getStato().equals("svolto"))
-                        goSvolApp.add(r);
-                    else
-                        goDisdApp.add(r);
-                }
-
-                pAttive = gson.toJson(goPrenApp);
-                pSvolte = gson.toJson(goSvolApp);
-                pDisdette = gson.toJson(goDisdApp);
-            }
-
-
-            json += gson.toJson(true) + "," + gson.toJson(u) + "," + pAttive + "," + pSvolte +  "," + pDisdette + "]";
+        if(c==null){//tweb
+             rip = Model.getMieRip((String) s.getAttribute("username"));
         }
         else{
-            json += gson.toJson(false) + "]";
+             rip = Model.getMieRip(usernameApp);
         }
+
+        for(Iterator<Ripetizioni> ripIterator = rip.iterator(); ripIterator.hasNext();){
+            Ripetizioni r = ripIterator.next();
+            if(r.getStato().equals("prenotato") ){
+                goPren[r.getGiorno()-1][r.getOra_i()-15] = r;
+                goPrenApp.add(r);
+            }
+            else if(r.getStato().equals("svolto")){
+                goSvol[r.getGiorno()-1][r.getOra_i()-15] = r;
+                goSvolApp.add(r);
+            }
+            else{
+                goDisd[r.getGiorno()-1][r.getOra_i()-15] = r;
+                goDisdApp.add(r);}
+        }
+
+
+
+        if(c==null){//tweb
+            if (!s.isNew()){
+                u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
+                json += gson.toJson(true) + "," + gson.toJson(u) + "," + gson.toJson(goPren) + "," + gson.toJson(goSvol) +  "," + gson.toJson(goDisd) + "]";
+            }
+            else{
+                json += gson.toJson(false) + "]";
+            }
+        }
+        else{//android
+            json += gson.toJson(goPrenApp) + "," + gson.toJson(goSvolApp) +  "," + gson.toJson(goDisdApp) + "]";
+        }
+
         return json;
     }
 
@@ -127,23 +120,32 @@ public class PrenotazioniServlet extends HttpServlet {
         Utenti u;
         Gson gson = new Gson();
         String json ="[";
+        String c = request.getParameter("caseMobile");
+        String usernameApp = request.getParameter("username");//solo da android
 
+        String docente = request.getParameter("docente");
+        int ora = Integer.parseInt(request.getParameter("ora"));
+        int giorno = Integer.parseInt(request.getParameter("giorno"));
+        String stato = request.getParameter("stato");
+        System.out.println(docente + " " + giorno + " " + ora + " " + stato);
 
-        if (!s.isNew()) {
-            u = new Utenti((String) s.getAttribute("username"), (String) s.getAttribute("password"), (int) s.getAttribute("role"));
-            String docente = request.getParameter("docente");
-            int ora = Integer.parseInt(request.getParameter("ora"));
-            int giorno = Integer.parseInt(request.getParameter("giorno"));
-            String stato = request.getParameter("stato");
-            System.out.println(docente + " " + giorno + " " + ora + " " + stato);
+        boolean x;
+        if(c==null){//tweb
+            x=Model.modificaStato(new Ripetizioni("",giorno,ora,"",docente,(String) s.getAttribute("username")),stato);
 
-            boolean x = Model.modificaStato(new Ripetizioni("",giorno,ora,"",docente,(String) s.getAttribute("username")),stato);
-            System.out.println("X è: " + x);
+            if (!s.isNew()) {
+                json += gson.toJson(x) + "]";
+            }
+            else{
+                json += gson.toJson(false) + "]";
+            }
+        }
+        else{//android
+            x=Model.modificaStato(new Ripetizioni("",giorno,ora,"",docente,usernameApp),stato);
             json += gson.toJson(x) + "]";
         }
-        else{
-            json += gson.toJson(false) + "]";
-        }
+
+        System.out.println("X è: " + x);
         return json;
     }
 }

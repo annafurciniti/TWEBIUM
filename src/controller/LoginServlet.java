@@ -108,6 +108,7 @@ public class LoginServlet extends HttpServlet {
         }
         return uJson;
     }
+
     /*LOGOUT*/
     private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
