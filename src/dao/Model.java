@@ -553,9 +553,6 @@ public class Model {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(URL, username, password);
-            if (conn != null) {
-                System.out.println("Connected to the database tweb");
-            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

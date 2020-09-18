@@ -145,7 +145,6 @@ public class PrenotazioniServlet extends HttpServlet {
             json += gson.toJson(x) + "]";
         }
 
-        System.out.println("X è: " + x);
         return json;
     }
 }

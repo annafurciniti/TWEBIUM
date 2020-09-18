@@ -110,8 +110,7 @@ public class PrenotaServlet extends HttpServlet {
             for(Iterator<Docenti> docIterator = doc.iterator(); docIterator.hasNext();){
                 Docenti d = docIterator.next();
 
-                System.out.println(i.getId_docente().equals(d.getNome()) + " :" + i.getId_docente() +" == "+ d.getNome());
-                if(i.getId_docente().equals(d.getNome()))
+               if(i.getId_docente().equals(d.getNome()))
                     ret.add(d);
             }
         }
