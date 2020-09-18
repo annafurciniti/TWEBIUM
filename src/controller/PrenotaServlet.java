@@ -165,6 +165,8 @@ public class PrenotaServlet extends HttpServlet {
         }
 
 
+
+
         if(c == null){//tweb
             if (!s.isNew()) {
                 //sessione utente attiva
@@ -224,8 +226,8 @@ public class PrenotaServlet extends HttpServlet {
         else{//android
             System.out.println("Siamo da android-> username: " + usernameApp);
             String docente = request.getParameter("doc");
-            int ora = Integer.parseInt(request.getParameter("ora")) + 15;
-            int giorno = Integer.parseInt(request.getParameter("giorno")) + 1;
+            int ora = Integer.parseInt(request.getParameter("ora"));
+            int giorno = Integer.parseInt(request.getParameter("giorno"));
             String corso = request.getParameter("corso");
 
             if(Model.utenteLibero(giorno, ora,usernameApp)){
