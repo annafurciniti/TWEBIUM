@@ -55,29 +55,6 @@ public class Model {
         return u;
     }
 
-    // info degli utenti
-    public static ArrayList<Utenti> getUtenti() {
-        Connection conn1 = null;
-        ArrayList<Utenti> out = new ArrayList<>();
-        try {
-            conn1 = openConnection();
-
-            Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM utenti");
-            while (rs.next()) {
-                Utenti u = new Utenti(rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getInt("amministratore"));
-                out.add(u);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally{
-            closeConnection(conn1);
-        }
-        return out;
-    }
-
     //Inserisco Utente nel DB
     public static boolean InserisciUt(Utenti utenti) {
         Connection conn1 = null;
@@ -90,29 +67,6 @@ public class Model {
             Statement st = conn1.createStatement();
             st.executeUpdate("INSERT INTO Utenti(Username, Password, Amministratore) VALUES (" + Username + "," + Password + "," + Amministratore + ")");
             System.out.println("L'utente: " + Username + " é stato inserito ");
-            return true;
-        } catch (SQLException e) {
-            System.out.println("Error communicating with the database: " + e.getMessage());
-        } finally {
-            if (conn1 != null) {
-                closeConnection(conn1);
-            }
-        }
-        return false;
-    }
-
-    //Rimuovo utente dal DB
-    public static boolean RimuovereUt(Utenti utenti) {
-        Connection conn1 = null;
-        try {
-            conn1 = openConnection();
-
-            String Username = "'" + utenti.getUsername() + "'";
-            System.out.println("L'utente da rimuovere é: " + Username);
-
-            Statement st = conn1.createStatement();
-            st.executeQuery("DELETE FROM utenti WHERE utenti.username=" + Username + "");
-            System.out.println("L'utente: " + Username + " é stato rimosso ");
             return true;
         } catch (SQLException e) {
             System.out.println("Error communicating with the database: " + e.getMessage());
@@ -297,23 +251,6 @@ public class Model {
         return false;
     }
 
-    /*update corso
-    public static void ModificaCorso(Corso corso){//???
-        Connection conn1 = null;
-        try {
-            conn1 = openConnection();
-            Statement st = conn1.createStatement();
-            st.executeUpdate("UPDATE corsi Set Titolo = ? WHERE id_corso = ?");
-
-        } catch (SQLException e) {
-            System.out.println("Error communicating with the database: " + e.getMessage());
-        } finally {
-            if (conn1 != null) {
-                closeConnection(conn1);
-            }
-        }
-    }*/
-
 
     /**
      * Ripetizioni
@@ -363,29 +300,6 @@ public class Model {
         }
         return false;
     }
-
-    //rimuovo ripetizioni
-    public static void rimuoviRipetizioni(Ripetizioni ripetizioni){
-        Connection conn1 = null;
-        try {
-            conn1 = openConnection();
-
-            String giorno = "'" + ripetizioni.getGiorno() + "'";
-            String id_docente = "'" + ripetizioni.getId_docente() + "'";
-            String ora = "'" + ripetizioni.getOra_i() + "'";
-
-            Statement st = conn1.createStatement();
-            st.executeUpdate("DELETE FROM ripetizioni WHERE Giorno =" + giorno + " && id_docente =" + id_docente + " && Ora_i =" + ora + "");
-            System.out.println("Ripetizione: rimossa.");
-        } catch (SQLException e) {
-            System.out.println("Error communicating with the database: " + e.getMessage());
-        } finally {
-            if (conn1 != null) {
-                closeConnection(conn1);
-            }
-        }
-    }
-
 
     public static ArrayList<Ripetizioni> getRipDisponibili() {
         Connection conn1 = null;
@@ -528,21 +442,6 @@ public class Model {
             }
         }
         return false;
-    }
-
-    //update insegnamenti
-    public static void ModificaInsegnamenti(Insegnamenti insegnamenti){
-        Connection conn1 = null;
-        try { conn1 = openConnection();
-            Statement st = conn1.createStatement();
-            st.executeUpdate("UPDATE insegnamenti Set titolo = ? WHERE id_docente = ?");
-        } catch (SQLException e) {
-            System.out.println("Error communicating with the database: " + e.getMessage());
-        } finally {
-            if (conn1 != null) {
-                closeConnection(conn1);
-            }
-        }
     }
 
     /**

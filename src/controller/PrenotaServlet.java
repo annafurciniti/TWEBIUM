@@ -22,9 +22,6 @@ public class PrenotaServlet extends HttpServlet {
 
     public void init(ServletConfig conf) throws ServletException {
         super.init(conf);
-        ServletContext ctx = conf.getServletContext();
-        String url = ctx.getInitParameter("DB-URL");
-        String user = ctx.getInitParameter(" user");
         new Model("jdbc:mysql://localhost:3306/tweb", "root", "root");
     }
 

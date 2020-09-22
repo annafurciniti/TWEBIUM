@@ -42,8 +42,6 @@
 
     <div class="wrapper fadeInDown">
         <div id="formContent">
-            <!-- Tabs Titles -->
-
             <!-- Icon -->
             <div class="fadeIn first">
                 <img src="img/icons8-login-64.png" id="ops" alt="User Icon" />
@@ -54,17 +52,18 @@
             <form onsubmit=";return false">
                 <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" v-model="username">
                 <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" v-model="password">
+
                 <input v-if="flag" type="submit" class="fadeIn fourth" v-on:click="loginfun" value="Log In">
                 <input v-else type="submit" class="fadeIn fourth" v-on:click="signinfun" value="Sign In">
             </form>
 
             <div v-if="show" class="alert alert-danger" role="alert">{{errore}}</div>
-            <!-- Remind Passowrd -->
+
+            <!-- Login/Signin -->
             <div id="formFooter">
                 <p>Non sei ancora Iscritto?</p>
                 <a class="underlineHover" v-on:click="cambio" href="javascript:void(0);">Clicca qui</a>
             </div>
-
         </div>
     </div>
     </div>
@@ -112,7 +111,6 @@
                             self.show=false;
                             window.location.replace("index.html");
                         }else {
-                            //alert("nome già preso");
                             self.errore = "Nome utente già occupato";
                             self.show = "true";
                             self.username = '';

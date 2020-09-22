@@ -33,7 +33,7 @@
                             <a class="nav-link" href="admin.html" v-if="utente.isAdmin==1">Admin</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="prenotazioni.html">I miei corsi</a>
+                            <a class="nav-link" href="prenotazioni.html">Miei corsi</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="javascript:void(0);">Prenota</a>
@@ -44,9 +44,6 @@
                         <li class="nav-item">
                             <a class="nav-link" v-on:click="logout" href="javascript:void(0);">Logout</a>
                         </li>
-                        <!--<li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
-                        </li>-->
                     </ul>
                 </div>
             </div>
@@ -119,13 +116,11 @@
                         <div class="col-3"></div>
                         <div class="col-6">
                             <div class="card text-justify text-white">
-                            <!--<img class="card-img-top" src="..." alt="Card image cap">-->
                                 <h3 class="card-header"><strong><u>Resoconto</u></strong></h3>
                                 <div class="card-body">
                                     <h5 class="card-text ml-3">Corso: {{materia}} <br>Docente: {{prof}} <br> Ora: {{ora[h]}} <br> Giorno: {{giorno[g]}}</h5>
                                     <hr class="mb-2">
                                     <div class="text-center"><a href="#" class="btn btn-light text-primary" v-on:click="prenota"><strong>CONFERMA</strong></a></div>
-
                                 </div>
                             </div>
                         </div>
